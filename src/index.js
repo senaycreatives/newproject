@@ -11,6 +11,7 @@ import LoginForm from "./LoginForm";
 import { AddData } from "./AddData";
 import { DataTable } from "./DataTable";
 import AdminHome from "./AdminHome";
+import YourComponent from "./hopePage";
 
 import {
   useQuery,
@@ -28,7 +29,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />}></Route>
-        <Route path="AdminHome" element={<AdminHome />}></Route>
+        <Route path="AdminHome" element={<YourComponent />}></Route>
         <Route path="DataTable" element={<DataTable />}></Route>
         <Route path="AddData" element={<AddData />}></Route>
       </Routes>
