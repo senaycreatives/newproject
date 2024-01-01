@@ -1,9 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
+import Login from "./Login";
+import LoginForm from "./LoginForm";
+import { AddData } from "./AddData";
+import { DataTable } from "./DataTable";
+import AdminHome from "./AdminHome";
 
 import {
   useQuery,
@@ -11,16 +18,25 @@ import {
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-const queryClient = new QueryClient()
+const root = ReactDOM.createRoot(document.getElementById("root"));
+const queryClient = new QueryClient();
 root.render(
   <QueryClientProvider client={queryClient}>
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  <ReactQueryDevtools initialIsOpen={false} />
+    {/* <React.StrictMode> */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="AdminHome" element={<AdminHome />}></Route>
+        <Route path="DataTable" element={<DataTable />}></Route>
+        <Route path="AddData" element={<AddData />}></Route>
+      </Routes>
+      <App />
+    </BrowserRouter>
+
+    {/* </React.StrictMode> */}
+    <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
 );
 

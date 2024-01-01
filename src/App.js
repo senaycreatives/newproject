@@ -6,6 +6,8 @@ import { DataTable } from './DataTable';
 import LoginForm from './LoginForm';
 import { Details } from './Details';
 import { AddData } from './AddData';
+import Layout  from './Layout';
+
 
 const data = [
   { id: 1, name: 'John Doe', email: 'john@example.com' },
@@ -15,7 +17,9 @@ const data = [
 
 function App() {
   return (
-<AddData/>
+    <>
+
+    </>
     );
 }
 
