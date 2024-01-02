@@ -7,6 +7,7 @@ import LoginForm from './LoginForm';
 import { Details } from './Details';
 import { AddData } from './AddData';
 import Layout  from './Layout';
+import AdminPage from './AdminsPage';
 
 
 const data = [
@@ -17,9 +18,11 @@ const data = [
 
 function App() {
   return (
-    <>
+    <div>
+    
 
-    </>
+    <AdminPage />
+    </div>
     );
 }
 

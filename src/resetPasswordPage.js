@@ -40,7 +40,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-export default function SignIn() {
+export default function Resetpage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

@@ -12,6 +12,7 @@ import { AddData } from "./AddData";
 import { DataTable } from "./DataTable";
 import AdminHome from "./AdminHome";
 import YourComponent from "./hopePage";
+import Resetpage from "./resetPasswordPage";
 
 import {
   useQuery,
@@ -28,7 +29,10 @@ root.render(
     {/* <React.StrictMode> */}
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
+
+        {/* <Route path="/" element={<Login />}></Route> */}
+        <Route path="Reset" element={<Resetpage />}></Route>
+
         <Route path="AdminHome" element={<YourComponent />}></Route>
         <Route path="DataTable" element={<DataTable />}></Route>
         <Route path="AddData" element={<AddData />}></Route>
