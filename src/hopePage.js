@@ -6,10 +6,36 @@ import addIcon from "./Image/Icon/Type=Add.svg";
 import eyeIcon from "./Image/Icon/Type=Eye.svg";
 import deleteIcon from "./Image/Icon/Type=Delete.svg";
 import editIcon from "./Image/Icon/Type=Edit.svg";
+import { useRef } from 'react';
+import Header from "./Header";
+
+
 
 const YourComponent = () => {
- const Playme = () => {
+  const [display,setdisplay]=useState(false)
+  const externalComponentRef = useRef();
   useEffect(() => {
+    const handleClick = () => {
+      // Handle the click event here
+      setdisplay(false)
+    
+    };
+  
+    const externalComponent = externalComponentRef.current;
+  
+    if (externalComponent) {
+      externalComponent.addEventListener('click', handleClick);
+    }
+  
+    return () => {
+      // Remove the event listener when the component is unmounted
+      if (externalComponent) {
+        externalComponent.removeEventListener('click', handleClick);
+      }
+    };
+  }, [externalComponentRef,display]);
+ const Playme = () => {
+
   document.addEventListener("DOMContentLoaded", function () {
     const openModalBtn = document.getElementById("openModalBtn");
     const closeModalBtn = document.getElementById("closeModalBtn");
@@ -83,25 +109,22 @@ const YourComponent = () => {
       }
     }
   });
-  });
+
 // console.log("clicked button")
 }
+const handelImportclick =()=>{
+  setdisplay(!display)
+}
   return (
-    <div class="bigoldbody">
-      <nav class="navbar">
-        <a href="#" class="my-button">
-          <img src={logoutIcon} width="20px" alt="" /> <br /> Log Out
-        </a>
-        <a href="#" class="my-button">
-          <img src={passCIcon} width="20px" alt="" /> <br /> Change Password
-        </a>
-      </nav>
-      <br />
-      <section class="parent-section">
+    <div class="bigoldbody overflow-hidden">
+      <Header/>
+     
+    
+      {/* <section class="parent-section">
         <section class="container">
           <div class="inlinediv">
             <div>
-              <a href="#" id="openModalBtn" onClick={Playme} class="my-button">
+              <a href="#" id="openModalBtn" onClick={()=>handelImportclick()} class="my-button">
                 <img src={addIcon} width="20px" alt="" /> <br /> Import
               </a>
             </div>
@@ -124,15 +147,18 @@ const YourComponent = () => {
             </div>
           </div>
         </section>
-      </section>
+      </section> */}
 
-      <footer class="fixed-footer"></footer>
-      <div class="popup-filedrop">
-        <div id="fileUploadModal" class="modal">
-          <div class="modal-content">
-            <span class="close" id="closeModalBtn">
-              &times;
-            </span>
+      {/* <footer class="fixed-footer"></footer> */}
+     
+      {display&&
+     <div
+  
+     className="absolute top-0 w-screen h-[100%]  overflow-hidden flex items-center justify-center"
+   >
+    <div className=" w-full h-full  bg-zinc-900 bg-opacity-50 backdrop-blur-sm"    ref={externalComponentRef}></div>
+     <div className=" absolute z-10 w-[600px] h-[200px] bg-white rounded-md">
+     
             <div class="drop-area" id="dropArea">
               <p class="blue_header">Drop your file here</p>
               <input
@@ -145,9 +171,12 @@ const YourComponent = () => {
                 <br /> Upload
               </a>
             </div>
-          </div>
-        </div>
-      </div>
+       
+      
+     </div>
+   </div>
+      }
+      
     </div>
   );
 };

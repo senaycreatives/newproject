@@ -6,9 +6,12 @@ import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 const AdminHome = () => {
   return (
-    <Layout>
+    <div>
+      <Header/>
+      <Layout>
           <div style={{ position: 'relative' }}>
       <div
         style={{
@@ -60,6 +63,8 @@ const AdminHome = () => {
     </Grid>
   
     </Layout>
+    </div>
+    
   )}
 
   export default AdminHome;

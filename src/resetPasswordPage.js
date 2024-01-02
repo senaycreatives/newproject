@@ -14,6 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Layout from "./Layout";
+import Header from "./Header";
+
 
 const CenteredContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -87,8 +89,10 @@ export default function Resetpage() {
   };
 
   return (
-    <Layout>
-      <div style={{ marginTop: "140px", marginBottom: "120px" }}>
+    <div>
+      <Header/>
+      <Layout>
+      <div style={{ paddingTop: "140px", marginBottom: "120px" }}>
         <CenteredContainer component="main" maxWidth="xs">
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
@@ -142,5 +146,7 @@ export default function Resetpage() {
         </CenteredContainer>
       </div>
     </Layout>
+    </div>
+    
   );
 }

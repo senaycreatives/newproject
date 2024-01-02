@@ -28,15 +28,7 @@ root.render(
   <QueryClientProvider client={queryClient}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
-      <Routes>
 
-        {/* <Route path="/" element={<Login />}></Route> */}
-        <Route path="Reset" element={<Resetpage />}></Route>
-
-        <Route path="AdminHome" element={<YourComponent />}></Route>
-        <Route path="DataTable" element={<DataTable />}></Route>
-        <Route path="AddData" element={<AddData />}></Route>
-      </Routes>
       <App />
     </BrowserRouter>
 

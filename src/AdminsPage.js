@@ -12,10 +12,12 @@ import PassC from "./Image/Icon/Type=PassC.svg";
 import LogoutIcon from "./Image/Icon/Type=Logout.svg";
 import reset from "./Image/Icon/Type=reset.svg";
 import Resetpage from "./resetPasswordPage.js";
+import Header from "./Header.js";
 
 const AdminPage = () => {
   return (
     <div>
+    <Header/>
       <div class="mainDiv">
         <div class="component_card gray">
           <div class="green">

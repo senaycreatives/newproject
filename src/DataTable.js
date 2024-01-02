@@ -5,6 +5,7 @@ import axios from 'axios';
 import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
+import Header from './Header';
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
@@ -127,8 +128,9 @@ export function DataTable() {
 
 
   return (
-    <Layout>
-      <div className='w-full h-screen flex items-center justify-center overflow-hidden'>
+    <div>
+    <Header/>
+  <div className='w-full h-screen flex items-center justify-center overflow-hidden'>
         <div className='flex relative flex-col rounded-md bg-white h-[90%] mb-100 overflow-y-hidden  w-[95%]'>
           {error && (
             <div className='top-0 left-0  w-[500px] h-[200px] absolute z-10'>
@@ -275,6 +277,9 @@ export function DataTable() {
           </div>
         </div>
       </div>
-    </Layout>
+      </div>
   );
 }
+
+ 
+      

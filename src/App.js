@@ -7,7 +7,13 @@ import LoginForm from './LoginForm';
 import { Details } from './Details';
 import { AddData } from './AddData';
 import Layout  from './Layout';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import YourComponent from './hopePage';
+import Header from './Header';
 import AdminPage from './AdminsPage';
+import Resetpage from "./resetPasswordPage";
+
+
 
 
 const data = [
@@ -19,9 +25,16 @@ const data = [
 function App() {
   return (
     <div>
-    
 
-    <AdminPage />
+    <Routes>      
+      <Route path="/" element={<Login />}></Route>
+      <Route path="DataTable" element={<DataTable />}></Route>
+      <Route path="ResetPage" element={<Resetpage />}></Route>
+      <Route path="AdminHome" element={<YourComponent />}></Route>
+      <Route path="AddData" element={<AddData />}></Route>
+   
+
+    </Routes>
     </div>
     );
 }

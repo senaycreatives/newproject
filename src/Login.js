@@ -4,6 +4,7 @@ import "./css/util.css";
 import Layout from "./Layout";
 import { Link } from "react-router-dom";
 
+
 const Login = () => {
   const handleSignIn = async (username, password) => {
     try {
@@ -68,7 +69,7 @@ const Login = () => {
                 ></span>
               </div>
               <div className="container-login100-form-btn m-t-32">
-              <Link to="/AdminHome">
+              <Link to="/DataTable">
                 <button className="login100-form-btn">
                   Sign In
                 </button>
@@ -79,6 +80,7 @@ const Login = () => {
         </div>
       </div>
     </Layout>
+
   );
 };
 
