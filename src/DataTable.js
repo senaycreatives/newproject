@@ -127,7 +127,7 @@ export function DataTable() {
 
 
   return (
-    <Layout>
+    
       <div className='w-full h-screen flex items-center justify-center overflow-hidden'>
         <div className='flex relative flex-col rounded-md bg-white h-[90%] mb-100 overflow-y-hidden  w-[95%]'>
           {error && (
@@ -275,6 +275,6 @@ export function DataTable() {
           </div>
         </div>
       </div>
-    </Layout>
+
   );
 }

@@ -7,6 +7,9 @@ import LoginForm from './LoginForm';
 import { Details } from './Details';
 import { AddData } from './AddData';
 import Layout  from './Layout';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import YourComponent from './hopePage';
+import Header from './Header';
 
 
 const data = [
@@ -17,9 +20,19 @@ const data = [
 
 function App() {
   return (
-    <>
-
-    </>
+    <div className='w-screen h-screen'>
+      <Header/>
+        <Routes>
+      
+    <Route path="/" element={<Login />}></Route>
+    <Route path="AdminHome" element={<YourComponent />}></Route>
+    <Route path="DataTable" element={<DataTable />}></Route>
+    <Route path="AddData" element={<AddData />}></Route>
+   
+  </Routes>
+  
+    </div>
+  
     );
 }
 
