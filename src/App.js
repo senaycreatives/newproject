@@ -15,7 +15,7 @@ const data = [
 
 function App() {
   return (
-<AddData/>
+<DataTable/>
     );
 }
 

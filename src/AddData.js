@@ -77,25 +77,25 @@ export function AddData() {
           </div>
         )}
 
-        <div className="flex relative overflow-y-hidden flex-col rounded-md bg-white h-[90%] mb-100 overflow-x-hidden w-[90%]">
+        <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
        
         {errorMessage && (
-            <div className='top-0 right-0  w-[500px] h-[200px] absolute z-10'>
+            <div className='top-0 sm:right-0  sm:left-0 sm:w-[500px] w-[90%] h-[200px] absolute z-10'>
               <Errorpopup message={errorMessage?.response?.data.message}/>
             </div>
             
           )}
            {successMessage && (
-                  <div className='top-0 right-0  w-[500px] h-[200px] absolute z-10'>
+                  <div className='top-0 sm:right-0  sm:left-0 sm:w-[500px] w-[90%] h-[200px] absolute z-10'>
           
             <SucessPopup message={successMessage}/>
         </div>  )}
-        <div className='  w-[50%] h-[100px]  flex items-center  justify-between'>
+        <div className='  sm:w-[50%] w-[60%] h-[100px]  flex items-center  justify-between'>
           <div className='w-[70px]   rounded-md flex items-center justify-center h-[30px]'>{'<'}back</div>
           <p className=' font-bold  text-lg'>Add New Data</p></div>
       
 
-          <div className="flex w-[90%] h-[90%] relative pt-[30px] items-center justify-center">
+          <div className="flex w-[90%] sm:h-[90%] relative pt-[30px] items-center justify-center">
             <form className="w-full h-full flex-wrap  flex flex-col" onSubmit={handleSubmit}>
               {datasets.map(({ header, type }) => (
                 <div key={header} className="flex flex-wrap mx-3 mb-6">
@@ -130,7 +130,7 @@ export function AddData() {
               ))}
                   <button
             onClick={handleSubmit}
-            className="bg-zinc-900 w-[200px] text-white font-bold py-2 px-4 border border-blue-700 rounded "
+            className="bg-zinc-900 w-[200px] my-4 text-white font-bold py-2 px-4 border border-blue-700 rounded "
           >
             ADD DATA
           </button>

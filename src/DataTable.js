@@ -141,7 +141,7 @@ export function DataTable() {
             <SucessPopup message={sucess}/>
         </div>  )}
           <div className='w-full flex items-center justify-end'>
-            <div className='mt-3 w-[400px] flex flex-row'>
+             <div className='mt-3 w-[400px] flex flex-row'>
               {isLoading && (
                 <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                   <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
@@ -169,7 +169,7 @@ export function DataTable() {
             </div>
           </div>
 
-          <div ref={tableRef} className='sm:-mx-6 w-full h-[800px]   overflow-x-scroll  flex lg:-mx-8'>
+          <div ref={tableRef} className='sm:-mx-6 w-full    overflow-x-scroll   h-[440px]  flex lg:-mx-8'>
             <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
               <div className=''>
                 <table className=' text-left text-sm font-light'>
@@ -183,7 +183,7 @@ export function DataTable() {
                       ))}
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className=' '>
             {searchData ? (
               <tr>
                 {headers.map((header) => (
@@ -198,7 +198,7 @@ export function DataTable() {
               pageData?.map((row) => (
                 <tr className='even:bg-zinc-100' key={row.Zetacode}>
                   {headers.map((header) => (
-                    <td key={header} className="p-4 border-b border-blue-gray-50 text-center" >
+                    <td key={header} className="p-4  border-b border-blue-gray-50 text-center" >
                     {typeof row[header] === 'boolean' ? row[header].toString() : row[header]}
                   </td>
                   ))}
@@ -206,7 +206,7 @@ export function DataTable() {
                             <div
                               onClick={() => handlePageChange(row.Zetacode)}
                               className='w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md'>
-                              <p className='text-white hover:cursor-pointer'>Delete</p>
+                              <p className='text-white hover:cursor-pointer'>Update</p>
                             </div>
                           </td>
                           <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
@@ -216,14 +216,20 @@ export function DataTable() {
                               <p className='text-white hover:cursor-pointer'>Delete</p>
                             </div>
                           </td>
+                         
                 </tr>
               ))
             )}
+             {
+                            pageData.length==0 &&<div className=' w-full h-[100px] '>
+                              <p>No data exist</p>
+                            </div>
+                          }
           </tbody>
                 </table>
                 
                 {!searchData && (
-                  <div className=' w-full absolute h-[90px] bottom-[20px]  items-center justify-center px-10 flex flex-row  '>
+                  <div className=' w-full absolute bottom-0 h-[90px] mt-[10px] items-center justify-center px-10 flex flex-row  '>
                    <div onClick={handleScrollToStart} className='w-[50px] h-[50px] flex items-center justify-center bg-gray-300 shadow-sm shadow-black rounded-md'>
                   {"<"}
                    </div>
