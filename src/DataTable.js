@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Layout from './Layout';
 import UseFetchData from './hooks/UseFetchData';
 import axios from 'axios';
 import UseFetchIndividualData from './hooks/UseFetchIndividualData';
+import Errorpopup from './Errorpopup';
+import SucessPopup from './SucessPopup';
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
@@ -18,6 +20,7 @@ export function DataTable() {
   const [showDetails, setShowDetails] = useState(false);
   
   const [selectedRow, setSelectedRow] = useState(null);
+  const [sucess, setSucess] = useState(null);
 
   useEffect(() => {
     changepagedata();
@@ -26,13 +29,34 @@ export function DataTable() {
   useEffect(() => {
     Popuperror();
   }, [searchError]);
+  const tableRef = useRef(null);
+
+  const handleScrollToEnd = () => {
+    if (tableRef.current) {
+      tableRef.current.scrollTo({
+        left: tableRef.current.scrollWidth,
+        behavior: 'smooth',
+      });
+
+    }
+  };
+
+  const handleScrollToStart = () => {
+    if (tableRef.current) {
+      tableRef.current.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+      
+    }
+  };
 
   const Popuperror = () => {
     if(zetaCode){
     setError('Something went wrong. Please try again.');
     setTimeout(() => {
       setError(null);
-    }, 5000);}
+    }, 1000);}
   };
 
   const changepagedata = () => {
@@ -62,14 +86,20 @@ export function DataTable() {
       const res = await axios.delete('http://localhost:9000/deletedata', {
         data: { zetacode },
       });
+      console.log(res)
+      
       refetch();
+      setSucess('SucessFully Fully Deleted');
+    setTimeout(() => {
+      setSucess(null);
+    }, 1000)
       setError(null); // Clear previous errors
       return res;
     } catch (error) {
       setError('Something went wrong. Please try again.');
       setTimeout(() => {
         setError(null); // Clear error after 5 seconds
-      }, 5000);
+      }, 1000);
     }
   };
 
@@ -82,7 +112,7 @@ export function DataTable() {
   const handleBack = () => {
     setSearch('');
     refetchSearch('');
-    setZetaCode('');
+    setZetaCode('')
     setShowDetails(false);
     setSelectedRow(null);
   };
@@ -92,26 +122,24 @@ export function DataTable() {
     setSelectedRow(row);
   };
 
-  const headers = ['Zetacode', 'Location', 'Details', 'Delete'];
+  const headers =[ 'Zetacode','Location',  'Room', 'HelpDeskReference', 'IPS', 'Fault', 'Date', 'HotTemperature', 'HotFlow', 'HotReturn', 'ColdTemperature', 'ColdFlow', 'ColdReturn', 'HotFlushTemperature', 'TapNotSet', 'ColdFlushTemperature', 'TMVFail', 'PreflushSampleTaken', 'PostflushSampleTaken', 'ThermalFlush']
+  ;
+
 
   return (
     <Layout>
       <div className='w-full h-screen flex items-center justify-center overflow-hidden'>
-        <div className='flex relative flex-col rounded-md bg-white h-[90%] mb-100 overflow-y-hidden overflow-x-hidden w-[90%]'>
+        <div className='flex relative flex-col rounded-md bg-white h-[90%] mb-100 overflow-y-hidden  w-[95%]'>
           {error && (
-            <div className='top-0 left-0 w-[500px] h-[200px] absolute z-10'>
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong className="font-bold">ERROR</strong>
-                <span className="block sm:inline">{errorMessage?.response?.data.message}</span>
-                <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                  <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <title>Close</title>
-                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                  </svg>
-                </span>
-              </div>
+            <div className='top-0 left-0  w-[500px] h-[200px] absolute z-10'>
+              <Errorpopup message={errorMessage?.response?.data.message}/>
             </div>
           )}
+           {sucess && (
+                  <div className='top-0 left-0  w-[500px] h-[200px] absolute z-10'>
+          
+            <SucessPopup message={sucess}/>
+        </div>  )}
           <div className='w-full flex items-center justify-end'>
             <div className='mt-3 w-[400px] flex flex-row'>
               {isLoading && (
@@ -141,68 +169,67 @@ export function DataTable() {
             </div>
           </div>
 
-          <div className='sm:-mx-6 lg:-mx-8'>
+          <div ref={tableRef} className='sm:-mx-6 w-full h-[800px]   overflow-x-scroll  flex lg:-mx-8'>
             <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
-              <div className='overflow-hidden'>
-                <table className='min-w-full text-left text-sm font-light'>
+              <div className=''>
+                <table className=' text-left text-sm font-light'>
                   <thead className='border-b font-medium dark:border-neutral-500'>
                     <tr>
                       {headers.map((header) => (
-                        <th key={header} className='whitespace-nowrap px-6 py-4'>
-                          {header}
+                        <th key={header} className='p-4 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
+                        <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+{header}</p>
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {searchData ? (
-                      <>
-                          {searchData.data && (
-                            <tr  className='border-b dark:border-neutral-500'>
-                            <td className='whitespace-nowrap px-6 py-4 font-medium'>{searchData.data.Zetacode}</td>
-                            <td className='whitespace-nowrap px-6 py-4'>{searchData.data.Location}</td>
-                            <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
-                              <p className='text-blue-400 hover:cursor-pointer' onClick={() => handleShowDetails('ds')}>
-                                see Detail
-                              </p>
-                            </td>
-                            <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
-                              <div
-                                onClick={() => handleDelete(searchData.data.Zetacode)}
-                                className='w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md'>
-                                <p className='text-white hover:cursor-pointer'>Delete</p>
-                              </div>
-                            </td>
-                          </tr>
-                          )}
-                          </>
-                      
-                    ) : (
-                      pageData.map((rows) => (
-                        <tr key={rows.Zetacode} className='border-b dark:border-neutral-500'>
-                          <td className='whitespace-nowrap px-6 py-4 font-medium'>{rows.Zetacode}</td>
-                          <td className='whitespace-nowrap px-6 py-4'>{rows.Location}</td>
-                          <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
-                            <p className='text-blue-400 hover:cursor-pointer' onClick={() => handleShowDetails(rows)}>
-                              see Detail
-                            </p>
+            {searchData ? (
+              <tr>
+                {headers.map((header) => (
+                  <td key={header}>{searchData.data[header]}</td>
+                ))}
+                <td>
+                  <button onClick={() => handleShowDetails(searchData.data)}>See Details</button>
+                  <button onClick={() => handleDelete(searchData.data.Zetacode)}>Delete</button>
+                </td>
+              </tr>
+            ) : (
+              pageData?.map((row) => (
+                <tr className='even:bg-zinc-100' key={row.Zetacode}>
+                  {headers.map((header) => (
+                    <td key={header} className="p-4 border-b border-blue-gray-50 text-center" >
+                    {typeof row[header] === 'boolean' ? row[header].toString() : row[header]}
+                  </td>
+                  ))}
+                  <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
+                            <div
+                              onClick={() => handlePageChange(row.Zetacode)}
+                              className='w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md'>
+                              <p className='text-white hover:cursor-pointer'>Delete</p>
+                            </div>
                           </td>
                           <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
                             <div
-                              onClick={() => handleDelete(rows.Zetacode)}
+                              onClick={() => handleDelete(row.Zetacode)}
                               className='w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md'>
                               <p className='text-white hover:cursor-pointer'>Delete</p>
                             </div>
                           </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
+                </tr>
+              ))
+            )}
+          </tbody>
                 </table>
-
+                
                 {!searchData && (
-                  <div className='flex flex-col px-10 pt-3 items-center'>
-                    <span className='text-sm text-gray-700 dark:text-gray-400'>
+                  <div className=' w-full absolute h-[90px] bottom-[20px]  items-center justify-center px-10 flex flex-row  '>
+                   <div onClick={handleScrollToStart} className='w-[50px] h-[50px] flex items-center justify-center bg-gray-300 shadow-sm shadow-black rounded-md'>
+                  {"<"}
+                   </div>
+                   <div className='flex    w-full  flex-col px-10 pt-3 items-center justify-between'>
+                    
+                    <span className='text-sm text-gray-400'>
                       Showing{' '}
                       <span className='font-semibold text-gray-900 dark:text-white'>{start}</span> to{' '}
                       <span className='font-semibold text-gray-900 dark:text-white'>{end}</span> of{' '}
@@ -223,7 +250,12 @@ export function DataTable() {
                       </button>
                     </div>
                   </div>
+                  <div onClick={handleScrollToEnd} className='w-[50px] h-[50px] flex items-center justify-center bg-gray-300 shadow-sm shadow-black rounded-md'>
+                  {">"}
+                   </div></div>
+                 
                 )}
+
 
                 {searchData && (
                   <button
