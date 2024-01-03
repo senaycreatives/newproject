@@ -29,7 +29,7 @@ dbConn()
   .catch((error) => {
     console.error('Failed to establish database connection:', error);
   });
-
+ 
 // Generate a random secret key
 const secretKey = crypto.randomBytes(64).toString('hex');
 
@@ -41,13 +41,13 @@ const expirationTime = new Date(currentTime.getTime() + 60 * 60 * 1000);
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  session({
-    secret: secretKey,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     secret: secretKey,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 // Middleware to check authentication
 const isAuthenticated = (req, res, next) => {
@@ -121,14 +121,16 @@ app.post('/auth/signin', async (req, res) => {
           { expiresIn: '1h' } // Token expiration time
         );
 
-        res.json({ token });
-      } else {
-        res.status(401).json({ message: 'Invalid credentials' });
-      }
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
-    }
-  } catch (error) {
+        res.json({
+          token,
+          expiresIn: '1h', // Example expiration time, you can customize this
+          tokenType: 'Bearer', // Specify the token type (e.g., Bearer)
+          authUserState: 'authenticated', // Example authentication state
+          refreshToken: 'your-refresh-token', // Replace with the actual refresh token
+          refreshTokenExpireIn: '7d', // Example refresh token expiration time
+        });
+      }}}
+ catch (error) {
     console.error('Error during sign-in:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
