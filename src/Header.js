@@ -9,7 +9,7 @@ import editIcon from "./Image/Icon/Type=Edit.svg";
 
 const Header = ({ children }) => {
   return (
-    <div class=" w-[100%] h-[80px] items-center justify-end  bg-headercolor flex flex-row navbar" >
+    <div class=" w-[100%] h-[11%] items-center justify-end  bg-headercolor flex flex-row navbar" >
    
         <a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
           <img src={editIcon} width="20px" alt="" /> <p className=" text-white  text-[16px]">Edit</p> 

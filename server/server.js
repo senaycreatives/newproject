@@ -3,7 +3,7 @@ const dbConn = require('./db/db.js');
 const session = require('express-session');
 const { MongoClient } = require('mongodb');
 const crypto = require('crypto');
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 const app = express();
 const User = require('./models/Users');
 const MainData = require('./models/Data');
@@ -15,7 +15,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
 const ExcelJS = require('exceljs');
 const cors=require('cors')
-
+const jwt = require('jsonwebtoken');
 
 
 // Call the connectToDatabase function to establish the connection
@@ -37,8 +37,9 @@ const secretKey = crypto.randomBytes(64).toString('hex');
 const currentTime = new Date();
 const expirationTime = new Date(currentTime.getTime() + 60 * 60 * 1000);
 
-// Middleware
+// Middleware'
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   session({
@@ -50,22 +51,23 @@ app.use(
 
 // Middleware to check authentication
 const isAuthenticated = (req, res, next) => {
-  if (req.session && req.session.authenticated) {
-    const currentTime = new Date();
-    const expirationTime = new Date(req.session.expiresAt);
+  const token = req.header('Authorization');
 
-    if (currentTime > expirationTime) {
-      // Session has expired, clear the session
-      req.session.destroy();
-      res.clearCookie('connect.sid'); // Clear the session ID cookie
-      res.status(401).json({ message: 'Session expired' });
-    } else {
-      // Session is still valid, proceed to the next middleware
-      next();
-    }
-  } else {
-    // User is not authenticated or session does not exist
-    res.status(401).json({ message: 'Unauthorized' });
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, 'your-secret-key');
+
+    // Attach user information to the request object
+    req.user = decoded;
+
+    next();
+  } catch (error) {
+    console.error('Error during authentication:', error);
+    res.status(401).json({ message: 'Invalid token' });
   }
 };
 
@@ -109,22 +111,17 @@ app.post('/auth/signin', async (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (isMatch) {
-        // Update the session object in the user document
-        user.session = {
-          sessionId: req.sessionID,
-          expiresAt: expirationTime.toISOString(), // Convert to ISO string format
-          createdAt: new Date(currentTime).toISOString(), // Convert to ISO string format
-          ipAddress: req.ip,
-          userAgent: req.get('user-agent'),
-        };
+        // Generate a JWT token with the user's information
+        const token = jwt.sign(
+          {
+            username: user.username,
+            permission: user.permission,
+          },
+          'your-secret-key', // Replace with a secure secret key
+          { expiresIn: '1h' } // Token expiration time
+        );
 
-        // Save the updated user document
-        await user.save();
-
-        req.session.authenticated = true;
-        req.session.username = user.username;
-        req.session.permission = user.permission;
-        res.json({ message: 'Sign-in successful' });
+        res.json({ token });
       } else {
         res.status(401).json({ message: 'Invalid credentials' });
       }
@@ -194,7 +191,7 @@ app.post('/auth/changepassword', isAuthenticated, async (req, res) => {
   }
 });
 
-app.post('/adddata', async (req, res) => {
+app.post('/adddata', isAuthenticated, async (req, res) => {
   const data = req.body;
   const username = req.session.username;
 
@@ -211,7 +208,7 @@ app.post('/adddata', async (req, res) => {
     }
 
     // Add the username field to the data object
-    data.username = 'ssa';
+    data.username = username;
 
     // Insert the new document into the collection
     await collection.insertOne(data);
@@ -225,7 +222,7 @@ app.post('/adddata', async (req, res) => {
   }
 });
 
-app.get('/getdata',  async (req, res) => {
+app.get('/getdata', isAuthenticated, async (req, res) => {
   try {
     const client = await MongoClient.connect('mongodb://127.0.0.1:27017');
     const db = client.db('database');
@@ -243,7 +240,7 @@ app.get('/getdata',  async (req, res) => {
 });
 
 
-app.get('/getsingledata/:id',  async (req, res) => {
+app.get('/getsingledata/:id', isAuthenticated, async (req, res) => {
   const loggedInUserPermission = req.session.permission;
   const zetacode  = req.params.id;
 
@@ -271,7 +268,7 @@ console.log(data);
   }
 });
 
-app.post('/getdatabydate',  async (req, res) => {
+app.post('/getdatabydate', isAuthenticated, async (req, res) => {
   const { date } = req.body;
 
   if (!date) {
@@ -294,14 +291,14 @@ app.post('/getdatabydate',  async (req, res) => {
   }
 });
 
-app.delete('/deletedata',  async (req, res) => {
+app.delete('/deletedata', isAuthenticated, async (req, res) => {
   const loggedInUserPermission = req.session.permission;
   const { zetacode } = req.body;
  
   try { 
-    // if (loggedInUserPermission !== 'admin' || loggedInUserPermission !== 'editor') {
-    //   return res.status(403).json({ message: 'Only admins and editors can delete data' });
-    // }
+    if (loggedInUserPermission !== 'admin' || loggedInUserPermission !== 'editor') {
+      return res.status(403).json({ message: 'Only admins and editors can delete data' });
+    }
     const client = await MongoClient.connect('mongodb://127.0.0.1:27017');
     const db = client.db('database');
     const collection = db.collection('maindatas');
@@ -323,7 +320,7 @@ app.delete('/deletedata',  async (req, res) => {
   }
 });
 
-app.delete('/deletedatabydate',  async (req, res) => {
+app.delete('/deletedatabydate', isAuthenticated, async (req, res) => {
   const { date } = req.body;
 
   if (!date) {
@@ -350,7 +347,7 @@ app.delete('/deletedatabydate',  async (req, res) => {
   }
 });
 
-app.put('/updatedata',   async (req, res) => {
+app.put('/updatedata', isAuthenticated, canEdit, async (req, res) => {
   
   const { zetacode, newData } = req.body;
 
@@ -379,9 +376,47 @@ app.put('/updatedata',   async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+app.put('/updatedataTable', async (req, res) => {
+  const newFielddata  = req.body.newFielddata;
+
+  try {
+    // Check if newFielddata is null or undefined
+    if (!newFielddata) {
+      return res.status(400).json({ message: 'Invalid request. newFielddata is null or undefined.' });
+    }
+
+    // Check if newFielddata contains any fields
+    if (Object.keys(newFielddata).length === 0) {
+      return res.status(400).json({ message: 'Invalid request. newFielddata must contain fields to update.' });
+    }
+
+    const client = await MongoClient.connect('mongodb://127.0.0.1:27017');
+    const db = client.db('database');
+    const collection = db.collection('maindatas');
+
+    // Specify the query to match all documents (empty query)
+    const query = {};
+
+    // Specify the update operation to add a new field
+    const updateOperation = { $set: newFielddata };
+
+    // Update all documents in the collection
+    const result = await collection.updateMany(query, updateOperation);
+
+    client.close();
+
+    if (result) {
+      res.json({ message: 'Data updated successfully' });
+    }
+  } catch (error) {
+    console.error('Error while updating data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
-app.post('/importcsv',  upload.single('csvFile'), async (req, res) => {
+
+app.post('/importcsv', isAuthenticated, canEdit, upload.single('csvFile'), async (req, res) => {
   try {
     const filePath = req.file.path;
     const username = req.session.username;

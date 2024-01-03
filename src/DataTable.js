@@ -5,6 +5,7 @@ import axios from 'axios';
 import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
+import addicon from './Image/Icon/Type=Add.svg'
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
@@ -128,8 +129,8 @@ export function DataTable() {
 
   return (
     
-      <div className='w-full h-screen flex items-center justify-center overflow-hidden'>
-        <div className='flex relative flex-col rounded-md bg-white h-[90%] mb-100 overflow-y-hidden  w-[95%]'>
+    
+        <div className='flex relative flex-col rounded-md  h-[88%] mb-100 overflow-y-hidden  w-[100%]'>
           {error && (
             <div className='top-0 left-0  w-[500px] h-[200px] absolute z-10'>
               <Errorpopup message={errorMessage?.response?.data.message}/>
@@ -140,17 +141,17 @@ export function DataTable() {
           
             <SucessPopup message={sucess}/>
         </div>  )}
-          <div className='w-full flex items-center justify-end'>
+          <div className='w-full flex items-center justify-end '>
              <div className='mt-3 w-[400px] flex flex-row'>
               {isLoading && (
                 <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                   <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
                 </div>
               )}
-              <div className='relative mb-4 flex w-full flex-wrap items-stretch'>
+              <div className=' mb-4 flex w-full flex-wrap items-stretch'>
                 <input
                   type='search'
-                  className='relative m-0 block min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary'
+                  className=' m-0 block min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary'
                   placeholder='Search By Zetacode'
                   aria-label='Search'
                   aria-describedby='button-addon2'
@@ -169,18 +170,22 @@ export function DataTable() {
             </div>
           </div>
 
-          <div ref={tableRef} className='sm:-mx-6 w-full    overflow-x-scroll   h-[440px]  flex lg:-mx-8'>
+          <div ref={tableRef} className='sm:-mx-6 w-full z-20  overflow-x-scroll   h-[440px]  flex lg:-mx-8'>
             <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
               <div className=''>
                 <table className=' text-left text-sm font-light'>
                   <thead className='border-b font-medium dark:border-neutral-500'>
                     <tr>
                       {headers.map((header) => (
-                        <th key={header} className='p-4 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
+                        <th key={header} className='p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
                         <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
 {header}</p>
                         </th>
                       ))}
+                      <th className=' w-[140px] px-5 flex-row'>   <img src={addicon} width="20px" className=' bg-blue-900' alt="" /> 
+                      <p>Add column</p>
+
+                </th>
                     </tr>
                   </thead>
                   <tbody className=' '>
@@ -189,7 +194,7 @@ export function DataTable() {
                 {headers.map((header) => (
                   <td key={header}>{searchData.data[header]}</td>
                 ))}
-                <td>
+              <td>
                   <button onClick={() => handleShowDetails(searchData.data)}>See Details</button>
                   <button onClick={() => handleDelete(searchData.data.Zetacode)}>Delete</button>
                 </td>
@@ -229,7 +234,7 @@ export function DataTable() {
                 </table>
                 
                 {!searchData && (
-                  <div className=' w-full absolute bottom-0 h-[90px] mt-[10px] items-center justify-center px-10 flex flex-row  '>
+                  <div  className=' z-0  w-full absolute bottom-0 h-[80px] items-center justify-center px-10 flex flex-row  '>
                    <div onClick={handleScrollToStart} className='w-[50px] h-[50px] flex items-center justify-center bg-gray-300 shadow-sm shadow-black rounded-md'>
                   {"<"}
                    </div>
@@ -274,7 +279,7 @@ export function DataTable() {
             </div>
           </div>
         </div>
-      </div>
+
 
   );
 }
