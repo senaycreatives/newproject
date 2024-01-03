@@ -13,6 +13,7 @@ import { DataTable } from "./DataTable";
 import AdminHome from "./AdminHome";
 import {AuthKitStateInterface}  from 'react-auth-kit'
 import YourComponent from "./hopePage";
+import Resetpage from "./resetPasswordPage";
 
 import {
   useQuery,
@@ -29,7 +30,7 @@ root.render(
   <QueryClientProvider client={queryClient}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
-      
+
       <App />
     </BrowserRouter>
 

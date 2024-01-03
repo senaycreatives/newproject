@@ -6,6 +6,8 @@ import addIcon from "./Image/Icon/Type=Add.svg";
 import eyeIcon from "./Image/Icon/Type=Eye.svg";
 import deleteIcon from "./Image/Icon/Type=Delete.svg";
 import editIcon from "./Image/Icon/Type=Edit.svg";
+import { Link } from "react-router-dom";
+import Resetpage from "./resetPasswordPage";
 
 const Header = ({ children }) => {
   return (
@@ -20,12 +22,12 @@ const Header = ({ children }) => {
         <a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
           <img src={eyeIcon} width="20px" alt="" /> <p className=" text-white  text-[16px]">View</p> 
         </a>
-        <a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
-          <img src={passCIcon} width="20px" alt="" /> <p className=" text-white  text-[16px]"> Change Password</p>
-        </a>
-        <a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
+        <Link to = "/ResetPage"><a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
+          <img src={passCIcon} width="20px" alt="" /> <p className=" text-white  text-[16px]">Change Password</p>
+        </a></Link>
+        <Link to = "/"><a href="#" className="   px-4 py-8 justify-center rounded-md mx-2 h-[50px] bg-buttoncolor flex  items-center  flex-col">
           <img src={logoutIcon} width="20px" alt="" /> <p className=" text-white  text-[16px]">Log Out</p> 
-        </a>
+        </a></Link>
      
    
     </div>

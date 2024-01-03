@@ -6,6 +6,7 @@ import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
 import addicon from './Image/Icon/Type=Add.svg'
+import Header from './Header';
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
@@ -283,3 +284,6 @@ export function DataTable() {
 
   );
 }
+
+ 
+      

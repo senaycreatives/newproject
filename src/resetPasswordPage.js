@@ -14,6 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Layout from "./Layout";
+import Header from "./Header";
+
 
 const CenteredContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -40,7 +42,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-export default function SignIn() {
+export default function Resetpage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -87,8 +89,10 @@ export default function SignIn() {
   };
 
   return (
-    <Layout>
-      <div style={{ marginTop: "140px", marginBottom: "120px" }}>
+    <div>
+      <Header/>
+      <Layout>
+      <div style={{ paddingTop: "140px", marginBottom: "120px" }}>
         <CenteredContainer component="main" maxWidth="xs">
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
@@ -142,5 +146,7 @@ export default function SignIn() {
         </CenteredContainer>
       </div>
     </Layout>
+    </div>
+    
   );
 }
