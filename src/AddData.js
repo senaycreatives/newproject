@@ -44,7 +44,7 @@ export function AddData() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axios.post('http://localhost:9000/adddata', data);
+      return axios.post('https://gentle-puce-angler.cyclic.app/adddata', data);
     },
     mutationKey: 'adddata',
     onSuccess: () => {

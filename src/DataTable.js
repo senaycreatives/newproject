@@ -85,7 +85,7 @@ export function DataTable() {
 
   const handleDelete = async (zetacode) => {
     try {
-      const res = await axios.delete('http://localhost:9000/deletedata', {
+      const res = await axios.delete('https://gentle-puce-angler.cyclic.app/deletedata', {
         data: { zetacode },
       });
       console.log(res)
@@ -279,6 +279,7 @@ export function DataTable() {
               </div>
             </div>
           </div>
+          
         </div>
 
 

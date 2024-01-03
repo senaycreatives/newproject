@@ -30,7 +30,7 @@
     "mongoose": "^8.0.3",
     "multer": "^1.4.5-lts.1",
     "react": "^18.2.0",
-    "react-auth-kit": "^3.0.0-alpha.44",
+    "react-auth-kit": "^2.12.7",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "tachyons": "^4.12.0",

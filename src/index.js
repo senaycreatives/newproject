@@ -22,11 +22,15 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-
+import { AuthProvider } from 'react-auth-kit'
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
 root.render(
 
+  <AuthProvider authType = {'localstorage'}
+                  authName={'Authorization'}
+                  cookieDomain={window.location.hostname}
+                  cookieSecure={false}>
   <QueryClientProvider client={queryClient}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
@@ -37,6 +41,7 @@ root.render(
     {/* </React.StrictMode> */}
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
+  </AuthProvider>
 
 );
 

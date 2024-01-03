@@ -4,6 +4,7 @@ import "./css/util.css";
 import Layout from "./Layout";
 import  { useState, useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
+import { useSignIn } from 'react-auth-kit'
 
 
 
@@ -11,12 +12,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [error, seterror] = useState(null);
-  
+  const signIn = useSignIn()
   
   const [password, setPassword] = useState('');
   const handleSignIn = async (username, password) => {
     try {
-      const res = await fetch("http://localhost:9000/auth/signin", {
+      const res = await fetch("https://gentle-puce-angler.cyclic.app/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,12 +27,23 @@ const Login = () => {
 
       if (res.ok) {
         const data = await res.json();
-        // Assuming the server returns a token in the response
-        const token = data.token;
+        signIn(
+          {
+              token: data.token,
+              expiresIn: 36000,
+              tokenType: '',
 
-        // Store the token in localStorage
-        localStorage.setItem("token", token);
-        navigate('datatable')
+              
+              
+              authState: {authenticate: true},
+              // refreshToken: res.data.refreshToken,                    // Only if you are using refreshToken feature
+              // refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
+          }
+      )
+      
+
+        // Store the token in localSto
+        navigate('/')
 
       
       } 

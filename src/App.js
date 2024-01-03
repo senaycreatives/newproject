@@ -1,34 +1,38 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from './Login';
-import AdminHome from './AdminHome';
 import { DataTable } from './DataTable';
 import { AddData } from './AddData';
 import YourComponent from './hopePage';
-import Header from './Header';
-
-const PrivateRoute = ({ path, element: Element, isAuthenticated }) => {
-  return (
-    <Navigate to="/" replace /> // Redirect to login page if not authenticated
-  );
-};
+import { RequireAuth } from 'react-auth-kit';
+import Header from "./Header";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("token") !== null
-  );
+  const navigate = useNavigate();
+
+  // Check if the current route is the login page
+  const isLoginPage = window.location.pathname === "/login";
+
+  // Render the header only if it's not the login page
+  const renderHeader = !isLoginPage &&   <Header/>;
 
   return (
     <div className='w-screen h-screen'>
-  
+      {renderHeader}
+
+      <Routes>
       
-        <Routes>
-          <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-          <Route path="AdminHome" element={isAuthenticated?<YourComponent />:<Navigate to="/" replace/>} isAuthenticated={isAuthenticated} />
-          <Route path="DataTable" element={isAuthenticated?<DataTable />:<Navigate to="/" replace/>} isAuthenticated={isAuthenticated} />
-          <Route path="AddData" element={isAuthenticated?<AddData/>:<Navigate to="/" replace/>} isAuthenticated={isAuthenticated} />
-        </Routes>
-   
+        <Route exact path="/login" element={<Login />} />
+        <Route path="/AdminHome" element={<RequireAuth loginPath='/login'>
+          <YourComponent />
+        </RequireAuth>} />
+        <Route exact path="/" element={<RequireAuth loginPath={'/login'}>
+          <DataTable />
+        </RequireAuth>} />
+        <Route path="/AddData" element={<RequireAuth loginPath={'/login'}>
+          <AddData />
+        </RequireAuth>} />
+      </Routes>
     </div>
   );
 }
