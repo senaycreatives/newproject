@@ -65,6 +65,7 @@ export function AddData() {
         setErrorMessage(null);
       }, 5000); // Hide error message after 5 seconds
     },
+    
   });
 
   const handleSubmit = (e) => {

@@ -7,10 +7,15 @@ import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
 import addicon from './Image/Icon/Type=Add.svg'
 import Header from './Header';
+import { useMutation } from '@tanstack/react-query';
+import {useAuthHeader} from 'react-auth-kit';
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
   const [search, setSearch] = useState('');
+  const [addcolomonPOPup, setAddColomunPopup] = useState(false);
+  const [deletecolomunPOPup, setdeletecolomonPopup] = useState(false);
+  const [deletecolumonname, setdeletecolomunname] = useState('');
   const [zetaCode, setZetaCode] = useState('');
   const { data: searchData, refetch: refetchSearch, isLoading, isError: searchError, error: errorMessage } = UseFetchIndividualData(zetaCode);
   const [pageSize] = useState(5);
@@ -23,10 +28,56 @@ export function DataTable() {
   
   const [selectedRow, setSelectedRow] = useState(null);
   const [sucess, setSucess] = useState(null);
-
+  const externalComponentRef = useRef();
+  
+  useEffect(() => {
+    const handleClick = () => {
+      // Handle the click event here
+      setAddColomunPopup(false)
+    
+    };
+  
+    const externalComponent = externalComponentRef.current;
+  
+    if (externalComponent) {
+      externalComponent.addEventListener('click', handleClick);
+    }
+  
+    return () => {
+      // Remove the event listener when the component is unmounted
+      if (externalComponent) {
+        externalComponent.removeEventListener('click', handleClick);
+      }
+    };
+  }, [externalComponentRef,addcolomonPOPup]);
+  
+  const authHeader = useAuthHeader()
   useEffect(() => {
     changepagedata();
   }, [page, data]);
+  const mutation = useMutation({
+    mutationFn: (data) => {
+  return axios.put('https://gentle-puce-angler.cyclic.app/updatedataTable', data, {
+    headers: { Authorization: authHeader() },
+  });
+},
+
+    mutationKey: 'addcolomun',
+    onSuccess: () => {
+     setSucess('Columon Added successfully');
+     setAddColomunPopup(false)
+      setTimeout(() => {
+        setSucess(null);
+      }, 5000); // Hide success message after 5 seconds
+    },
+    onError: (error) => {
+      setError("Error Occurr while adding");
+      setAddColomunPopup(false)
+      setTimeout(() => {
+        setError(null);
+      }, 5000); // Hide error message after 5 seconds
+    },
+  });
 
   useEffect(() => {
     Popuperror();
@@ -104,6 +155,30 @@ export function DataTable() {
       }, 1000);
     }
   };
+  const handleDeletecolomun = async (columname) => {
+    try {
+      const res = await axios.delete(`https://gentle-puce-angler.cyclic.app/deleteColumn/${columname}`, {
+        data: { columname },
+      });
+      console.log(res)
+      
+      refetch();
+      setSucess('SucessFully Fully Deleted');
+      setdeletecolomonPopup(false)
+    setTimeout(() => {
+      setSucess(null);
+
+    }, 1000)
+      setError(null); // Clear previous errors
+      return res;
+    } catch (error) {
+      setError('Something went wrong. Please try again.');
+    setdeletecolomonPopup(false)
+      setTimeout(() => {
+        setError(null); // Clear error after 5 seconds
+      }, 1000);
+    }
+  };
 
   const handleSearch = async () => {
     setZetaCode(search);
@@ -124,10 +199,63 @@ export function DataTable() {
     setSelectedRow(row);
   };
 
-  const headers =[ 'Zetacode','Location',  'Room', 'HelpDeskReference', 'IPS', 'Fault', 'Date', 'HotTemperature', 'HotFlow', 'HotReturn', 'ColdTemperature', 'ColdFlow', 'ColdReturn', 'HotFlushTemperature', 'TapNotSet', 'ColdFlushTemperature', 'TMVFail', 'PreflushSampleTaken', 'PostflushSampleTaken', 'ThermalFlush']
-  ;
+
+  const [headers,setHeaders]=useState([])
+  useEffect(() => {
+    changepagedata();
+    // Dynamically set headers when pageData changes
+    if (pageData.length > 0) {
+      setHeaders(Object.keys(pageData[0]));
+    }
+  }, [page, data, pageData]);
+  const [selectedType, setSelectedType] = useState('');
+  const [defaultData, setDefaultData] = useState('');
+  const [columnname, setcolumnname] = useState('');
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+  };
+  const handleSetcolumn = (event) => {
+    setcolumnname(event.target.value);
+  };
+
+  const handleDefaultDataChange = (event) => {
+  if(selectedType!="checkbox"){
+console.log(event.target.value)
+   return setDefaultData(event.target.value);
+  }
+  console.log(event.target.checked)
+  return setDefaultData(event.target.checked);
 
 
+  };
+  const handleSetColumnToDelete=(e)=>{
+return setdeletecolomunname(e.target.value)
+  }
+  const handleAddColumn = () => {
+    
+    // Perform validation checks before proceeding
+    if (!selectedType || !defaultData) {
+      console.log({
+        newFielddata:{
+          columnname:defaultData
+        }
+      })
+      return;
+    }
+    console.log({
+      newFielddata: {
+        [columnname]: defaultData,
+      }
+    });
+    mutation.mutate({
+      newFielddata: {
+        [columnname]: defaultData,
+      }
+    });
+    setSelectedType('');
+    setDefaultData('');
+  };
+ 
   return (
     
     
@@ -178,15 +306,20 @@ export function DataTable() {
                   <thead className='border-b font-medium dark:border-neutral-500'>
                     <tr>
                       {headers.map((header) => (
-                        <th key={header} className='p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
+                        <th key={header} onClick={()=>handleDeletecolomun(header)} className='p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
                         <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-{header}</p>
+{header}</p> 
                         </th>
                       ))}
-                      <th className=' w-[140px] px-5 flex-row'>   <img src={addicon} width="20px" className=' bg-blue-900' alt="" /> 
+                      <th className=' w-[140px] px-5 flex-row' onClick={()=>setAddColomunPopup(true)}>   <img src={addicon} width="20px" className=' bg-blue-900' alt="" /> 
                       <p>Add column</p>
 
                 </th>
+                <th className=' p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center' onClick={()=>setdeletecolomonPopup(true)}>  
+                      <p>Delete column</p>
+
+                </th>
+                
                     </tr>
                   </thead>
                   <tbody className=' '>
@@ -279,7 +412,102 @@ export function DataTable() {
               </div>
             </div>
           </div>
-          
+          {addcolomonPOPup&&
+          <div  className=' absolute   w-full h-full flex items-center justify-center z-20 bg-zinc-900  backdrop-blur-sm bg-opacity-15'>
+            <div className="absolute  w-full h-full  z-20 bg-zinc-900 bg-opacity-50 backdrop-blur-sm"    ref={externalComponentRef}></div>
+    
+            {mutation.isPending?<div className='z-30 w-[400px] h-[400px] bg-white flex flex-col'>Loading</div>:
+            <div className=' z-30 w-[400px] h-[400px] bg-white flex flex-col' >
+              <div className=' w-full h-[40px] items-center flex justify-center '>
+                <p className=' text-black font-bold   text-[20px] text-center'>ADD New column</p>
+               
+              </div>
+              <div className=' w-full  h-full  flex flex-col items-center justify-center'>
+                <div className=' w-[90%] h-[90%] '>
+                
+                <div class="w-72 my-5">
+  <div class="relative h-10 w-full min-w-[200px] ">
+    <input onChange={(e)=>handleSetcolumn(e)} type="email" placeholder="Colomun name"
+      class="peer h-full w-full rounded-[7px]  !border  !border-gray-300 border-t-transparent bg-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700  shadow-lg shadow-gray-900/5 outline outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2  focus:!border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 focus:ring-gray-900/10 disabled:border-0 disabled:bg-blue-gray-50" />
+    <label
+      class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5  hidden h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"></label>
+  </div>
+</div>
+
+
+<label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select DataType</label>
+<select id="countries" value={selectedType} onChange={handleTypeChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[80%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+<option value='' disabled>Select...</option>
+            <option value='text'>text</option>
+            <option value='number'>number</option>
+            <option value='date'>Date</option>
+            <option value='checkbox'>boolian</option>
+</select>
+<div class="w-72 my-5 ">
+  <div class="relative h-10 w-full min-w-[200px] ">
+    <input   type={selectedType}
+            value={defaultData}
+            onChange={handleDefaultDataChange}
+            placeholder={`Enter data for ${selectedType}`}
+      class="peer h-full  rounded-[7px]    !border  !border-gray-300 border-t-transparent bg-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700  shadow-lg shadow-gray-900/5 outline outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2  focus:!border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 focus:ring-gray-900/10 disabled:border-0 disabled:bg-blue-gray-50" />
+    <label
+      class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5  hidden h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"></label>
+  </div>
+</div>
+
+                </div>
+                <button type="button" onClick={()=>handleAddColumn()}  class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Cyan</button>
+
+              
+           
+              
+                
+         
+                </div>
+              
+            </div>}
+          </div>
+}
+{deletecolomunPOPup && (
+  <div className='absolute w-full h-full flex items-center justify-center z-20 bg-zinc-900 backdrop-blur-sm bg-opacity-15'>
+    <div className="absolute w-full h-full z-20 bg-zinc-900 bg-opacity-50 backdrop-blur-sm" ref={externalComponentRef}></div>
+
+    {mutation.isPending ? (
+      <div className='z-30 w-[400px] h-[400px] bg-white flex flex-col'>Loading</div>
+    ) : (
+      <div className='z-30 w-[400px] h-[400px] bg-white flex flex-col'>
+        <div className='w-full h-[40px] items-center flex justify-center'>
+          <p className='text-black font-bold text-[20px] text-center'>Delete Column</p>
+        </div>
+        <div className='w-full h-full flex flex-col items-center justify-center'>
+          <div className='w-[90%] h-[90%]'>
+            <div class="w-72 my-5">
+              <div class="relative h-10 w-full min-w-[200px]">
+                <input
+                  onChange={(e) => handleSetColumnToDelete(e)}
+                  type="text"
+                  placeholder="Column name to delete"
+                  class="peer h-full w-full rounded-[7px] !border !border-gray-300 border-t-transparent bg-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 shadow-lg shadow-gray-900/5 outline outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:!border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 focus:ring-gray-900/10 disabled:border-0 disabled:bg-blue-gray-50"
+                />
+                <label
+                  class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 hidden h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
+                ></label>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleDeletecolomun(deletecolumonname)}
+              class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
         </div>
 
 
