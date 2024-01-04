@@ -1,10 +1,10 @@
 import React from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation, Navigate } from "react-router-dom";
 import Login from './Login';
 import { DataTable } from './DataTable';
 import { AddData } from './AddData';
 import YourComponent from './hopePage';
-import { RequireAuth } from 'react-auth-kit';
+import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
 import { Details } from "./Details";
 function App() {
@@ -15,6 +15,22 @@ function App() {
 
   // Render the header only if it's not the login page
   const renderHeader = !isLoginPage &&   <Header/>;
+  const PrivateRoute = ({ children, loginPath }) => {
+    const isAuthenticated = useIsAuthenticated();
+    const location = useLocation();
+
+    if (isAuthenticated()) {
+      return children;
+    }
+
+    return <Navigate
+      to={loginPath}
+      state={{from: location}}
+      replace
+    />;
+  };
+  
+
 
   return (
     <div className='w-screen h-screen'>
@@ -23,18 +39,18 @@ function App() {
       <Routes>
       
         <Route exact path="/login" element={<Login />} />
-        <Route path="/AdminHome" element={<RequireAuth loginPath='/login'>
+        <Route path="/AdminHome" element={<PrivateRoute loginPath='/login'>
           <YourComponent />
-        </RequireAuth>} />
-        <Route exact path="/" element={<RequireAuth loginPath={'/login'}>
+        </PrivateRoute>} />
+        <Route exact path="/" element={<PrivateRoute loginPath={'/login'}>
           <DataTable />
-        </RequireAuth>} />
-        <Route path="/AddData" element={<RequireAuth loginPath={'/login'}>
+        </PrivateRoute>} />
+        <Route path="/AddData" element={<PrivateRoute loginPath={'/login'}>
           <AddData />
-        </RequireAuth>} />
- <Route path="/detail" element={<RequireAuth loginPath={'/login'}>
+        </PrivateRoute>} />
+ <Route path="/detail" element={<PrivateRoute loginPath={'/login'}>
           <Details />
-        </RequireAuth>} />
+        </PrivateRoute>} />
       </Routes>
     </div>
   );
