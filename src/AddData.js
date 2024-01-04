@@ -7,6 +7,8 @@ import SucessPopup from './SucessPopup';
 import {useAuthHeader} from 'react-auth-kit';
 
 export function AddData() {
+
+  const authHeader = useAuthHeader()
   const datasets = [
     { header: 'Location', type: 'string', required: true },
     { header: 'Zetacode', type: 'number', required: true, unique: true },
