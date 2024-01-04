@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
+import {useAuthHeader} from 'react-auth-kit';
 
 export function AddData() {
   const datasets = [
