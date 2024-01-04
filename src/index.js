@@ -30,7 +30,7 @@ root.render(
   <AuthProvider authType = {'localstorage'}
                   authName={'Authorization'}
                   cookieDomain={window.location.hostname}
-                  cookieSecure={false}>
+                  cookieSecure={true}>
   <QueryClientProvider client={queryClient}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
