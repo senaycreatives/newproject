@@ -24,14 +24,15 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+console.log(res)
       if (res.ok) {
         const data = await res.json();
+       
         signIn(
           {
               token: data.token,
               expiresIn: 36000,
-              tokenType: '',
+              tokenType: 'Jwt',
 
               
               
@@ -41,15 +42,16 @@ const Login = () => {
           }
       )
       
-
+      console.error("Error during sign-in:");
         // Store the token in localSto
         navigate('/')
+        console.log(res)
 
       
       } 
     } catch (e) {
       console.error("Error during sign-in:", e);
-      seterror(error.response.me)
+      seterror(error)
     }
   };
   
