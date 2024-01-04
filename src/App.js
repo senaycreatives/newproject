@@ -6,7 +6,7 @@ import { AddData } from './AddData';
 import YourComponent from './hopePage';
 import { RequireAuth } from 'react-auth-kit';
 import Header from "./Header";
-
+import Details from "./Details";
 function App() {
   const navigate = useNavigate();
 
@@ -31,6 +31,9 @@ function App() {
         </RequireAuth>} />
         <Route path="/AddData" element={<RequireAuth loginPath={'/login'}>
           <AddData />
+        </RequireAuth>} />
+ <Route path="/detail" element={<RequireAuth loginPath={'/login'}>
+          <Details />
         </RequireAuth>} />
       </Routes>
     </div>
