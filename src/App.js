@@ -6,7 +6,7 @@ import { AddData } from './AddData';
 import YourComponent from './hopePage';
 import { RequireAuth } from 'react-auth-kit';
 import Header from "./Header";
-import Details from "./Details";
+import { Details } from "./Details";
 function App() {
   const navigate = useNavigate();
 
