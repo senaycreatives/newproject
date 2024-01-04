@@ -53,7 +53,7 @@ export function Details() {
   })
   
   return (
-    <Layout>
+  
       <div className='w-full relative h-screen flex items-center justify-center overflow-hidden'>
       {mutation.isPending && (
         <div className=' z-10  absolute top-10  flex  items-center justify-center w-full h-full'>
@@ -194,6 +194,6 @@ export function Details() {
           </div>
         </div>
       </div>
-    </Layout>
+
   );
 }

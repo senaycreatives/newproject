@@ -33,7 +33,7 @@ function App() {
 
 
   return (
-    <div className='w-screen h-screen'>
+    <div className='w-screen h-screen overflow-hidden'>
       {renderHeader}
 
       <Routes>
@@ -48,7 +48,7 @@ function App() {
         <Route path="/AddData" element={<PrivateRoute loginPath={'/login'}>
           <AddData />
         </PrivateRoute>} />
- <Route path="/detail" element={<PrivateRoute loginPath={'/login'}>
+ <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
           <Details />
         </PrivateRoute>} />
       </Routes>

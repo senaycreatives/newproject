@@ -29,6 +29,57 @@ export function DataTable() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [sucess, setSucess] = useState(null);
   const externalComponentRef = useRef();
+  const initialDatasets = [
+    { header: 'Location', type: 'string', required: true },
+    { header: 'Zetacode', type: 'number', required: true, unique: true },
+    { header: 'Room', type: 'string', required: true },
+    { header: 'HelpDeskReference', type: 'string', required: true },
+    { header: 'IPS', type: 'boolean', required: true },
+    { header: 'Fault', type: 'string' },
+    { header: 'Date', type: 'date', required: true },
+  
+    { header: 'HotTemperature', type: 'number' },
+    { header: 'HotFlow', type: 'number' },
+    { header: 'HotReturn', type: 'number' },
+    { header: 'ColdTemperature', type: 'number' },
+    { header: 'ColdFlow', type: 'number' },
+    { header: 'ColdReturn', type: 'number' },
+    { header: 'HotFlushTemperature', type: 'number' },
+    { header: 'TapNotSet', type: 'boolean' },
+    { header: 'ColdFlushTemperature', type: 'number' },
+    { header: 'TMVFail', type: 'boolean' },
+    { header: 'PreflushSampleTaken', type: 'boolean' },
+    { header: 'PostflushSampleTaken', type: 'boolean' },
+    { header: 'ThermalFlush', type: 'string' },
+  ];
+
+  const [datasets, setDatasets] = useState(initialDatasets);
+
+
+  useEffect(() => {
+    if (data && data?.data) {
+      console.log('entered')
+      const fetchedKeys = data?.data[0] ? Object.keys(data?.data[0]) : [];
+      const missingKeys = fetchedKeys.filter((key) => !datasets.some((dataset) => dataset.header === key));
+  
+      if (missingKeys.length > 0) {
+        // Add missing keys to datasets with their types
+        const newDatasets = [
+          ...datasets,
+          ...missingKeys.map((key) => {
+            const valueType = typeof data?.data[0][key];
+            return {
+              header: key,
+              type: valueType === 'boolean' ? 'boolean' : valueType === 'number' ? 'number' : valueType === 'object' && data?.data[0][key] instanceof Date ? 'date' : 'string',
+              required: false,
+            };
+          }),
+        ];
+        console.log(newDatasets)
+        setDatasets(newDatasets);
+      }
+    }
+  }, [data]);
   
   useEffect(() => {
     const handleClick = () => {
@@ -58,7 +109,7 @@ export function DataTable() {
   const mutation = useMutation({
     mutationFn: (data) => {
   return axios.put('https://gentle-puce-angler.cyclic.app/updatedataTable', data, {
-    headers: { Authorization: authHeader() },
+    dataset: { Authorization: authHeader() },
   });
 },
 
@@ -138,7 +189,7 @@ export function DataTable() {
     try {
       const res = await axios.delete('https://gentle-puce-angler.cyclic.app/deletedata', {
         data: { zetacode },
-      });
+      headers: {Authorization:authHeader()}});
       console.log(res)
       
       refetch();
@@ -200,12 +251,12 @@ export function DataTable() {
   };
 
 
-  const [headers,setHeaders]=useState([])
+  const [dataset,setdataset]=useState([])
   useEffect(() => {
-    changepagedata();
-    // Dynamically set headers when pageData changes
+   
+    // Dynamically set dataset when pageData changes
     if (pageData.length > 0) {
-      setHeaders(Object.keys(pageData[0]));
+      setdataset(Object.keys(pageData[0]));
     }
   }, [page, data, pageData]);
   const [selectedType, setSelectedType] = useState('');
@@ -305,8 +356,8 @@ return setdeletecolomunname(e.target.value)
                 <table className=' text-left text-sm font-light'>
                   <thead className='border-b font-medium dark:border-neutral-500'>
                     <tr>
-                      {headers.map((header) => (
-                        <th key={header} onClick={()=>handleDeletecolomun(header)} className='p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
+                      {datasets.map(({ header, type }) => (
+                        <th key={header}  className='p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center'>
                         <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
 {header}</p> 
                         </th>
@@ -325,7 +376,7 @@ return setdeletecolomunname(e.target.value)
                   <tbody className=' '>
             {searchData ? (
               <tr>
-                {headers.map((header) => (
+                {dataset.map(({ header, type }) => (
                   <td key={header}>{searchData.data[header]}</td>
                 ))}
               <td>
@@ -336,7 +387,7 @@ return setdeletecolomunname(e.target.value)
             ) : (
               pageData?.map((row) => (
                 <tr className='even:bg-zinc-100' key={row.Zetacode}>
-                  {headers.map((header) => (
+                  {datasets.map(({ header, type }) => (
                     <td key={header} className="p-4  border-b border-blue-gray-50 text-center" >
                     {typeof row[header] === 'boolean' ? row[header].toString() : row[header]}
                   </td>
