@@ -30,6 +30,7 @@ export function DataTable() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [sucess, setSucess] = useState(null);
   const [exporttype,setexporttype]=useState('csv')
+  const [importpopup,setimportpopup]=useState(false)
   const externalComponentRef = useRef();
   const initialDatasets = [
     { header: 'Location', type: 'string', required: true },
@@ -54,9 +55,32 @@ export function DataTable() {
     { header: 'PostflushSampleTaken', type: 'boolean' },
     { header: 'ThermalFlush', type: 'string' },
   ];
-
+  const [selectedFile, setSelectedFile] = useState(null);
   const [datasets, setDatasets] = useState(initialDatasets);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
+   
+  };
+
+  const uploadFile = async () => {
+    if (!selectedFile) {
+      // Handle the case where no file is selected
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+       return await axios.post('https://gentle-puce-angler.cyclic.app/importcsv', formData, {
+        headers: { 'Content-Type': 'multipart/form-data', 
+        Authorization:authHeader()},
+      });
+
+    
+  
+  };
 
   useEffect(() => {
     if (data && data?.data) {
@@ -82,11 +106,37 @@ export function DataTable() {
       }
     }
   }, [data]);
+  const { mutate:uploadfile } = useMutation({
+    mutationFn: uploadFile,
+
+    mutationKey: 'importData',
+    onSuccess: () => {
+     setSucess('Data Imported successfully');
+     setimportpopup(false)
+      setTimeout(() => {
+        setSucess(null);
+      }, 5000); // Hide success message after 5 seconds
+    },
+    onError: (error) => {
+      setError("Error Occurr while adding");
+      setimportpopup(false)
+      setTimeout(() => {
+        setError(null);
+      }, 5000); // Hide error message after 5 seconds
+    },
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Trigger the uploadFile function using the useMutation hook
+    uploadfile();
+  };
   
   useEffect(() => {
     const handleClick = () => {
       // Handle the click event here
       setAddColomunPopup(false)
+      setimportpopup(false)
     
     };
   
@@ -358,7 +408,7 @@ return setdeletecolomunname(e.target.value)
         </div>  )}
           <div className='w-full  flex flex-row  h-[60px] items-center   justify-between '>
             <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
-            <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <button type="button" onClick={()=>setimportpopup(true)} class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             <img src={importicon} className=' w-4 h-4 mx-1'/>
 Import
 </button>
@@ -609,6 +659,33 @@ Export
     )}
   </div>
 )}
+{
+  importpopup && (
+    <div className='absolute w-full h-full flex items-center justify-center z-20 bg-zinc-900 backdrop-blur-sm bg-opacity-15'>
+      <div className="absolute w-full h-full z-20 bg-zinc-900 bg-opacity-50 backdrop-blur-sm" ref={externalComponentRef}></div>
+  
+      {mutation.isPending ? (
+        <div className='z-30 w-[400px] h-[400px] bg-white flex flex-col'>Loading</div>
+      ) : (
+        <div className='z-30 w-[400px] rounded-md justify-between h-[200px] bg-white flex flex-col'>
+          <div className='w-full h-[40px] items-center flex justify-center'>
+            <p className='text-black font-bold text-[20px] text-center'>Import Csv File</p>
+          </div>
+          <div className='w-full h-[70%] flex flex-col items-center justify-center'>
+           
+
+   
+<input  onChange={handleFileChange} class="block w-[90%] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file"/>
+<button type="button" onClick={handleSubmit} class="px-3 mt-[20px] mx-2 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
+<img src={importicon} className=' w-4 h-4 mx-1'/>
+Import
+</button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
         </div>
 
