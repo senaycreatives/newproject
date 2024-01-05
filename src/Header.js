@@ -9,10 +9,13 @@ import editIcon from "./Image/Icon/Type=Edit.svg";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Resetpage from "./resetPasswordPage";
 import { useSignOut } from "react-auth-kit";
+import DropDownProfile from "./DropDownProfile";
 
 const Header = ({ children }) => {
   const signOut = useSignOut()
   const navigate = useNavigate();
+  const [openProfile, setOpenProfile] = useState(false);
+
 
   return (
     <nav className="flex h-[70px] justify-between bg-gray-100 text-white w-screen">
@@ -22,7 +25,7 @@ const Header = ({ children }) => {
         </Link>
 
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-          <li><Link to="#" className="hover:text-gray-200">Home</Link></li>
+          <li><Link to="/" className="hover:text-gray-200">Home</Link></li>
           <li><Link to="AddData" className="hover:text-gray-200">Add Data</Link></li>
           <li><Link to="#" className="hover:text-gray-200">import csv</Link></li>
           <li><Link to="#" className="hover:text-gray-200">Account</Link></li>
@@ -35,6 +38,11 @@ const Header = ({ children }) => {
             </svg>
           </Link>
         </div>
+        {
+              openProfile && <DropDownProfile /> 
+              
+            }
+            
       </div>
 
       <Link to="#" className="xl:hidden flex mr-6 items-center">

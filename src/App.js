@@ -7,6 +7,8 @@ import YourComponent from './hopePage';
 import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
 import { Details } from "./Details";
+import Resetpage from "./resetPasswordPage";
+
 function App() {
   const navigate = useNavigate();
 
@@ -51,6 +53,9 @@ function App() {
  <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
           <Details />
         </PrivateRoute>} />
+        <Route path="/ResetPassword" element={<PrivateRoute loginPath={'/login'}>
+          <Resetpage />
+          </PrivateRoute>} />
       </Routes>
     </div>
   );

@@ -25,7 +25,7 @@ const CenteredContainer = styled(Container)(({ theme }) => ({
   margin: "auto",
   alignItems: "center",
   flexGrow: 1, // Allow the container to grow and fill the available space
-  border: "1px solid #ccc", // Add the border style
+  // border: "1px solid #ccc", // Add the border style
   borderRadius: "4px", // Add the border radius
 }));
 
@@ -90,7 +90,7 @@ export default function Resetpage() {
 
   return (
     <div>
-      <Header/>
+      {/* <Header/> */}
       <Layout>
       <div style={{ paddingTop: "140px", marginBottom: "120px" }}>
         <CenteredContainer component="main" maxWidth="xs">
@@ -116,6 +116,9 @@ export default function Resetpage() {
             />
             <FormHelperText error>{error.email}</FormHelperText>
             <TextField
+              margin="normal"
+              required
+              fullWidth
               type={showPassword ? "text" : "password"}
               label="Password"
               variant="outlined"
