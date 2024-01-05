@@ -6,7 +6,8 @@ import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
 import addicon from './Image/Icon/Type=Add.svg'
-import Header from './Header';
+import importicon from './Image/Icon/import.png';
+import Exporticon from './Image/Icon/export.png';
 import { useMutation } from '@tanstack/react-query';
 import {useAuthHeader} from 'react-auth-kit';
 
@@ -28,6 +29,7 @@ export function DataTable() {
   
   const [selectedRow, setSelectedRow] = useState(null);
   const [sucess, setSucess] = useState(null);
+  const [exporttype,setexporttype]=useState('csv')
   const externalComponentRef = useRef();
   const initialDatasets = [
     { header: 'Location', type: 'string', required: true },
@@ -265,6 +267,9 @@ export function DataTable() {
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
   };
+  const handelExporttypechange=(event) => {
+    setexporttype(event.target.value);
+  };
   const handleSetcolumn = (event) => {
     setcolumnname(event.target.value);
   };
@@ -306,6 +311,36 @@ return setdeletecolomunname(e.target.value)
     setSelectedType('');
     setDefaultData('');
   };
+  const handelExport = async (type) => {
+    try {
+      const res = await axios.get(`https://gentle-puce-angler.cyclic.app/${type === 'excel' ? 'generateExcel' : 'generateCSV'}`, {
+        headers: { Authorization: authHeader() },
+        responseType: 'blob', // Set the response type to blob for file download
+      });
+  
+      // Create a blob from the response data
+      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+  
+      // Create a link element to trigger the download
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `exported.${type}`;
+      
+      // Append the link to the body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
+  
+      // Remove the link element
+      document.body.removeChild(link);
+    } catch (error) {
+      setError('Something went wrong. Please try again.');
+  
+      setTimeout(() => {
+        setError(null); // Clear error after 5 seconds
+      }, 1000);
+    }
+  };
+  
  
   return (
     
@@ -321,14 +356,30 @@ return setdeletecolomunname(e.target.value)
           
             <SucessPopup message={sucess}/>
         </div>  )}
-          <div className='w-full flex items-center justify-end '>
-             <div className='mt-3 w-[400px] flex flex-row'>
+          <div className='w-full  flex flex-row  h-[60px] items-center   justify-between '>
+            <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <img src={importicon} className=' w-4 h-4 mx-1'/>
+Import
+</button>
+<button type="button" onClick={()=>handelExport(exporttype)} class="px-3 mx-2 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
+<img src={Exporticon} className=' w-4 h-4 mx-1'/>
+Export
+</button>
+<select id="countries" value={exporttype} onChange={handelExporttypechange} class="bg-gray-50 border border-gray-300 w-[150px] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+<option value='' disabled>Export Type</option>
+            <option value='csv'>csv</option>
+            <option value='excel'>excel</option>
+           
+</select>
+            </div>
+             <div className=' w-[500px]   items-center justify-center flex h-full flex-row  '>
               {isLoading && (
                 <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                   <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
                 </div>
               )}
-              <div className=' mb-4 flex w-full flex-wrap items-stretch'>
+              <div className='  flex w-full  flex-wrap flex-row items-center justify-center '>
                 <input
                   type='search'
                   className=' m-0 block min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary'
