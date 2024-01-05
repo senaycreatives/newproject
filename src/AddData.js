@@ -7,64 +7,58 @@ import SucessPopup from './SucessPopup';
 import { useAuthHeader } from 'react-auth-kit';
 import UseFetchData from './hooks/UseFetchData';
 
+const initialDatasets = [
+  { header: 'Location', type: 'string', required: true },
+  { header: 'Zetacode', type: 'number', required: true, unique: true },
+  { header: 'Room', type: 'string', required: true },
+  { header: 'HelpDeskReference', type: 'string', required: true },
+  { header: 'IPS', type: 'boolean', required: true },
+  { header: 'Fault', type: 'string' },
+  { header: 'Date', type: 'date', required: true },
+  { header: 'HotTemperature', type: 'number' },
+  { header: 'HotFlow', type: 'number' },
+  { header: 'HotReturn', type: 'number' },
+  { header: 'ColdTemperature', type: 'number' },
+  { header: 'ColdFlow', type: 'number' },
+  { header: 'ColdReturn', type: 'number' },
+  { header: 'HotFlushTemperature', type: 'number' },
+  { header: 'TapNotSet', type: 'boolean' },
+  { header: 'ColdFlushTemperature', type: 'number' },
+  { header: 'TMVFail', type: 'boolean' },
+  { header: 'PreflushSampleTaken', type: 'boolean' },
+  { header: 'PostflushSampleTaken', type: 'boolean' },
+  { header: 'ThermalFlush', type: 'string' },
+];
+
 export function AddData() {
   const { data: fetchedData, refetch } = UseFetchData();
-
-
   const authHeader = useAuthHeader();
-  const initialDatasets = [
-    { header: 'Location', type: 'string', required: true },
-    { header: 'Zetacode', type: 'number', required: true, unique: true },
-    { header: 'Room', type: 'string', required: true },
-    { header: 'HelpDeskReference', type: 'string', required: true },
-    { header: 'IPS', type: 'boolean', required: true },
-    { header: 'Fault', type: 'string' },
-    { header: 'Date', type: 'date', required: true },
-  
-    { header: 'HotTemperature', type: 'number' },
-    { header: 'HotFlow', type: 'number' },
-    { header: 'HotReturn', type: 'number' },
-    { header: 'ColdTemperature', type: 'number' },
-    { header: 'ColdFlow', type: 'number' },
-    { header: 'ColdReturn', type: 'number' },
-    { header: 'HotFlushTemperature', type: 'number' },
-    { header: 'TapNotSet', type: 'boolean' },
-    { header: 'ColdFlushTemperature', type: 'number' },
-    { header: 'TMVFail', type: 'boolean' },
-    { header: 'PreflushSampleTaken', type: 'boolean' },
-    { header: 'PostflushSampleTaken', type: 'boolean' },
-    { header: 'ThermalFlush', type: 'string' },
-  ];
-
   const [datasets, setDatasets] = useState(initialDatasets);
   const [formData, setFormData] = useState({});
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
- useEffect(() => {
-  if (fetchedData && fetchedData?.data) {
-    console.log('entered')
-    const fetchedKeys = fetchedData?.data[0] ? Object.keys(fetchedData?.data[0]) : [];
-    const missingKeys = fetchedKeys.filter((key) => !datasets.some((dataset) => dataset.header === key));
+  useEffect(() => {
+    if (fetchedData && fetchedData?.data) {
+      const fetchedKeys = fetchedData?.data[0] ? Object.keys(fetchedData?.data[0]) : [];
+      const missingKeys = fetchedKeys.filter((key) => !datasets.some((dataset) => dataset.header === key));
 
-    if (missingKeys.length > 0) {
-      // Add missing keys to datasets with their types
-      const newDatasets = [
-        ...datasets,
-        ...missingKeys.map((key) => {
-          const valueType = typeof fetchedData?.data[0][key];
-          return {
-            header: key,
-            type: valueType === 'boolean' ? 'boolean' : valueType === 'number' ? 'number' : valueType === 'object' && fetchedData?.data[0][key] instanceof Date ? 'date' : 'string',
-            required: false,
-          };
-        }),
-      ];
-      setDatasets(newDatasets);
+      if (missingKeys.length > 0) {
+        const newDatasets = [
+          ...datasets,
+          ...missingKeys.map((key) => {
+            const valueType = typeof fetchedData?.data[0][key];
+            return {
+              header: key,
+              type: valueType === 'boolean' ? 'boolean' : valueType === 'number' ? 'number' : valueType === 'object' && fetchedData?.data[0][key] instanceof Date ? 'date' : 'string',
+              required: false,
+            };
+          }),
+        ];
+        setDatasets(newDatasets);
+      }
     }
-  }
-}, [fetchedData]);
-
+  }, [fetchedData]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -85,15 +79,14 @@ export function AddData() {
       setSuccessMessage('Added successfully');
       setTimeout(() => {
         setSuccessMessage(null);
-      }, 5000); // Hide success message after 5 seconds
-      // Refetch data after successful addition
+      }, 5000);
       refetch();
     },
     onError: (error) => {
       setErrorMessage(error);
       setTimeout(() => {
         setErrorMessage(null);
-      }, 5000); // Hide error message after 5 seconds
+      }, 5000);
     },
   });
 
@@ -104,8 +97,6 @@ export function AddData() {
 
   return (
     <div className="w-full overflow-hidden relative h-[90%] flex items-center justify-center">
-      {/* Your loading spinner code here... */}
-
       <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
         {errorMessage && (
           <div className="top-0 sm:right-0 sm:left-0 sm:w-[500px] w-[90%] h-[200px] absolute z-10">
@@ -117,8 +108,6 @@ export function AddData() {
             <SucessPopup message={successMessage} />
           </div>
         )}
-        {/* Your header and back button code here... */}
-
         <div className="flex w-[90%] sm:h-[90%] relative pt-[30px] items-center justify-center">
           <form className="w-full h-full flex-wrap flex flex-col" onSubmit={handleSubmit}>
             {datasets.map(({ header, type }) => (
@@ -163,4 +152,3 @@ export function AddData() {
     </div>
   );
 }
-

@@ -10,6 +10,7 @@ import importicon from './Image/Icon/import.png';
 import Exporticon from './Image/Icon/export.png';
 import { useMutation } from '@tanstack/react-query';
 import {useAuthHeader} from 'react-auth-kit';
+import { Link } from 'react-router-dom';
 
 export function DataTable() {
   const { data, refetch } = UseFetchData();
@@ -494,11 +495,12 @@ Export
                   </td>
                   ))}
                   <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
-                            <div
-                              onClick={() => handlePageChange(row.Zetacode)}
+                           
+                           <Link to={`/detail/${row.Zetacode}`}
+                            
                               className='w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md'>
                               <p className='text-white hover:cursor-pointer'>Update</p>
-                            </div>
+                            </Link>
                           </td>
                           <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
                             <div
@@ -509,6 +511,7 @@ Export
                           </td>
                          
                 </tr>
+            
               ))
             )}
              {

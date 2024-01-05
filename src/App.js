@@ -6,7 +6,7 @@ import { AddData } from './AddData';
 import YourComponent from './hopePage';
 import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
-import { Details } from "./Details";
+import  {EditData} from "./EditData";
 import Resetpage from "./resetPasswordPage";
 
 function App() {
@@ -51,7 +51,7 @@ function App() {
           <AddData />
         </PrivateRoute>} />
  <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
-          <Details />
+       <EditData />
         </PrivateRoute>} />
         <Route path="/ResetPassword" element={<PrivateRoute loginPath={'/login'}>
           <Resetpage />

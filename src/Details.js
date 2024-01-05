@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 export function Details() {
-  const { data: searchData, refetch: refetchSearch, isLoading, isError: searchError } = UseFetchIndividualData(2323);
+  const { data: searchData, refetch: refetchSearch, isLoading, isError: searchError } = UseFetchIndividualData(332);
 
   // State variables for input values
   const [zetacode, setZetacode] = useState('');
