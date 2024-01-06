@@ -5,7 +5,9 @@ import axios from 'axios';
 import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
-import addicon from './Image/Icon/column.png'
+import addicon from './Image/Icon/column.png';
+import deleteicon from './Image/Icon/delete-column.png';
+
 import importicon from './Image/Icon/import.png';
 import Exporticon from './Image/Icon/export.png';
 import { useMutation } from '@tanstack/react-query';
@@ -465,12 +467,12 @@ Export
                         </th>
                       ))}
                       <div className=' w-[300px] flex flex-row '>
-                      <div className=' w-[140px] px-5 flex-row items-center' onClick={()=>setAddColomunPopup(true)}>   <img src={addicon} width="20px" className=' ' alt="" /> 
+                      <div className='  cursor-pointer hover:bg-slate-100 w-[140px] px-5 flex-row items-center' onClick={()=>setAddColomunPopup(true)}>   <img src={addicon} width="20px" className=' ' alt="" /> 
                       <p>Add column</p>
 
                 </div>
-                <div className=' items-center  p-1 border-b flex flex-row border-blue-gray-100 bg-blue-gray-50 text-center' onClick={()=>setdeletecolomonPopup(true)}>  
-                <img src={addicon} width="20px" className=' ' alt="" /> 
+                <div className='cursor-pointer hover:bg-slate-100 items-center  p-1 border-b flex flex-row border-blue-gray-100 bg-blue-gray-50 text-center' onClick={()=>setdeletecolomonPopup(true)}>  
+                <img src={deleteicon} width="20px" className=' ' alt="" /> 
                         <p>Delete column</p>
 
                 </div>
@@ -497,7 +499,8 @@ Export
                     {typeof row[header] === 'boolean' ? row[header].toString() : row[header]}
                   </td>
                   ))}
-                  <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
+                  <div className=' flex-row w-[300px] '>
+                  <td className=' w-[140px] flex items-center justify-center py-4 text-blue-400 '>
                            
                            <Link to={`/detail/${row.Zetacode}`}
                             
@@ -505,13 +508,15 @@ Export
                               <p className='text-white hover:cursor-pointer'>Update</p>
                             </Link>
                           </td>
-                          <td className='whitespace-nowrap px-6 py-4 text-blue-400'>
+                          <td className=' w-[140px] flex items-center justify-center py-4 text-blue-400 '>
                             <div
                               onClick={() => handleDelete(row.Zetacode)}
                               className='w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md'>
                               <p className='text-white hover:cursor-pointer'>Delete</p>
                             </div>
                           </td>
+                  </div>
+                
                          
                 </tr>
             
