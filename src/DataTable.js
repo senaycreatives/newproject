@@ -482,15 +482,33 @@ Export
                   </thead>
                   <tbody className=' '>
             {searchData ? (
-              <tr>
-                {dataset.map(({ header, type }) => (
-                  <td key={header}>{searchData.data[header]}</td>
-                ))}
-              <td>
-                  <button onClick={() => handleShowDetails(searchData.data)}>See Details</button>
-                  <button onClick={() => handleDelete(searchData.data.Zetacode)}>Delete</button>
-                </td>
-              </tr>
+              
+              <tr className='even:bg-zinc-100' >
+                  {datasets.map(({ header, type }) => (
+                    <td key={header} className="p-4  border-b border-blue-gray-50 text-center" >
+                    {typeof searchData.data.data[header] === 'boolean' ? searchData.data.data[header].toString() : searchData.data.data[header]}
+                  </td>
+                  ))}
+                  <div className=' flex-row w-[300px] '>
+                  <td className=' w-[140px] flex items-center justify-center py-4 text-blue-400 '>
+                           
+                           <Link to={`/detail/${searchData.data.data.Zetacode}`}
+                            
+                              className='w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md'>
+                              <p className='text-white hover:cursor-pointer'>Update</p>
+                            </Link>
+                          </td>
+                          <td className=' w-[140px] flex items-center justify-center py-4 text-blue-400 '>
+                            <div
+                              onClick={() => handleDelete(searchData.data.data.Zetacode)}
+                              className='w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md'>
+                              <p className='text-white hover:cursor-pointer'>Delete</p>
+                            </div>
+                          </td>
+                  </div>
+                
+                         
+                </tr>
             ) : (
               pageData?.map((row) => (
                 <tr className='even:bg-zinc-100' key={row.Zetacode}>
