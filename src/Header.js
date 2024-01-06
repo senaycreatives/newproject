@@ -26,8 +26,8 @@ const Header = ({ children }) => {
         <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
           <li><Link to="/" className="hover:text-gray-200">Home</Link></li>
           <li><Link to="AddData" className="hover:text-gray-200">Add Data</Link></li>
-          <li><Link to="#" className="hover:text-gray-200">import csv</Link></li>
-          <li><Link to="#" className="hover:text-gray-200">Account</Link></li>
+        
+          <li><Link to="/ResetPassword" className="hover:text-gray-200">Change password</Link></li>
         </ul>
         {/* top right icon and drop down menu */}
 
