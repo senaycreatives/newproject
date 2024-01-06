@@ -24,21 +24,25 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-console.log(res)
+
       if (res.ok) {
         const data = await res.json();
+        console.log(data)
        
         signIn(
           {
-              token: data.token,
-              expiresIn: 36000,
-              tokenType: 'Jwt',
+              token: data.accessToken,
+              expiresIn: data.expiresIn
+              ,
+              tokenType: data.tokenType,
 
               
               
-              authState: {authenticate: true},
-              // refreshToken: res.data.refreshToken,                    // Only if you are using refreshToken feature
-              // refreshTokenExpireIn: res.data.refreshTokenExpireIn     // Only if you are using refreshToken feature
+              authState: {authenticate: data.authUserState
+              },
+              refreshToken: data.refreshToken ,                    // Only if you are using refreshToken feature
+              refreshTokenExpireIn: data.refreshTokenExpireIn
+              // Only if you are using refreshToken feature
           }
       )
       

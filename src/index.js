@@ -23,6 +23,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { AuthProvider } from 'react-auth-kit'
+import refreshApi from "./RefreshApi";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
 root.render(
@@ -30,7 +31,8 @@ root.render(
     <AuthProvider authType = {'cookie'}
                   authName={'_auth'}
                   cookieDomain={window.location.hostname}
-                  cookieSecure={window.location.protocol === "https:"}>
+                  cookieSecure={window.location.protocol === "https:"}
+                  refresh={refreshApi}>
   <QueryClientProvider client={queryClient}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
