@@ -15,7 +15,7 @@ export default function UseFetchData() {
   
 
     const fetchData = async () => {
-        const res = await axios.get('https://gentle-puce-angler.cyclic.app/getdata',{ headers: {Authorization:authHeader()}});
+        const res = await axios.get('https://dark-gold-sea-urchin-slip.cyclic.app/getdata',{ headers: {Authorization:authHeader()}});
        
         return res;
       };

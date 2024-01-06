@@ -12,7 +12,7 @@ const refreshApi = createRefresh({
       authUserState
     }) => {
     try {
-      const response = await axios.post("https://gentle-puce-angler.cyclic.app/auth/refresh", {'refreshToken': refreshToken}, {
+      const response = await axios.post("https://dark-gold-sea-urchin-slip.cyclic.app/auth/refresh", {'refreshToken': refreshToken}, {
         headers: {'Authorization': `Jwt${authToken}`}}
       )
       console.log("now refreshing")

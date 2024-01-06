@@ -6,6 +6,8 @@ import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
 import { useAuthHeader } from 'react-auth-kit';
 import UseFetchData from './hooks/UseFetchData';
+import { useNavigate } from 'react-router-dom';
+import backicon from './Image/Icon/left-arrow.png'
 
 const initialDatasets = [
   { header: 'Location', type: 'string', required: true },
@@ -70,7 +72,7 @@ export function AddData() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axios.post('https://gentle-puce-angler.cyclic.app/adddata', data, {
+      return axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/adddata', data, {
         headers: { Authorization: authHeader() },
       });
     },
@@ -94,11 +96,21 @@ export function AddData() {
     e.preventDefault();
     mutation.mutate(formData);
   };
+  const navigate = useNavigate();
+  
 
   return (
     <div className="w-full overflow-hidden relative h-[90%] flex items-center justify-center">
       <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
-        {errorMessage && (
+       
+      <div className='  sm:w-[50%] w-[60%] h-[40px] mt-2  p-4 flex items-center  justify-between'>
+          <div onClick={() => navigate(-1)} className='w-[40px]  bg-slate-100 rounded-md flex items-center justify-center h-[40px] p-3'>
+
+            <img src={backicon} className='h-[20px] w-[20px]  '/>
+          </div>
+          <p className=' font-bold  text-lg'>Add Data</p></div>
+          
+           {errorMessage && (
           <div className="top-0 sm:right-0 sm:left-0 sm:w-[500px] w-[90%] h-[200px] absolute z-10">
             <Errorpopup message={errorMessage?.response?.data.message} />
           </div>

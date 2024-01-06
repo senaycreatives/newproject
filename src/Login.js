@@ -17,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const handleSignIn = async (username, password) => {
     try {
-      const res = await fetch("https://gentle-puce-angler.cyclic.app/auth/signin", {
+      const res = await fetch("https://dark-gold-sea-urchin-slip.cyclic.app/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

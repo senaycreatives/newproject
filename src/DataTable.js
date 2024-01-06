@@ -5,7 +5,7 @@ import axios from 'axios';
 import UseFetchIndividualData from './hooks/UseFetchIndividualData';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
-import addicon from './Image/Icon/Type=Add.svg'
+import addicon from './Image/Icon/column.png'
 import importicon from './Image/Icon/import.png';
 import Exporticon from './Image/Icon/export.png';
 import { useMutation } from '@tanstack/react-query';
@@ -74,7 +74,7 @@ export function DataTable() {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-       return await axios.post('https://gentle-puce-angler.cyclic.app/importcsv', formData, {
+       return await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/importcsv', formData, {
         headers: { 'Content-Type': 'multipart/form-data', 
         Authorization:authHeader()},
       });
@@ -161,7 +161,7 @@ export function DataTable() {
   }, [page, data]);
   const mutation = useMutation({
     mutationFn: (data) => {
-  return axios.put('https://gentle-puce-angler.cyclic.app/updatedataTable', data, {
+  return axios.put('https://dark-gold-sea-urchin-slip.cyclic.app/updatedataTable', data, {
     dataset: { Authorization: authHeader() },
   });
 },
@@ -240,7 +240,7 @@ export function DataTable() {
 
   const handleDelete = async (zetacode) => {
     try {
-      const res = await axios.delete('https://gentle-puce-angler.cyclic.app/deletedata', {
+      const res = await axios.delete('https://dark-gold-sea-urchin-slip.cyclic.app/deletedata', {
         data: { zetacode },
       headers: {Authorization:authHeader()}});
       console.log(res)
@@ -261,7 +261,7 @@ export function DataTable() {
   };
   const handleDeletecolomun = async (columname) => {
     try {
-      const res = await axios.delete(`https://gentle-puce-angler.cyclic.app/deleteColumn/${columname}`, {
+      const res = await axios.delete(`https://dark-gold-sea-urchin-slip.cyclic.app/deleteColumn/${columname}`, {
         data: { columname },
       });
       console.log(res)
@@ -364,7 +364,7 @@ return setdeletecolomunname(e.target.value)
   };
   const handelExport = async (type) => {
     try {
-      const res = await axios.get(`https://gentle-puce-angler.cyclic.app/${type === 'excel' ? 'generateExcel' : 'generateCSV'}`, {
+      const res = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/${type === 'excel' ? 'generateExcel' : 'generateCSV'}`, {
         headers: { Authorization: authHeader() },
         responseType: 'blob', // Set the response type to blob for file download
       });
@@ -464,14 +464,17 @@ Export
 {header}</p> 
                         </th>
                       ))}
-                      <th className=' w-[140px] px-5 flex-row' onClick={()=>setAddColomunPopup(true)}>   <img src={addicon} width="20px" className=' bg-blue-900' alt="" /> 
+                      <div className=' w-[300px] flex flex-row '>
+                      <div className=' w-[140px] px-5 flex-row items-center' onClick={()=>setAddColomunPopup(true)}>   <img src={addicon} width="20px" className=' ' alt="" /> 
                       <p>Add column</p>
 
-                </th>
-                <th className=' p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center' onClick={()=>setdeletecolomonPopup(true)}>  
-                      <p>Delete column</p>
+                </div>
+                <div className=' items-center  p-1 border-b flex flex-row border-blue-gray-100 bg-blue-gray-50 text-center' onClick={()=>setdeletecolomonPopup(true)}>  
+                <img src={addicon} width="20px" className=' ' alt="" /> 
+                        <p>Delete column</p>
 
-                </th>
+                </div>
+                </div>
                 
                     </tr>
                   </thead>

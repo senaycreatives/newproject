@@ -5,7 +5,10 @@ import { useMutation } from '@tanstack/react-query';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
 import {useAuthHeader} from 'react-auth-kit';
+import { useNavigate } from 'react-router-dom';
+
 import { useParams } from 'react-router-dom';
+import backicon from './Image/Icon/left-arrow.png'
 export function EditData() {
   
     const { zetacode } = useParams();
@@ -49,33 +52,37 @@ export function EditData() {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
+   
     if (fetchedData && fetchedData?.data) {
-      const fetchedKeys = fetchedData?.data[0] ? Object.keys(fetchedData?.data[0]) : [];
+      console.log(fetchedData)
+      const fetchedKeys = fetchedData?.data ? Object.keys(fetchedData?.data) : [];
       const missingKeys = fetchedKeys.filter((key) => !datasets.some((dataset) => dataset.header === key));
 
       if (missingKeys.length > 0) {
         const newDatasets = [
           ...datasets,
           ...missingKeys.map((key) => {
-            const valueType = typeof fetchedData?.data[0][key];
+            const valueType = typeof fetchedData?.data[key];
             return {
               header: key,
-              type: valueType === 'boolean' ? 'boolean' : valueType === 'number' ? 'number' : valueType === 'object' && fetchedData?.data[0][key] instanceof Date ? 'date' : 'string',
+              type: valueType === 'boolean' ? 'boolean' : valueType === 'number' ? 'number' : valueType === 'object' && fetchedData?.data[key] instanceof Date ? 'date' : 'string',
               required: false,
             };
           }),
         ];
-        console.log(newDatasets)
+        console.log("newDatasets");
         setDatasets(newDatasets);
       }
     }
-  }, [fetchedData,zetacode]);
+  }, [fetchedData]);
+  
 
   const mutation = useMutation({
     mutationFn: (data) => {
-  return axios.put('https://gentle-puce-angler.cyclic.app/updatedata',data, {
+  return axios.put('https://dark-gold-sea-urchin-slip.cyclic.app/updatedata',data, {
     headers: { Authorization: authHeader() },
   });
 },
@@ -98,10 +105,11 @@ export function EditData() {
     // Fetch data for the selected item based on the zetacode
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://gentle-puce-angler.cyclic.app/getsingledata/${zetacode}`, {
+        const response = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/getsingledata/${zetacode}`, {
             headers: { Authorization: authHeader() },
           });
           setfetchedData(response?.data)
+        
         setFormData(response.data?.data || {});
       } catch (error) {
         // Handle error
@@ -109,7 +117,7 @@ export function EditData() {
     };
 
     fetchData();
-  }, [zetacode,fetchedData]);
+  }, [zetacode]);
 
   const handleUpdate = (e) => {
     e.preventDefault()
@@ -129,7 +137,7 @@ if(formData){
           </div>
         )}
 
-        <div className="flex sm:relative sm:overflow-y-hidden flex-col  rounded-md bg-white sm:h-[80%]  mb-100 overflow-x-hidden w-[100%]">
+        <div className="flex sm:relative  sm:overflow-y-hidden flex-col  rounded-md  sm:h-[97%]  mb-[10px] overflow-x-hidden w-[100%]">
        
         {errorMessage && (
             <div className='top-0 sm:right-0  sm:left-0 sm:w-[500px] w-[90%] h-[200px] absolute z-10'>
@@ -142,12 +150,13 @@ if(formData){
           
             <SucessPopup message={successMessage}/>
         </div>  )}
-        <div className='  sm:w-[50%] w-[60%] h-[70px]  flex items-center  justify-between'>
-          <div className='w-[70px]   rounded-md flex items-center justify-center h-[30px]'>{'<'}back</div>
-          <p className=' font-bold  text-lg'>EDit Data</p></div>
-      
+        <div className='  sm:w-[50%] w-[60%] h-[40px] mt-2  p-4 flex items-center  justify-between'>
+          <div onClick={() => navigate(-1)} className='w-[40px]  bg-slate-100 rounded-md flex items-center justify-center h-[40px] p-3'>
 
-          <div className="flex w-[90%] sm:h-[90%] relative pt-[30px] items-center justify-center">
+            <img src={backicon} className='h-[20px] w-[20px]  '/>
+          </div>
+          <p className=' font-bold  text-lg'>Edit Data</p></div>
+          <div className="flex w-[90%] sm:h-[80%] relative pt-[30px] items-center justify-center">
             <form className="w-full h-full flex-wrap  flex flex-col" onSubmit={handleUpdate}>
               {datasets.map(({ header, type }) => (
                 <div key={header} className="flex flex-wrap mx-3 mb-6">
