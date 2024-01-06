@@ -67,6 +67,7 @@ export function EditData() {
             };
           }),
         ];
+        console.log(newDatasets)
         setDatasets(newDatasets);
       }
     }
