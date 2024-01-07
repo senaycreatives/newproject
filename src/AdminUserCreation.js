@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import axios from 'axios'; 
+import SucessPopup from './SucessPopup';
+import Errorpopup from './Errorpopup';
 
 const CreateUserPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('admin');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -18,19 +24,34 @@ const CreateUserPage = () => {
     setUserType(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:9000/api/createUser', {
+            username,
+            password,
+            userType,
+        });
+    
 
-    // Perform further actions with the captured data (e.g., submitting to the server)
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('User Type:', userType);
+    console.log('Server response: ', response.data);
+    setSuccess('user created successfully')
 
-    // Reset form fields
+    setTimeout(() => {
+        setSuccess('');
+    }, 1000);
     setUsername('');
     setPassword('');
     setUserType('admin');
-  };
+    setError('');
+  } catch (error) {
+    console.error('Error creating user:', error.response ? error.response.data : error.message);
+    setError('An error occured while creating the user');
+    setTimeout(() => {
+        setError('')
+    }, 1000);
+  }
+};
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -38,7 +59,7 @@ const CreateUserPage = () => {
         <div className="flex flex-col items-center bg-white shadow-md rounded px-8 py-6">
           <LockOutlinedIcon className="text-primary-600 text-4xl mb-4" />
 
-          <h2 className="text-xl font-bold mb-4 text-gray-900">Create Admin User</h2>
+          <h2 className="text-xl font-bold mb-4 text-gray-900">Create User</h2>
 
           <form className="w-full" onSubmit={handleSubmit}>
             <div className="mb-4">
