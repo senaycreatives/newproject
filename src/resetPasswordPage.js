@@ -75,9 +75,7 @@ export default function Resetpage() {
       setError(null);
 
     }, 1000)
-      
-      console.error("Error submitting form:", error.response ? error.response.data : error.message);
-      setError("An error occurred while resetting the password");
+    
     }}
     else{
     setError("password dont match");
