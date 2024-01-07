@@ -53,8 +53,8 @@ function App() {
         <Route path="/AddData" element={<PrivateRoute loginPath={'/login'}>
           <AddData />
         </PrivateRoute>} />
- <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
-       <EditData />
+        <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
+        <EditData />
         </PrivateRoute>} />
         <Route path="/ResetPassword" element={<PrivateRoute loginPath={'/login'}>
           <Resetpage />
@@ -65,6 +65,9 @@ function App() {
           <Route path="/users" element={<PrivateRoute loginPath={'/login'}>
           <UserList />
           </PrivateRoute>} />
+          {/* <Route path="/update-role/:id" element={<PrivateRoute loginPath={'/login'}>
+          <UpdateRole />
+          </PrivateRoute>} /> */}
       </Routes>
     </div>
   );
