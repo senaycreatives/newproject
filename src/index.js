@@ -28,7 +28,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
 root.render(
 
-    <AuthProvider authType = {'cookie'}
+    <AuthProvider authType = {'localstorage'}
                   authName={'_auth'}
                   cookieDomain={window.location.hostname}
                   cookieSecure={window.location.protocol === "https:"}
