@@ -8,6 +8,8 @@ import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
 import  {EditData} from "./EditData";
 import Resetpage from "./resetPasswordPage";
+import CreateUserPage from "./AdminUserCreation";
+
 
 function App() {
   const navigate = useNavigate();
@@ -55,6 +57,9 @@ function App() {
         </PrivateRoute>} />
         <Route path="/ResetPassword" element={<PrivateRoute loginPath={'/login'}>
           <Resetpage />
+          </PrivateRoute>} />
+          <Route path="/createUser" element={<PrivateRoute loginPath={'/login'}>
+          <CreateUserPage />
           </PrivateRoute>} />
       </Routes>
     </div>
