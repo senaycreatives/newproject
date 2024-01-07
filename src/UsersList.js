@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import UseFetchuser from './hooks/UseFetchuser';
 
 const users = [
   { id: 1, name: 'Abebe', role: 'Admin' },
@@ -8,7 +9,10 @@ const users = [
   // Add more users if needed
 ];
 
+
 const UserList = () => {
+  const { data, isLoading, isError, error } = UseFetchuser();
+
   return (
     <div className="px-20 py-10">
       <h1 className="text-2xl font-bold my-4 text-center">Users List</h1>
@@ -22,10 +26,10 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {data?.data.users.map((user,index) => (
             <tr key={user.id}>
-              <td className="border px-4 py-2">{user.id}</td>
-              <td className="border px-4 py-2">{user.name}</td>
+              <td className="border px-4 py-2">{index+1}</td>
+              <td className="border px-4 py-2">{user.username}</td>
 
               <td className="border px-4 py-2 flex items-center">
                 {user.role}
