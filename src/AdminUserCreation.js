@@ -27,7 +27,7 @@ const CreateUserPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await axios.post('http://localhost:9000/api/createUser', {
+        const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/api/createUser', {
             username,
             password,
             userType,
