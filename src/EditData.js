@@ -47,11 +47,15 @@ export function EditData() {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    // Convert value to a number if it's a number field
+    const processedValue = type === 'number' ? Number(value) : value;
+  
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : processedValue,
     }));
   };
+  
   const navigate = useNavigate();
 
   useEffect(() => {
