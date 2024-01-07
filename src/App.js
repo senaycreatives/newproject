@@ -8,6 +8,9 @@ import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
 import  {EditData} from "./EditData";
 import Resetpage from "./resetPasswordPage";
+import CreateUserPage from "./AdminUserCreation";
+import UserList from "./UsersList";
+
 
 function App() {
   const navigate = useNavigate();
@@ -50,12 +53,21 @@ function App() {
         <Route path="/AddData" element={<PrivateRoute loginPath={'/login'}>
           <AddData />
         </PrivateRoute>} />
- <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
-       <EditData />
+        <Route path="/detail/:zetacode" element={<PrivateRoute loginPath={'/login'}>
+        <EditData />
         </PrivateRoute>} />
         <Route path="/ResetPassword" element={<PrivateRoute loginPath={'/login'}>
           <Resetpage />
           </PrivateRoute>} />
+          <Route path="/createUser" element={<PrivateRoute loginPath={'/login'}>
+          <CreateUserPage />
+          </PrivateRoute>} />
+          <Route path="/users" element={<PrivateRoute loginPath={'/login'}>
+          <UserList />
+          </PrivateRoute>} />
+          {/* <Route path="/update-role/:id" element={<PrivateRoute loginPath={'/login'}>
+          <UpdateRole />
+          </PrivateRoute>} /> */}
       </Routes>
     </div>
   );

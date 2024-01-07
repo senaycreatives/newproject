@@ -28,6 +28,7 @@ const Header = ({ children }) => {
           <li><Link to="AddData" className="hover:text-gray-200">Add Data</Link></li>
         
           <li><Link to="/ResetPassword" className="hover:text-gray-200">Change password</Link></li>
+          <li><Link to="/createUser" className="hover:text-gray-200">New User</Link></li>
         </ul>
         {/* top right icon and drop down menu */}
 
