@@ -9,6 +9,7 @@ import Header from "./Header";
 import  {EditData} from "./EditData";
 import Resetpage from "./resetPasswordPage";
 import CreateUserPage from "./AdminUserCreation";
+import UserList from "./UsersList";
 
 
 function App() {
@@ -60,6 +61,9 @@ function App() {
           </PrivateRoute>} />
           <Route path="/createUser" element={<PrivateRoute loginPath={'/login'}>
           <CreateUserPage />
+          </PrivateRoute>} />
+          <Route path="/users" element={<PrivateRoute loginPath={'/login'}>
+          <UserList />
           </PrivateRoute>} />
       </Routes>
     </div>
