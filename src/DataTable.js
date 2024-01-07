@@ -643,6 +643,7 @@ export function DataTable() {
   width={100}
   radius={2}
   color="#4fa94d"
+  className="bg-black"
   ariaLabel="ball-triangle-loading"
   wrapperStyle={{}}
   wrapperClass=""

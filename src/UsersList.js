@@ -27,14 +27,14 @@ const UserList = () => {
         </thead>
         <tbody>
           {data?.data.users.map((user,index) => (
-            <tr key={user.id}>
+            <tr key={user._id}>
               <td className="border px-4 py-2">{index+1}</td>
               <td className="border px-4 py-2">{user.username}</td>
 
               <td className="border px-4 py-2 flex items-center">
                 {user.role}
                 <Link
-                  to={`/update-role/${user.id}`}
+                  to={`/update-role/${user._id}`}
                   className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
                 >
                   Update Role
