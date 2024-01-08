@@ -312,7 +312,9 @@ export function DataTable() {
   };
 const handleReset = async() => {
   await setSelectedOption("all");
-  console.log(selectedOption)
+  await setMax("Max")
+  await setMin("Min")
+  
   refetch();
 };
 const handleEnterKeyPress = (event) => {
