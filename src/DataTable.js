@@ -156,11 +156,11 @@ export function DataTable() {
     mutationKey: "importData",
     onSuccess: (data) => {
       console.log(data)
-      setInfo(`Data Imported successfully with ${data?.data.successCount} Sucess and ${data?.data.errorCount} Failed rows`);
+      setInfo(data);
       setimportpopup(false);
       setTimeout(() => {
         setInfo(null);
-      }, 5000); // Hide success message after 5 seconds
+      }, 100000); // Hide success message after 5 seconds
     },
     onError: (error) => {
       setError("Error Occurr while adding");
@@ -387,6 +387,9 @@ const handleReset = async() => {
   const handleSetColumnToDelete = (e) => {
     return setdeletecolomunname(e.target.value);
   };
+  const exitpopupclicked=()=>{
+    setInfo(null)
+  }
   const handleAddColumn = () => {
     // Perform validation checks before proceeding
     if (!selectedType || !defaultData) {
@@ -507,8 +510,8 @@ const handleReset = async() => {
         </div>
       )}
       {Info && (
-        <div className="top-0 left-0  w-[500px] h-[300px] absolute z-10">
-          <InfoPopup message={Info}/>
+        <div className="top-0 left-0  w-[500px] h-[300px] absolute z-40">
+          <InfoPopup data={Info} exit={exitpopupclicked}/>
         </div>
       )}
       <div className="w-full  flex flex-row   h-[60px] items-center   justify-between ">
