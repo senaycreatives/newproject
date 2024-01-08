@@ -507,7 +507,7 @@ const handleReset = async() => {
         </div>
       )}
       {Info && (
-        <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+        <div className="top-0 left-0  w-[500px] h-[300px] absolute z-10">
           <InfoPopup message={Info}/>
         </div>
       )}

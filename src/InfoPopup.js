@@ -3,7 +3,7 @@ import React from 'react'
 export default function InfoPopup({message}) {
   return (
     <div
-    class="mb-3 mt-2 mr-3 inline-flex w-full items-center rounded-lg bg-orange-400 px-6 py-5 text-base text-danger-700"
+    class="mb-3 mt-2 mr-3 inline-flex w-full items-center text-white rounded-lg bg-orange-400 px-6 py-5 text-base text-danger-700"
     role="alert">
     <span class="mr-2">
       <svg
