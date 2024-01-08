@@ -15,6 +15,7 @@ import { useAuthHeader } from "react-auth-kit";
 import { Link } from "react-router-dom";
 import notfoundimagesvg from './Image/Icon/data-notfound.svg' 
 import { BallTriangle } from "react-loader-spinner";
+import InfoPopup from "./InfoPopup";
 
 export function DataTable() {
 
@@ -25,6 +26,7 @@ export function DataTable() {
   const [zetaCode, setZetaCode] = useState("");
   const [pageSize] = useState(5);
   const [error, setError] = useState(null);
+  const [Info, setInfo] = useState(null);
   const [page, setPage] = useState(1);
   const [pageData, setPagedata] = useState([]);
   const [start, setStart] = useState(1);
@@ -151,11 +153,12 @@ export function DataTable() {
     mutationFn: uploadFile,
 
     mutationKey: "importData",
-    onSuccess: () => {
-      setSucess("Data Imported successfully");
+    onSuccess: (data) => {
+      console.log(data)
+      setInfo(`Data Imported successfully with ${data?.data.successCount} Sucess and ${data?.data.errorCount} Failed rows`);
       setimportpopup(false);
       setTimeout(() => {
-        setSucess(null);
+        setInfo(null);
       }, 5000); // Hide success message after 5 seconds
     },
     onError: (error) => {
@@ -401,12 +404,56 @@ export function DataTable() {
   };
   const handelExport = async (type) => {
     try {
+      let params = {
+        zetacode: zetacode,
+     
+      };
+  
+      switch (selectedOption) {
+        case "HotTemperature":
+          params.minHotTemperature = min;
+          params.maxHotTemperature = max;
+          break;
+        case "HotFlow":
+          params.minHotflow = min;
+          params.maxHotflow = max;
+          break;
+        case "ColdFlow":
+          params.minColdFlow = min;
+          params.maxColdFlow = max;
+          break;
+        case "ColdReturn":
+          params.minColdReturn = min;
+          params.maxColdReturn = max;
+          break;
+        case "HotFlushTemperature":
+          params.minHotFlushTemperature = min;
+          params.maxHotFlushTemperature = max;
+          break;
+        case "HotReturn":
+          params.minHotReturn = min;
+          params.maxHotReturn = max;
+          break;
+        case "ColdTemperature":
+          params.minColdTemperature = min;
+          params.maxColdTemperature = max;
+          break;
+        case "Date":
+          params.startDate = min;
+          params.endDate = max;
+          break;
+        default:
+          break;
+      }
+  
       const res = await axios.get(
         `https://dark-gold-sea-urchin-slip.cyclic.app/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {
           headers: { Authorization: authHeader() },
+          params: params,
+          
           responseType: "blob", // Set the response type to blob for file download
         }
       );
@@ -451,6 +498,11 @@ export function DataTable() {
           <SucessPopup message={sucess} />
         </div>
       )}
+      {Info && (
+        <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+          <InfoPopup message={Info}/>
+        </div>
+      )}
       <div className="w-full  flex flex-row   h-[60px] items-center   justify-between ">
         <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
           <button
@@ -479,7 +531,7 @@ export function DataTable() {
               Export Type
             </option>
             <option value="csv">csv</option>
-            <option value="excel">excel</option>
+            <option value="xlsx">excel</option>
           </select>
         </div>
         <div className="w-[500px]  flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
