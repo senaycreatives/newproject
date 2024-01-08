@@ -715,8 +715,8 @@ export function DataTable() {
             </div>
           ) : (
             <div className=" z-30 w-[400px] h-[400px] bg-white flex flex-col">
-              <div className=" w-full h-[40px] items-center flex justify-center ">
-                <p className=" text-black font-bold   text-[20px] text-center py-5">
+              <div className=" w-full h-[40px] items-center flex justify-center py-10">
+                <p className=" text-black font-bold   text-[20px] text-center">
                   ADD New column
                 </p>
               </div>
