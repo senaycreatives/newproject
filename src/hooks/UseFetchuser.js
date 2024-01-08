@@ -7,13 +7,13 @@ import axios from "axios";
 import {useAuthHeader} from 'react-auth-kit'
 
 // /fetchUsers
-export default function UseFetchindividualData(id) {
+export default function UseFetchuser() {
 
   const authHeader = useAuthHeader()
 
-    const fetchData = async (id) => {
-      console.log(id)
-        const res = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/getsingledata/${id}`, {
+    const fetchuser = async () => {
+      
+        const res = await axios.get('https://dark-gold-sea-urchin-slip.cyclic.app/fetchUsers', {
           headers: { Authorization: authHeader() },
         });
        
@@ -21,8 +21,8 @@ export default function UseFetchindividualData(id) {
       };
     
   return useQuery({
-    queryKey: ['singleTableData',id],
-    queryFn: ()=>fetchData(id),
-    enabled:!!id
+    queryKey: ['userdata'],
+    queryFn: fetchuser,
+
   } );
 }

@@ -3,13 +3,17 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios'; 
 import SucessPopup from './SucessPopup';
 import Errorpopup from './Errorpopup';
+import { useAuthHeader } from 'react-auth-kit';
 
 const CreateUserPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('admin');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [sucess, setSuccess] = useState('');
+  const authHeader = useAuthHeader()
+  
+  
 
 
   const handleUsernameChange = (event) => {
@@ -27,10 +31,13 @@ const CreateUserPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app', {
+        const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/createUser', {
             username,
             password,
             userType,
+        },
+        {
+          headers: { Authorization: authHeader() },
         });
     
 
@@ -45,8 +52,8 @@ const CreateUserPage = () => {
     setUserType('admin');
     setError('');
   } catch (error) {
-    console.error('Error creating user:', error.response ? error.response.data : error.message);
-    setError('An error occured while creating the user');
+    setError( error.response.data.message||"error ocuured");
+   
     setTimeout(() => {
         setError('')
     }, 1000);
@@ -58,6 +65,8 @@ const CreateUserPage = () => {
       <section className="w-full max-w-sm">
         <div className="flex flex-col items-center bg-white shadow-md rounded px-8 py-6">
           <LockOutlinedIcon className="text-primary-600 text-4xl mb-4" />
+          {sucess&& <div>  <SucessPopup message={sucess}/></div>}
+     { error&&<div>  <Errorpopup message={error}/></div>}
 
           <h2 className="text-xl font-bold mb-4 text-gray-900">Create User</h2>
 

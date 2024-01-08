@@ -5,6 +5,8 @@ import Layout from "./Layout";
 import  { useState, useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { useSignIn } from 'react-auth-kit'
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 
 
@@ -13,50 +15,52 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [error, seterror] = useState(null);
   const signIn = useSignIn()
+  const [Eroor,setError]=useState(null)
+
   
   const [password, setPassword] = useState('');
-  const handleSignIn = async (username, password) => {
-    try {
-      const res = await fetch("https://dark-gold-sea-urchin-slip.cyclic.app/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+  
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      return await axios.post(
+        "https://dark-gold-sea-urchin-slip.cyclic.app/auth/signin",
+        data,
+        
+      );
+    },
 
-      if (res.ok) {
-        const data = await res.json();
-        console.log(data)
+    mutationKey: "signin",
+    onSuccess: (data) => {
+      signIn(
+        {
+            token: data.data.accessToken,
+            expiresIn: data.data.expiresIn
+            ,
+            tokenType: data.data.tokenType,
+
+            
+            
+            authState: {authenticate: data.data.authUserState
+            },
+            refreshToken: data.data.refreshToken ,                    // Only if you are using refreshToken feature
+            refreshTokenExpireIn: data.data.refreshTokenExpireIn
+            // Only if you are using refreshToken feature
+        }
        
-        signIn(
-          {
-              token: data.accessToken,
-              expiresIn: data.expiresIn
-              ,
-              tokenType: data.tokenType,
-
-              
-              
-              authState: {authenticate: data.authUserState
-              },
-              refreshToken: data.refreshToken ,                    // Only if you are using refreshToken feature
-              refreshTokenExpireIn: data.refreshTokenExpireIn
-              // Only if you are using refreshToken feature
-          }
-      )
-      
-      console.error("Error during sign-in:");
-        // Store the token in localSto
-        navigate('/')
-        console.log(res)
-
-      
-      } 
-    } catch (e) {
-      console.error("Error during sign-in:", e);
-      seterror(error)
-    }
+    )
+    navigate('/')
+    },
+    onError: (error) => {
+      seterror(error.response.data.message);
+    
+      setTimeout(() => {
+        seterror(null);
+      }, 5000); // Hide error message after 5 seconds
+    },
+  });
+  const handleSignIn = async (username, password) => {
+    mutation.mutate({ username, password })
+ 
   };
   
   return (
@@ -74,7 +78,7 @@ const Login = () => {
                 data-validate="Enter username"
               >
                 
-           {error && <div className="absolute top-0  text-red-700 w-[200px] px-2 h-[10px]">{error}</div>}
+           {error && <div className="absolute top-0  text-white mt-0 w-full rounded-md bg-red-500  px-2 py-1">{error}</div>}
                 <input
                   className="input100"
                   type="text"

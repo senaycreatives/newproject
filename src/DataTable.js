@@ -49,6 +49,7 @@ export function DataTable() {
     isError: searchError,
     error: errorMessage,
     isRefetching,
+    isFetching,
     isLoading,
   } =UseFetchData({
     min: min,
@@ -440,6 +441,11 @@ export function DataTable() {
           <Errorpopup message={errorMessage?.response?.data.message} />
         </div>
       )}
+       {searchError && (
+        <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+          <Errorpopup message={errorMessage?.response?.data.message} />
+        </div>
+      )}
       {sucess && (
         <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
           <SucessPopup message={sucess} />
@@ -630,13 +636,14 @@ export function DataTable() {
                   <p className="  font-bold ">NO Data Found</p>
                   </div>
                 )}
-                 {isLoading||isRefetching&& (
-                  <div className=" z-60  absolute   h-full backdrop-blur-[1px]   flex-col top-0 items-center justify-center w-screen    ">
+                 {(isLoading||isRefetching)&& (
+                  <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
   height={100}
   width={100}
-  radius={5}
+  radius={2}
   color="#4fa94d"
+  className="bg-black"
   ariaLabel="ball-triangle-loading"
   wrapperStyle={{}}
   wrapperClass=""
