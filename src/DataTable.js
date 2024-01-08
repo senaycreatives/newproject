@@ -315,6 +315,12 @@ const handleReset = async() => {
   console.log(selectedOption)
   refetch();
 };
+const handleEnterKeyPress = (event) => {
+  if (event.key === 'Enter') {
+   handleSearch();
+  }
+  console.log('enterr')
+};
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
@@ -594,10 +600,12 @@ const handleReset = async() => {
               placeholder="Search By Zetacode"
               aria-label="Search"
               aria-describedby="button-addon2"
+              onKeyDown={handleEnterKeyPress}
               onChange={(e) => setSearch(e.target.value)}
             />
             <span
               onClick={handleSearch}
+              
               className="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
               id="basic-addon2"
             >
