@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import notfoundimagesvg from './Image/Icon/data-notfound.svg' 
 import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
+import reseticon from "./Image/Icon/reset.png"
 
 export function DataTable() {
 
@@ -309,6 +310,11 @@ export function DataTable() {
       }, 1000);
     }
   };
+const handleReset = async() => {
+  await setSelectedOption("all");
+  console.log(selectedOption)
+  refetch();
+};
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
@@ -345,8 +351,10 @@ export function DataTable() {
   
     setError(null); // Clear previous errors
   };
-  const handleFilter=()=>{
+  const handleFilter=(event)=>{
+    event.preventDefault();
     refetch()
+    
         }
   const [dataset, setdataset] = useState([]);
   useEffect(() => {
@@ -539,13 +547,13 @@ export function DataTable() {
 <div  class="flex items-center">
   <div class="relative">
    
-    <input name="start" type={selectedOption=="Date"?"date":"number"} onChange={(e) => setMin(e.target.value)} class="bg-gray-50 w-[50px]  py-2.5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Min"/>
+    <input name="start" value={min} type={selectedOption=="Date"?"date":"number"} onChange={(e) => setMin(e.target.value)} class="bg-gray-50 w-[50px]  py-2.5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Min"/>
   </div>
   <div class="relative">
    
    
 <select id="countries" onChange={handleOptionChange} class=" border rounded-none border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-  <option selected>Filter options</option>
+  <option value="all"selected>Filter options</option>
   <option value="HotTemperature">HotTemperature</option>
   <option value="HotFlow">ColdTemperature</option>
   <option value="ColdFlow">ColdFlow</option>
@@ -559,13 +567,16 @@ export function DataTable() {
 </div>
   <div class="relative">
    
-    <input name="end" onChange={(e) => setMax(e.target.value)} type={selectedOption=="Date"?"date":"number"} class="bg-gray-50 border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Max"/>
+    <input name="end" value={max}  onChange={(e) => setMax(e.target.value)} type={selectedOption=="Date"?"date":"number"} class="bg-gray-50 border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Max"/>
 </div>
 <div class="relative">
    
     <button onClick={handleFilter} name="end" type="text" class=" border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center bg-slate-300" placeholder="Max">Filter</button>
 </div>
-
+<div class="relative">
+   
+    <button onClick={handleReset}  name="end" type="text" class=" border mx-5 w-[50px] rounded-md border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 flex  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-0 text-center bg-blue-300 items-center justify-center" placeholder="Max"><img src={reseticon} className=" w-[40px] h-[40px]"/></button>
+</div>
 </div>
 
           
