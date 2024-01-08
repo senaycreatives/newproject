@@ -126,7 +126,7 @@ export function EditData() {
   const handleUpdate = (e) => {
     e.preventDefault()
     mutation.mutate({
-        zetacode: formData.Zetacode,
+        id: zetacode,
         newData: formData});
   };
 if(formData){

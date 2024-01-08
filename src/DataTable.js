@@ -285,12 +285,12 @@ export function DataTable() {
     }
   };
 
-  const handleDelete = async (zetacode) => {
+  const handleDelete = async (id) => {
     try {
       const res = await axios.delete(
         "https://dark-gold-sea-urchin-slip.cyclic.app/deletedata",
         {
-          data: { zetacode },
+          data: { id },
           headers: { Authorization: authHeader() },
         }
       );
@@ -668,7 +668,7 @@ const handleEnterKeyPress = (event) => {
               </thead>
               <tbody className="  relative">
                 {pageData?.map((row) => (
-                  <tr className="even:bg-zinc-100" key={row.Zetacode}>
+                  <tr className="even:bg-zinc-100" key={row._id}>
                     {datasets.map(({ header, type }) => (
                       <td
                         key={header}
@@ -682,7 +682,7 @@ const handleEnterKeyPress = (event) => {
                     <div className=" flex-row w-[300px] ">
                       <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
                         <Link
-                          to={`/detail/${row.Zetacode}`}
+                          to={`/detail/${row._id}`}
                           className="w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md"
                         >
                           <p className="text-white hover:cursor-pointer">
@@ -692,7 +692,7 @@ const handleEnterKeyPress = (event) => {
                       </td>
                       <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
                         <div
-                          onClick={() => handleDelete(row.Zetacode)}
+                          onClick={() => handleDelete(row._id)}
                           className="w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md"
                         >
                           <p className="text-white hover:cursor-pointer">
