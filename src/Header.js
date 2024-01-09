@@ -34,7 +34,7 @@ const Header = ({ children }) => {
         </ul>
         {/* top right icon and drop down menu */}
 
-            <div className="hidden xl:flex items-center space-x-2 items-center">
+            <div className="hidden xl:flex  space-x-2 items-center">
             <li><Link to="/createUser" className="hover:text-gray-200">{auth().username}</Link></li>
       
               <Link to="#" className="flex items-center hover:text-gray-200">
