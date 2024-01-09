@@ -40,7 +40,9 @@ const Login = () => {
 
             
             
-            authState: {authenticate: data.data.authUserState
+            authState: {authenticate: data.data.authUserState,
+            username:data.data.username,
+            permission:data.data.permission,
             },
             refreshToken: data.data.refreshToken ,                    // Only if you are using refreshToken feature
             refreshTokenExpireIn: data.data.refreshTokenExpireIn

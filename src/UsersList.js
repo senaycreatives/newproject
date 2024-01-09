@@ -32,7 +32,7 @@ const UserList = () => {
               <td className="border px-4 py-2">{user.username}</td>
 
               <td className="border px-4 py-2 flex items-center">
-                {user.role}
+                {user.permission}
                 <Link
                   to={`/update-role/${user._id}`}
                   className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"

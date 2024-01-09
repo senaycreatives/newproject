@@ -8,11 +8,13 @@ import deleteIcon from "./Image/Icon/Type=Delete.svg";
 import editIcon from "./Image/Icon/Type=Edit.svg";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Resetpage from "./resetPasswordPage";
-import { useSignOut } from "react-auth-kit";
+import { useAuthUser, useSignOut } from "react-auth-kit";
 import DropDownProfile from "./DropDownProfile";
 
 const Header = ({ children }) => {
   const signOut = useSignOut()
+  const auth = useAuthUser()
+  console.log(auth())
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -32,7 +34,9 @@ const Header = ({ children }) => {
         </ul>
         {/* top right icon and drop down menu */}
 
-            <div className="hidden xl:flex items-center space-x-5 items-center">
+            <div className="hidden xl:flex items-center space-x-2 items-center">
+            <li><Link to="/createUser" className="hover:text-gray-200">{auth().username}</Link></li>
+      
               <Link to="#" className="flex items-center hover:text-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick = {() => setOpenProfile((prev) => !prev)}>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -46,6 +50,7 @@ const Header = ({ children }) => {
             
            
       </div>
+      
 
       <Link to="#" className="xl:hidden flex mr-6 items-center">
         <Link to="#" className="navbar-burger self-center mr-12 xl:hidden">
@@ -54,6 +59,7 @@ const Header = ({ children }) => {
           </svg>
         </Link>
       </Link>
+      
     </nav>
   );
 };
