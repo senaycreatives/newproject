@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
-import {useAuthHeader} from 'react-auth-kit';
+import {useAuthHeader, useAuthUser} from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 
 import { useParams } from 'react-router-dom';
@@ -129,6 +129,8 @@ export function EditData() {
         id: zetacode,
         newData: formData});
   };
+  const auth = useAuthUser()
+if(auth()?.permission=="admin"||auth()?.permission=="editor"){
 if(formData){
   return (
    
@@ -206,4 +208,9 @@ if(formData){
  
   )
                     }
+                  }
+                  else{
+                    return<div>You have no permission</div>
+                  }
+
 }

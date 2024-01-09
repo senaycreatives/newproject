@@ -35,7 +35,7 @@ const Header = ({ children }) => {
         {/* top right icon and drop down menu */}
 
             <div className="hidden xl:flex  space-x-2 items-center">
-            <li><Link to="/createUser" className="hover:text-gray-200">{auth().username}</Link></li>
+            <li><Link to="/createUser" className="hover:text-gray-200">{auth()?.username}</Link></li>
       
               <Link to="#" className="flex items-center hover:text-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick = {() => setOpenProfile((prev) => !prev)}>

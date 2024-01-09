@@ -11,7 +11,7 @@ import deleteicon from "./Image/Icon/delete-column.png";
 import importicon from "./Image/Icon/import.png";
 import Exporticon from "./Image/Icon/export.png";
 import { useMutation } from "@tanstack/react-query";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import { Link } from "react-router-dom";
 import notfoundimagesvg from './Image/Icon/data-notfound.svg' 
 import { BallTriangle } from "react-loader-spinner";
@@ -499,7 +499,8 @@ const handleEnterKeyPress = (event) => {
       }, 1000);
     }
   };
-
+  const auth = useAuthUser()
+  
   return (
     <div className="flex relative flex-col rounded-md  h-[88%] mb-100 overflow-hidden  w-[100%]">
       {error && (
@@ -524,14 +525,14 @@ const handleEnterKeyPress = (event) => {
       )}
       <div className="w-full  flex flex-row   h-[60px] items-center   justify-between ">
         <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
-          <button
+        {(auth()?.permission=="admin"||auth()?.permission=="editor")&&   <button
             type="button"
             onClick={() => setimportpopup(true)}
             class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             <img src={importicon} className=" w-4 h-4 mx-1" />
             Import
-          </button>
+          </button>}
           <button
             type="button"
             onClick={() => handelExport(exporttype)}
@@ -648,7 +649,9 @@ const handleEnterKeyPress = (event) => {
                     </th>
                   ))}
                   <div className=" w-[300px] flex flex-row ">
-                    <div
+                    {(auth()?.permission=="admin"||auth()?.permission=="editor")&&
+                    <>
+                     <div
                       className="  cursor-pointer hover:bg-slate-100 w-[140px] px-5 flex-row items-center"
                       onClick={() => setAddColomunPopup(true)}
                     >
@@ -662,7 +665,8 @@ const handleEnterKeyPress = (event) => {
                     >
                       <img src={deleteicon} width="20px" className=" " alt="" />
                       <p>Delete column</p>
-                    </div>
+                    </div></>}
+                   
                   </div>
                 </tr>
               </thead>
@@ -679,7 +683,9 @@ const handleEnterKeyPress = (event) => {
                           : row[header]}
                       </td>
                     ))}
+                    {(auth()?.permission=="admin"||auth()?.permission=="editor")&&
                     <div className=" flex-row w-[300px] ">
+                    
                       <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
                         <Link
                           to={`/detail/${row._id}`}
@@ -700,7 +706,9 @@ const handleEnterKeyPress = (event) => {
                           </p>
                         </div>
                       </td>
+                     
                     </div>
+                     }
                   </tr>
                 ))}
               
