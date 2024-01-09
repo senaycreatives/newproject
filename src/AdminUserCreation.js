@@ -32,9 +32,9 @@ const CreateUserPage = () => {
     event.preventDefault();
     try {
         const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/createUser', {
-            username,
-            password,
-            userType,
+          username:username,
+            password:password,
+            permission:userType,
         },
         {
           headers: { Authorization: authHeader() },
