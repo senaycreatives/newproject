@@ -10,7 +10,7 @@ import  {EditData} from "./EditData";
 import Resetpage from "./resetPasswordPage";
 import CreateUserPage from "./AdminUserCreation";
 import UserList from "./UsersList";
-
+import UpdateRolePage from "./UpdateRole";
 
 function App() {
   const navigate = useNavigate();
@@ -65,9 +65,9 @@ function App() {
           <Route path="/users" element={<PrivateRoute loginPath={'/login'}>
           <UserList />
           </PrivateRoute>} />
-          {/* <Route path="/update-role/:id" element={<PrivateRoute loginPath={'/login'}>
-          <UpdateRole />
-          </PrivateRoute>} /> */}
+          <Route path="/update-role/:id" element={<PrivateRoute loginPath={'/login'}>
+          <UpdateRolePage />
+          </PrivateRoute>} />
       </Routes>
     </div>
   );
