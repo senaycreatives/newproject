@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout from "./Layout";
 import UseFetchData from "./hooks/UseFetchData";
 import axios from "axios";
-import UseFetchIndividualData from "./hooks/UseFetchIndividualData";
 import Errorpopup from "./Errorpopup";
 import SucessPopup from "./SucessPopup";
 import addicon from "./Image/Icon/column.png";
@@ -32,7 +30,6 @@ export function DataTable() {
   const [pageData, setPagedata] = useState([]);
   const [start, setStart] = useState(1);
   const [end, setEnd] = useState(1);
-  const [showDetails, setShowDetails] = useState(false);
 
   const [sucess, setSucess] = useState(null);
   const [exporttype, setexporttype] = useState("csv");
@@ -150,7 +147,7 @@ export function DataTable() {
       }
     }
   }, [data]);
-  const { mutate: uploadfile } = useMutation({
+  const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
 
     mutationKey: "importData",
@@ -721,7 +718,7 @@ const handleEnterKeyPress = (event) => {
                   <p className="  font-bold ">NO Data Found</p>
                   </div>
                 )}
-                 {(isLoading||isRefetching)&& (
+                 {(isLoading||isRefetching||isPending)&& (
                   <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
   height={100}
