@@ -68,5 +68,6 @@ export default function UseFetchData({
   return useQuery({
     queryKey: ["TableData"],
     queryFn: fetchData,
+    refetchOnWindowFocus: false,
   });
 }
