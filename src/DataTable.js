@@ -718,11 +718,7 @@ const handleEnterKeyPress = (event) => {
                   <p className="  font-bold ">NO Data Found</p>
                   </div>
                 )}
-<<<<<<< HEAD
-                 {(isLoading)&& (
-=======
                  {(isLoading||isRefetching||isPending)&& (
->>>>>>> ff57071d28fa62e9bb55246eae5ca6c3c93ff3b9
                   <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
   height={100}
