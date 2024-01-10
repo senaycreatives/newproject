@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout from "./Layout";
 import UseFetchData from "./hooks/UseFetchData";
 import axios from "axios";
-import UseFetchIndividualData from "./hooks/UseFetchIndividualData";
 import Errorpopup from "./Errorpopup";
 import SucessPopup from "./SucessPopup";
 import addicon from "./Image/Icon/column.png";
@@ -32,7 +30,6 @@ export function DataTable() {
   const [pageData, setPagedata] = useState([]);
   const [start, setStart] = useState(1);
   const [end, setEnd] = useState(1);
-  const [showDetails, setShowDetails] = useState(false);
 
   const [sucess, setSucess] = useState(null);
   const [exporttype, setexporttype] = useState("csv");
@@ -150,7 +147,7 @@ export function DataTable() {
       }
     }
   }, [data]);
-  const { mutate: uploadfile } = useMutation({
+  const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
 
     mutationKey: "importData",
@@ -721,7 +718,11 @@ const handleEnterKeyPress = (event) => {
                   <p className="  font-bold ">NO Data Found</p>
                   </div>
                 )}
+<<<<<<< HEAD
                  {(isLoading)&& (
+=======
+                 {(isLoading||isRefetching||isPending)&& (
+>>>>>>> ff57071d28fa62e9bb55246eae5ca6c3c93ff3b9
                   <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
   height={100}
@@ -767,7 +768,7 @@ const handleEnterKeyPress = (event) => {
                     onClick={() => handlePageChange("prev")}
                     className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
-                    Prev
+                    Prevvv
                   </button>
                   <button
                     onClick={() => handlePageChange("next")}
