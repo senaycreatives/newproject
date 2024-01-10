@@ -23,7 +23,7 @@ const Login = () => {
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post(
-        "https://dark-gold-sea-urchin-slip.cyclic.app/auth/signin",
+        "https://kind-blue-bluefish-garb.cyclic.app/auth/signin",
         data,
         
       );

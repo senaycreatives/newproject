@@ -21,7 +21,7 @@ const UpdateRolePage = () => {
     try {
       console.log(updatedRole)
       const response = await axios.put(
-        `https://dark-gold-sea-urchin-slip.cyclic.app/updateUserPermissions/${id}`,
+        `https://kind-blue-bluefish-garb.cyclic.app/updateUserPermissions/${id}`,
         {
           permissions: updatedRole,
         },

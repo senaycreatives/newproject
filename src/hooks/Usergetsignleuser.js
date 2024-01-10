@@ -13,7 +13,7 @@ export default function Usergetsignleuser(id) {
 
     const fetchData = async (id) => {
       console.log(id)
-        const res = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/getuser/${id}`, {
+        const res = await axios.get(`https://kind-blue-bluefish-garb.cyclic.app/getuser/${id}`, {
           headers: { Authorization: authHeader() },
         });
        

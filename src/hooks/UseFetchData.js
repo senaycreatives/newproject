@@ -55,7 +55,7 @@ export default function UseFetchData({
     }
 
     const res = await axios.get(
-      "https://dark-gold-sea-urchin-slip.cyclic.app/getdata",
+      "https://kind-blue-bluefish-garb.cyclic.app/getdata",
       {
         headers: { Authorization: authHeader() },
         params: params,

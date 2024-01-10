@@ -86,7 +86,7 @@ export function EditData() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-  return axios.put('https://dark-gold-sea-urchin-slip.cyclic.app/updatedata',data, {
+  return axios.put('https://kind-blue-bluefish-garb.cyclic.app/updatedata',data, {
     headers: { Authorization: authHeader() },
   });
 },
@@ -109,7 +109,7 @@ export function EditData() {
     // Fetch data for the selected item based on the zetacode
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/getsingledata/${zetacode}`, {
+        const response = await axios.get(`https://kind-blue-bluefish-garb.cyclic.app/getsingledata/${zetacode}`, {
             headers: { Authorization: authHeader() },
           });
           setfetchedData(response?.data)

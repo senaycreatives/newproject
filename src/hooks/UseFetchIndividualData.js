@@ -13,7 +13,7 @@ export default function UseFetchindividualData(id) {
 
     const fetchData = async (id) => {
       console.log(id)
-        const res = await axios.get(`https://dark-gold-sea-urchin-slip.cyclic.app/getsingledata/${id}`, {
+        const res = await axios.get(`https://kind-blue-bluefish-garb.cyclic.app/getsingledata/${id}`, {
           headers: { Authorization: authHeader() },
         });
        

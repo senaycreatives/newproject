@@ -77,7 +77,7 @@ export function AddData() {
 
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/adddata', data, {
+      return axios.post('https://kind-blue-bluefish-garb.cyclic.app/adddata', data, {
         headers: { Authorization: authHeader() },
       });
     },

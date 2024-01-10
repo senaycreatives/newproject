@@ -32,7 +32,7 @@ const CreateUserPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/createUser', {
+        const response = await axios.post('https://kind-blue-bluefish-garb.cyclic.app/createUser', {
           username:username,
             password:password,
             permission:userType,

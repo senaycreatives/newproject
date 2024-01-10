@@ -35,7 +35,7 @@ export function Details() {
   const handleIPSChange = (e) => setIPS(e.target.value);
   const mutation = useMutation({
     mutationFn: (data) => {
-      return axios.put('https://dark-gold-sea-urchin-slip.cyclic.app/updatedata',data)
+      return axios.put('https://kind-blue-bluefish-garb.cyclic.app/updatedata',data)
     },
     mutationKey: 'putdata',
     onSuccess: () => {

@@ -104,7 +104,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "https://dark-gold-sea-urchin-slip.cyclic.app/importcsv",
+      "https://kind-blue-bluefish-garb.cyclic.app/importcsv",
       formData,
       {
         headers: {
@@ -164,6 +164,7 @@ export function DataTable() {
     },
     onError: (error) => {
       setError("Error Occurr while adding");
+      console.log(error)
       setimportpopup(false);
       setTimeout(() => {
         setError(null);
@@ -206,7 +207,7 @@ export function DataTable() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://dark-gold-sea-urchin-slip.cyclic.app/updatedataTable",
+        "https://kind-blue-bluefish-garb.cyclic.app/updatedataTable",
         data,
         {
           dataset: { Authorization: authHeader() },
@@ -288,7 +289,7 @@ export function DataTable() {
   const handleDelete = async (id) => {
     try {
       const res = await axios.delete(
-        "https://dark-gold-sea-urchin-slip.cyclic.app/deletedata",
+        "https://kind-blue-bluefish-garb.cyclic.app/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -326,7 +327,7 @@ const handleEnterKeyPress = (event) => {
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `https://dark-gold-sea-urchin-slip.cyclic.app/deleteColumn/${columname}`,
+        `https://kind-blue-bluefish-garb.cyclic.app/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -466,7 +467,7 @@ const handleEnterKeyPress = (event) => {
       }
   
       const res = await axios.get(
-        `https://dark-gold-sea-urchin-slip.cyclic.app/${
+        `https://kind-blue-bluefish-garb.cyclic.app/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {

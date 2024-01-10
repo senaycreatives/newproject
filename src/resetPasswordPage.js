@@ -42,7 +42,7 @@ export default function Resetpage() {
     try {
       // Make an HTTP request to your server
       const response = await axios.post(
-        "https://dark-gold-sea-urchin-slip.cyclic.app/auth/changepassword",
+        "https://kind-blue-bluefish-garb.cyclic.app/auth/changepassword",
         {
           currentPassword:  currentpassword,
           newPassword: password,

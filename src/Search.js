@@ -42,7 +42,7 @@ export function DataTable() {
   };
 
   const handleDelete = async (zetacode) => {
-    const res = await axios.delete('https://dark-gold-sea-urchin-slip.cyclic.app/deletedata', {
+    const res = await axios.delete('https://kind-blue-bluefish-garb.cyclic.app/deletedata', {
       data: { zetacode },
     });
     refetch();
