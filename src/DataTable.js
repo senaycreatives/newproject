@@ -677,11 +677,11 @@ const handleEnterKeyPress = (event) => {
                     {datasets.map(({ header, type }) => (
                       <td
                         key={header}
-                        className="p-4  border-b border-blue-gray-50 text-center"
+                        className=" w-fit p-4    border-b border-blue-gray-50 text-center"
                       >
-                        {typeof row[header] === "boolean"
+                        <p className=" min-w-[200px] ">{typeof row[header] === "boolean"
                           ? row[header].toString()
-                          : row[header]}
+                          : row[header]}</p>
                       </td>
                     ))}
                     {(auth()?.permission=="admin"||auth()?.permission=="editor")&&
@@ -721,7 +721,7 @@ const handleEnterKeyPress = (event) => {
                   <p className="  font-bold ">NO Data Found</p>
                   </div>
                 )}
-                 {(isLoading||isRefetching)&& (
+                 {(isLoading)&& (
                   <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
   height={100}
