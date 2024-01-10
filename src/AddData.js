@@ -173,6 +173,15 @@ if(auth()?.permission=="admin"||auth()?.permission=="editor"){
                   }
                   else{
 
-                    return (<div>You Have no permission for this</div>)
+                    return (
+                      <div className="flex justify-center items-center h-screen">
+                        <div className="text-center">
+                          <h2 className="text-red-500 text-2xl font-bold mb-4">You have no permission for this</h2>
+                          <p className="text-gray-600 italic">
+                            Sorry, but you do not have the necessary permissions to access this page.
+                          </p>
+                        </div>
+                      </div>
+                    );
                   }
 }
