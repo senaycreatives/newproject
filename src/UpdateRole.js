@@ -42,6 +42,7 @@ const UpdateRolePage = () => {
           role: updatedRole,
         },
         {
+            
           headers: { Authorization: authHeader() },
         }
       );
