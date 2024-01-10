@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import Errorpopup from './Errorpopup';
 import SucessPopup from './SucessPopup';
-import { useAuthHeader } from 'react-auth-kit';
+import { useAuthHeader, useAuthUser } from 'react-auth-kit';
 import UseFetchData from './hooks/UseFetchData';
 import { useNavigate } from 'react-router-dom';
 import backicon from './Image/Icon/left-arrow.png'
@@ -39,7 +39,8 @@ export function AddData() {
   const [formData, setFormData] = useState({});
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const auth = useAuthUser()
+  
   useEffect(() => {
     if (fetchedData && fetchedData?.data) {
       const fetchedKeys = fetchedData?.data[0] ? Object.keys(fetchedData?.data[0]) : [];
@@ -104,7 +105,7 @@ export function AddData() {
   
   const navigate = useNavigate();
   
-
+if(auth()?.permission=="admin"||auth()?.permission=="editor"){
   return (
     <div className="w-full overflow-hidden relative h-[90%] flex items-center justify-center">
       <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
@@ -169,4 +170,9 @@ export function AddData() {
       </div>
     </div>
   );
+                  }
+                  else{
+
+                    return (<div>You Have no permission for this</div>)
+                  }
 }

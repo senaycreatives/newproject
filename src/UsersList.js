@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UseFetchuser from './hooks/UseFetchuser';
+import { useAuthUser } from 'react-auth-kit';
 
 const users = [
   { id: 1, name: 'Abebe', role: 'Admin' },
@@ -12,7 +13,9 @@ const users = [
 
 const UserList = () => {
   const { data, isLoading, isError, error } = UseFetchuser();
+  const auth = useAuthUser()
 
+  if(auth()?.permission=="admin"){
   return (
     <div className="px-20 py-10">
       <h1 className="text-2xl font-bold my-4 text-center">Users List</h1>
@@ -32,7 +35,7 @@ const UserList = () => {
               <td className="border px-4 py-2">{user.username}</td>
 
               <td className="border px-4 py-2 flex items-center">
-                {user.role}
+                {user.permission}
                 <Link
                   to={`/update-role/${user._id}`}
                   className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
@@ -52,6 +55,12 @@ const UserList = () => {
 
     </div>
   );
+          }
+          else{
+          return (
+           <div>You don't have permission</div>
+          )
+          }
 };
 
 export default UserList;

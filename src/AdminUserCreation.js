@@ -3,7 +3,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios'; 
 import SucessPopup from './SucessPopup';
 import Errorpopup from './Errorpopup';
-import { useAuthHeader } from 'react-auth-kit';
+import { useAuthHeader, useAuthUser } from 'react-auth-kit';
 
 const CreateUserPage = () => {
   const [username, setUsername] = useState('');
@@ -12,6 +12,7 @@ const CreateUserPage = () => {
   const [error, setError] = useState('');
   const [sucess, setSuccess] = useState('');
   const authHeader = useAuthHeader()
+  const auth = useAuthUser()
   
   
 
@@ -32,9 +33,9 @@ const CreateUserPage = () => {
     event.preventDefault();
     try {
         const response = await axios.post('https://dark-gold-sea-urchin-slip.cyclic.app/createUser', {
-            username,
-            password,
-            userType,
+          username:username,
+            password:password,
+            permission:userType,
         },
         {
           headers: { Authorization: authHeader() },
@@ -60,6 +61,7 @@ const CreateUserPage = () => {
   }
 };
 
+if(auth()?.permission=="admin"){
   return (
     <div className="flex items-center justify-center h-screen">
       <section className="w-full max-w-sm">
@@ -124,6 +126,10 @@ const CreateUserPage = () => {
       </section>
     </div>
   );
-};
+}
+else{
+ return( <div>{auth()?.permission} are not authorized to access this page</div>);
+}
 
+}
 export default CreateUserPage;
