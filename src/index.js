@@ -4,21 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import Login from "./Login";
-import LoginForm from "./LoginForm";
-import { AddData } from "./AddData";
-import { DataTable } from "./DataTable";
-import AdminHome from "./AdminHome";
-import {AuthKitStateInterface}  from 'react-auth-kit'
-import YourComponent from "./hopePage";
-import Resetpage from "./resetPasswordPage";
+import { BrowserRouter } from "react-router-dom";
+
 
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";

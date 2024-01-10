@@ -4,12 +4,11 @@ import { useParams } from 'react-router-dom';
 import SucessPopup from './SucessPopup';
 import Errorpopup from './Errorpopup';
 import { useAuthHeader } from 'react-auth-kit';
-import UseFetchuser from './hooks/UseFetchuser';
 import Usergetsignleuser from './hooks/Usergetsignleuser';
 
 const UpdateRolePage = () => {
   const { id } = useParams();
-  const [user, setUser] = useState(null);
+
   const [updatedRole, setUpdatedRole] = useState('editor');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
