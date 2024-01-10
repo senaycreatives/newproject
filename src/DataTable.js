@@ -764,7 +764,7 @@ const handleEnterKeyPress = (event) => {
                     onClick={() => handlePageChange("prev")}
                     className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
-                    Prev
+                    Prevvv
                   </button>
                   <button
                     onClick={() => handlePageChange("next")}
