@@ -1,70 +1,59 @@
-
 import "./css/main.css";
 import "./css/util.css";
 import Layout from "./Layout";
-import  { useState, useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
-import { useSignIn } from 'react-auth-kit'
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-
-
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [error, seterror] = useState(null);
-  const signIn = useSignIn()
-  const [Eroor,setError]=useState(null)
+  const signIn = useSignIn();
+  const [Eroor, setError] = useState(null);
 
-  
-  const [password, setPassword] = useState('');
-  
+  const [password, setPassword] = useState("");
+
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post(
-        "https://kind-blue-bluefish-garb.cyclic.app/auth/signin",
-        data,
-        
+        "https://frightened-clam-pantyhose.cyclic.app/auth/signin",
+        data
       );
     },
 
     mutationKey: "signin",
     onSuccess: (data) => {
-      signIn(
-        {
-            token: data.data.accessToken,
-            expiresIn: data.data.expiresIn
-            ,
-            tokenType: data.data.tokenType,
+      signIn({
+        token: data.data.accessToken,
+        expiresIn: data.data.expiresIn,
+        tokenType: data.data.tokenType,
 
-            
-            
-            authState: {authenticate: data.data.authUserState,
-            username:data.data.username,
-            permission:data.data.permission,
-            },
-            refreshToken: data.data.refreshToken ,                    // Only if you are using refreshToken feature
-            refreshTokenExpireIn: data.data.refreshTokenExpireIn
-            // Only if you are using refreshToken feature
-        }
-       
-    )
-    navigate('/')
+        authState: {
+          authenticate: data.data.authUserState,
+          username: data.data.username,
+          permission: data.data.permission,
+        },
+        refreshToken: data.data.refreshToken, // Only if you are using refreshToken feature
+        refreshTokenExpireIn: data.data.refreshTokenExpireIn,
+        // Only if you are using refreshToken feature
+      });
+      navigate("/");
     },
     onError: (error) => {
       seterror(error.response.data.message);
-    
+
       setTimeout(() => {
         seterror(null);
       }, 5000); // Hide error message after 5 seconds
     },
   });
   const handleSignIn = async (username, password) => {
-    mutation.mutate({ username, password })
- 
+    mutation.mutate({ username, password });
   };
-  
+
   return (
     <Layout>
       <div className="limiter">
@@ -79,14 +68,17 @@ const Login = () => {
                 className=" relative wrap-input100 validate-input"
                 data-validate="Enter username"
               >
-                
-           {error && <div className="absolute top-0  text-white mt-0 w-full rounded-md bg-red-500  px-2 py-1">{error}</div>}
+                {error && (
+                  <div className="absolute top-0  text-white mt-0 w-full rounded-md bg-red-500  px-2 py-1">
+                    {error}
+                  </div>
+                )}
                 <input
                   className="input100"
                   type="text"
                   name="username"
-                  placeholder="Username" 
-                  onChange={(e)=>setUsername(e.target.value)}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <span
                   className="focus-input100"
@@ -102,7 +94,7 @@ const Login = () => {
                   type="password"
                   name="pass"
                   placeholder="Password"
-                  onChange={(e)=>setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span
                   className="focus-input100"
@@ -110,10 +102,8 @@ const Login = () => {
                 ></span>
               </div>
               <div className="container-login100-form-btn m-t-32">
-              <Link onClick={()=>handleSignIn(username,password)}>
-                <button className="login100-form-btn">
-                  Sign In
-                </button>
+                <Link onClick={() => handleSignIn(username, password)}>
+                  <button className="login100-form-btn">Sign In</button>
                 </Link>
               </div>
             </form>
@@ -121,7 +111,6 @@ const Login = () => {
         </div>
       </div>
     </Layout>
-
   );
 };
 

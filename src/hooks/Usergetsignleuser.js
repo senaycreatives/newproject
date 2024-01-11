@@ -1,28 +1,27 @@
-import {
-    useQuery,
- 
-  } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import {useAuthHeader} from 'react-auth-kit'
+import { useAuthHeader } from "react-auth-kit";
 
 // /fetchUsers
 export default function Usergetsignleuser(id) {
+  const authHeader = useAuthHeader();
 
-  const authHeader = useAuthHeader()
+  const fetchData = async (id) => {
+    console.log(id);
+    const res = await axios.get(
+      `https://frightened-clam-pantyhose.cyclic.app/getuser/${id}`,
+      {
+        headers: { Authorization: authHeader() },
+      }
+    );
 
-    const fetchData = async (id) => {
-      console.log(id)
-        const res = await axios.get(`https://kind-blue-bluefish-garb.cyclic.app/getuser/${id}`, {
-          headers: { Authorization: authHeader() },
-        });
-       
-        return res;
-      };
-    
+    return res;
+  };
+
   return useQuery({
-    queryKey: ['singleuser',id],
-    queryFn: ()=>fetchData(id),
-    enabled:!!id
-  } );
+    queryKey: ["singleuser", id],
+    queryFn: () => fetchData(id),
+    enabled: !!id,
+  });
 }

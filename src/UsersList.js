@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import UseFetchuser from './hooks/UseFetchuser';
-import { useAuthUser, useAuthHeader } from 'react-auth-kit';
-import axios from 'axios';
-import Errorpopup from './Errorpopup';
-import SucessPopup from './SucessPopup';
-import UseFetchData from './hooks/UseFetchData';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import UseFetchuser from "./hooks/UseFetchuser";
+import { useAuthUser, useAuthHeader } from "react-auth-kit";
+import axios from "axios";
+import Errorpopup from "./Errorpopup";
+import SucessPopup from "./SucessPopup";
+import UseFetchData from "./hooks/UseFetchData";
 
 const UserList = () => {
   const { data, refetch } = UseFetchuser();
@@ -17,31 +17,31 @@ const UserList = () => {
   const handleDelete = async (usernameToDelete) => {
     try {
       const res = await axios.delete(
-        'https://kind-blue-bluefish-garb.cyclic.app/deleteUser',
+        "https://frightened-clam-pantyhose.cyclic.app/deleteUser",
         {
           data: { usernameToDelete },
           headers: { Authorization: authHeader() },
         }
       );
-  
+
       console.log(res);
-  
+
       refetch();
-      setSuccess('Successfully Deleted');
+      setSuccess("Successfully Deleted");
       setTimeout(() => {
         setSuccess(null);
       }, 1000);
       setError(null); // Clear previous errors
       return res;
     } catch (error) {
-      setError('Something went wrong. Please try again.');
+      setError("Something went wrong. Please try again.");
       setTimeout(() => {
         setError(null); // Clear error after 1 second
       }, 1000);
     }
   };
 
-  if (auth()?.permission === 'admin') {
+  if (auth()?.permission === "admin") {
     return (
       <div className="px-20 py-10">
         <h1 className="text-2xl font-bold my-4 text-center">Users List</h1>
@@ -68,7 +68,8 @@ const UserList = () => {
                   </Link>
                   <div
                     className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                    onClick={() => handleDelete(user.username)} >
+                    onClick={() => handleDelete(user.username)}
+                  >
                     <p className="text-white hover:cursor-pointer">
                       Delete User
                     </p>
@@ -92,16 +93,18 @@ const UserList = () => {
     );
   } else {
     return (
-   
-        <div className="flex justify-center items-center h-screen">
-          <div className="text-center">
-            <h2 className="text-red-500 text-2xl font-bold mb-4">You have no permission for this</h2>
-            <p className="text-gray-600 italic">
-              Sorry, but you do not have the necessary permissions to access this page.
-            </p>
-          </div>
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <h2 className="text-red-500 text-2xl font-bold mb-4">
+            You have no permission for this
+          </h2>
+          <p className="text-gray-600 italic">
+            Sorry, but you do not have the necessary permissions to access this
+            page.
+          </p>
         </div>
-      );
+      </div>
+    );
   }
 };
 

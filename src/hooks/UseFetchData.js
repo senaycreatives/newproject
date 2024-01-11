@@ -2,19 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 
-export default function UseFetchData({
-  min,
-  max,
-  selectedoption,
-  zetacode,
-
-}) {
+export default function UseFetchData({ min, max, selectedoption, zetacode }) {
   const authHeader = useAuthHeader();
 
   const fetchData = async () => {
     let params = {
       zetacode: zetacode,
-   
     };
 
     switch (selectedoption) {
@@ -55,7 +48,7 @@ export default function UseFetchData({
     }
 
     const res = await axios.get(
-      "https://kind-blue-bluefish-garb.cyclic.app/getdata",
+      "https://frightened-clam-pantyhose.cyclic.app/getdata",
       {
         headers: { Authorization: authHeader() },
         params: params,

@@ -11,13 +11,12 @@ import Exporticon from "./Image/Icon/export.png";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import { Link } from "react-router-dom";
-import notfoundimagesvg from './Image/Icon/data-notfound.svg' 
+import notfoundimagesvg from "./Image/Icon/data-notfound.svg";
 import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
-import reseticon from "./Image/Icon/reset.png"
+import reseticon from "./Image/Icon/reset.png";
 
 export function DataTable() {
-
   const [search, setSearch] = useState(null);
   const [addcolomonPOPup, setAddColomunPopup] = useState(false);
   const [deletecolomunPOPup, setdeletecolomonPopup] = useState(false);
@@ -51,14 +50,13 @@ export function DataTable() {
     isRefetching,
     isFetching,
     isLoading,
-  } =UseFetchData({
+  } = UseFetchData({
     min: min,
     max: max,
-    selectedoption:selectedOption,
-   
-    zetacode:search
-  });
+    selectedoption: selectedOption,
 
+    zetacode: search,
+  });
 
   const initialDatasets = [
     { header: "Location", type: "string", required: true },
@@ -101,7 +99,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "https://kind-blue-bluefish-garb.cyclic.app/importcsv",
+      "https://frightened-clam-pantyhose.cyclic.app/importcsv",
       formData,
       {
         headers: {
@@ -152,7 +150,7 @@ export function DataTable() {
 
     mutationKey: "importData",
     onSuccess: (data) => {
-      console.log(data)
+      console.log(data);
       setInfo(data);
       setimportpopup(false);
       setTimeout(() => {
@@ -161,7 +159,7 @@ export function DataTable() {
     },
     onError: (error) => {
       setError("Error Occurr while adding");
-      console.log(error)
+      console.log(error);
       setimportpopup(false);
       setTimeout(() => {
         setError(null);
@@ -180,7 +178,7 @@ export function DataTable() {
       // Handle the click event here
       setAddColomunPopup(false);
       setimportpopup();
-      setdeletecolomonPopup(false)
+      setdeletecolomonPopup(false);
     };
 
     const externalComponent = externalComponentRef.current;
@@ -195,7 +193,7 @@ export function DataTable() {
         externalComponent.removeEventListener("click", handleClick);
       }
     };
-  }, [externalComponentRef, addcolomonPOPup,deletecolomunPOPup,importpopup]);
+  }, [externalComponentRef, addcolomonPOPup, deletecolomunPOPup, importpopup]);
 
   const authHeader = useAuthHeader();
   useEffect(() => {
@@ -204,7 +202,7 @@ export function DataTable() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://kind-blue-bluefish-garb.cyclic.app/updatedataTable",
+        "https://frightened-clam-pantyhose.cyclic.app/updatedataTable",
         data,
         {
           dataset: { Authorization: authHeader() },
@@ -286,7 +284,7 @@ export function DataTable() {
   const handleDelete = async (id) => {
     try {
       const res = await axios.delete(
-        "https://kind-blue-bluefish-garb.cyclic.app/deletedata",
+        "https://frightened-clam-pantyhose.cyclic.app/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -308,23 +306,23 @@ export function DataTable() {
       }, 1000);
     }
   };
-const handleReset = async() => {
-  await setSelectedOption("all");
-  await setMax("Max")
-  await setMin("Min")
-  
-  refetch();
-};
-const handleEnterKeyPress = (event) => {
-  if (event.key === 'Enter') {
-   handleSearch();
-  }
-  console.log('enterr')
-};
+  const handleReset = async () => {
+    await setSelectedOption("all");
+    await setMax("Max");
+    await setMin("Min");
+
+    refetch();
+  };
+  const handleEnterKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+    console.log("enterr");
+  };
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `https://kind-blue-bluefish-garb.cyclic.app/deleteColumn/${columname}`,
+        `https://frightened-clam-pantyhose.cyclic.app/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -347,21 +345,18 @@ const handleEnterKeyPress = (event) => {
       }, 1000);
     }
   };
-  const handleSearch =  () => {
+  const handleSearch = () => {
     setZetaCode(search);
-  
+
     // Trigger a refetch with the updated parameters
-    refetch( // Assuming you want to use the updated 'search' value here
-    );
-  
-  
+    refetch(); // Assuming you want to use the updated 'search' value here
+
     setError(null); // Clear previous errors
   };
-  const handleFilter=(event)=>{
+  const handleFilter = (event) => {
     event.preventDefault();
-    refetch()
-    
-        }
+    refetch();
+  };
   const [dataset, setdataset] = useState([]);
   useEffect(() => {
     // Dynamically set dataset when pageData changes
@@ -393,9 +388,9 @@ const handleEnterKeyPress = (event) => {
   const handleSetColumnToDelete = (e) => {
     return setdeletecolomunname(e.target.value);
   };
-  const exitpopupclicked=()=>{
-    setInfo(null)
-  }
+  const exitpopupclicked = () => {
+    setInfo(null);
+  };
   const handleAddColumn = () => {
     // Perform validation checks before proceeding
     if (!selectedType || !defaultData) {
@@ -423,9 +418,8 @@ const handleEnterKeyPress = (event) => {
     try {
       let params = {
         zetacode: zetacode,
-     
       };
-  
+
       switch (selectedOption) {
         case "HotTemperature":
           params.minHotTemperature = min;
@@ -462,15 +456,15 @@ const handleEnterKeyPress = (event) => {
         default:
           break;
       }
-  
+
       const res = await axios.get(
-        `https://kind-blue-bluefish-garb.cyclic.app/${
+        `https://frightened-clam-pantyhose.cyclic.app/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {
           headers: { Authorization: authHeader() },
           params: params,
-          
+
           responseType: "blob", // Set the response type to blob for file download
         }
       );
@@ -497,8 +491,8 @@ const handleEnterKeyPress = (event) => {
       }, 1000);
     }
   };
-  const auth = useAuthUser()
-  
+  const auth = useAuthUser();
+
   return (
     <div className="flex relative flex-col rounded-md  h-[88%] mb-100 overflow-hidden  w-[100%]">
       {error && (
@@ -506,7 +500,7 @@ const handleEnterKeyPress = (event) => {
           <Errorpopup message={errorMessage?.response?.data.message} />
         </div>
       )}
-       {searchError && (
+      {searchError && (
         <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
           <Errorpopup message={errorMessage?.response?.data.message} />
         </div>
@@ -518,19 +512,22 @@ const handleEnterKeyPress = (event) => {
       )}
       {Info && (
         <div className="top-0 left-0  w-[500px] h-[300px] absolute z-40">
-          <InfoPopup data={Info} exit={exitpopupclicked}/>
+          <InfoPopup data={Info} exit={exitpopupclicked} />
         </div>
       )}
       <div className="w-full  flex flex-row   h-[60px] items-center   justify-between ">
         <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
-        {(auth()?.permission=="admin"||auth()?.permission=="editor")&&   <button
-            type="button"
-            onClick={() => setimportpopup(true)}
-            class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-          >
-            <img src={importicon} className=" w-4 h-4 mx-1" />
-            Import
-          </button>}
+          {(auth()?.permission == "admin" ||
+            auth()?.permission == "editor") && (
+            <button
+              type="button"
+              onClick={() => setimportpopup(true)}
+              class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
+              <img src={importicon} className=" w-4 h-4 mx-1" />
+              Import
+            </button>
+          )}
           <button
             type="button"
             onClick={() => handelExport(exporttype)}
@@ -553,47 +550,72 @@ const handleEnterKeyPress = (event) => {
           </select>
         </div>
         <div className="w-[500px]  flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
-          
-<div  class="flex items-center">
-  <div class="relative">
-   
-    <input name="start" value={min} type={selectedOption=="Date"?"date":"number"} onChange={(e) => setMin(e.target.value)} class="bg-gray-50 w-[50px]  py-2.5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Min"/>
-  </div>
-  <div class="relative">
-   
-   
-<select id="countries"  value={selectedOption} onChange={handleOptionChange} class=" border rounded-none border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-  <option value="all"selected>Filter options</option>
-  <option value="HotTemperature">HotTemperature</option>
-  <option value="HotFlow">ColdTemperature</option>
-  <option value="ColdFlow">ColdFlow</option>
-  <option value="ColdReturn">ColdReturn</option>
-  <option value="HotFlushTemperature">HotFlushTemperature</option>
-  <option value="HotReturn">HotReturn</option>
-  <option value="HotFlow">HotFlow</option>
-  <option value="Date">Date</option>
-
-</select>
-</div>
-  <div class="relative">
-   
-    <input name="end" value={max}  onChange={(e) => setMax(e.target.value)} type={selectedOption=="Date"?"date":"number"} class="bg-gray-50 border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center" placeholder="Max"/>
-</div>
-<div class="relative">
-   
-    <button onClick={handleFilter} name="end" type="text" class=" border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center bg-slate-300" placeholder="Max">Filter</button>
-</div>
-<div class="relative">
-   
-    <button onClick={handleReset}  name="end" type="text" class=" border mx-5 w-[50px] rounded-md border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 flex  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-0 text-center bg-blue-300 items-center justify-center" placeholder="Max"><img src={reseticon} className=" w-[40px] h-[40px]"/></button>
-</div>
-</div>
-
-          
-
+          <div class="flex items-center">
+            <div class="relative">
+              <input
+                name="start"
+                value={min}
+                type={selectedOption == "Date" ? "date" : "number"}
+                onChange={(e) => setMin(e.target.value)}
+                class="bg-gray-50 w-[50px]  py-2.5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
+                placeholder="Min"
+              />
+            </div>
+            <div class="relative">
+              <select
+                id="countries"
+                value={selectedOption}
+                onChange={handleOptionChange}
+                class=" border rounded-none border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="all" selected>
+                  Filter options
+                </option>
+                <option value="HotTemperature">HotTemperature</option>
+                <option value="HotFlow">ColdTemperature</option>
+                <option value="ColdFlow">ColdFlow</option>
+                <option value="ColdReturn">ColdReturn</option>
+                <option value="HotFlushTemperature">HotFlushTemperature</option>
+                <option value="HotReturn">HotReturn</option>
+                <option value="HotFlow">HotFlow</option>
+                <option value="Date">Date</option>
+              </select>
+            </div>
+            <div class="relative">
+              <input
+                name="end"
+                value={max}
+                onChange={(e) => setMax(e.target.value)}
+                type={selectedOption == "Date" ? "date" : "number"}
+                class="bg-gray-50 border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
+                placeholder="Max"
+              />
+            </div>
+            <div class="relative">
+              <button
+                onClick={handleFilter}
+                name="end"
+                type="text"
+                class=" border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center bg-slate-300"
+                placeholder="Max"
+              >
+                Filter
+              </button>
+            </div>
+            <div class="relative">
+              <button
+                onClick={handleReset}
+                name="end"
+                type="text"
+                class=" border mx-5 w-[50px] rounded-md border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 flex  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-0 text-center bg-blue-300 items-center justify-center"
+                placeholder="Max"
+              >
+                <img src={reseticon} className=" w-[40px] h-[40px]" />
+              </button>
+            </div>
+          </div>
         </div>
         <div className=" w-[500px]   items-center justify-center flex h-full flex-row  ">
-          
           <div className="  flex w-full  flex-wrap flex-row items-center justify-center ">
             <input
               type="search"
@@ -606,7 +628,6 @@ const handleEnterKeyPress = (event) => {
             />
             <span
               onClick={handleSearch}
-              
               className="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
               id="basic-addon2"
             >
@@ -629,7 +650,9 @@ const handleEnterKeyPress = (event) => {
 
       <div
         ref={tableRef}
-        className={`sm:-mx-6 w-full z-20  ${pageData.length == 0?" overflow-x-hidden":"overflow-x-scroll "}  h-[440px]  flex lg:-mx-8`}
+        className={`sm:-mx-6 w-full z-20  ${
+          pageData.length == 0 ? " overflow-x-hidden" : "overflow-x-scroll "
+        }  h-[440px]  flex lg:-mx-8`}
       >
         <div className="inline-block min-w-full  py-2 sm:px-6 lg:px-8">
           <div className="">
@@ -647,24 +670,36 @@ const handleEnterKeyPress = (event) => {
                     </th>
                   ))}
                   <div className=" w-[300px] flex flex-row ">
-                    {(auth()?.permission=="admin"||auth()?.permission=="editor")&&
-                    <>
-                     <div
-                      className="  cursor-pointer hover:bg-slate-100 w-[140px] px-5 flex-row items-center"
-                      onClick={() => setAddColomunPopup(true)}
-                    >
-                      {" "}
-                      <img src={addicon} width="20px" className=" " alt="" />
-                      <p>Add column</p>
-                    </div>
-                    <div
-                      className="cursor-pointer hover:bg-slate-100 items-center  p-1 border-b flex flex-row border-blue-gray-100 bg-blue-gray-50 text-center"
-                      onClick={() => setdeletecolomonPopup(true)}
-                    >
-                      <img src={deleteicon} width="20px" className=" " alt="" />
-                      <p>Delete column</p>
-                    </div></>}
-                   
+                    {(auth()?.permission == "admin" ||
+                      auth()?.permission == "editor") && (
+                      <>
+                        <div
+                          className="  cursor-pointer hover:bg-slate-100 w-[140px] px-5 flex-row items-center"
+                          onClick={() => setAddColomunPopup(true)}
+                        >
+                          {" "}
+                          <img
+                            src={addicon}
+                            width="20px"
+                            className=" "
+                            alt=""
+                          />
+                          <p>Add column</p>
+                        </div>
+                        <div
+                          className="cursor-pointer hover:bg-slate-100 items-center  p-1 border-b flex flex-row border-blue-gray-100 bg-blue-gray-50 text-center"
+                          onClick={() => setdeletecolomonPopup(true)}
+                        >
+                          <img
+                            src={deleteicon}
+                            width="20px"
+                            className=" "
+                            alt=""
+                          />
+                          <p>Delete column</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </tr>
               </thead>
@@ -676,64 +711,66 @@ const handleEnterKeyPress = (event) => {
                         key={header}
                         className=" w-fit p-4    border-b border-blue-gray-50 text-center"
                       >
-                        <p className=" min-w-[200px] ">{typeof row[header] === "boolean"
-                          ? row[header].toString()
-                          : row[header]}</p>
+                        <p className=" min-w-[200px] ">
+                          {typeof row[header] === "boolean"
+                            ? row[header].toString()
+                            : row[header]}
+                        </p>
                       </td>
                     ))}
-                    {(auth()?.permission=="admin"||auth()?.permission=="editor")&&
-                    <div className=" flex-row w-[300px] ">
-                    
-                      <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
-                        <Link
-                          to={`/detail/${row._id}`}
-                          className="w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md"
-                        >
-                          <p className="text-white hover:cursor-pointer">
-                            Update
-                          </p>
-                        </Link>
-                      </td>
-                      <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
-                        <div
-                          onClick={() => handleDelete(row._id)}
-                          className="w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md"
-                        >
-                          <p className="text-white hover:cursor-pointer">
-                            Delete
-                          </p>
-                        </div>
-                      </td>
-                     
-                    </div>
-                     }
+                    {(auth()?.permission == "admin" ||
+                      auth()?.permission == "editor") && (
+                      <div className=" flex-row w-[300px] ">
+                        <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
+                          <Link
+                            to={`/detail/${row._id}`}
+                            className="w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md"
+                          >
+                            <p className="text-white hover:cursor-pointer">
+                              Update
+                            </p>
+                          </Link>
+                        </td>
+                        <td className=" w-[140px] flex items-center justify-center py-4 text-blue-400 ">
+                          <div
+                            onClick={() => handleDelete(row._id)}
+                            className="w-[70px] h-[40px] flex items-center justify-center bg-red-500 rounded-md"
+                          >
+                            <p className="text-white hover:cursor-pointer">
+                              Delete
+                            </p>
+                          </div>
+                        </td>
+                      </div>
+                    )}
                   </tr>
                 ))}
-              
               </tbody>
             </table>
-            {pageData.length == 0 &&!isLoading&&!isRefetching &&(
-                  <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
-                    <img src={notfoundimagesvg} className="  text-green-400 w-[100px] h-[100px]"/>
-                  <p className="  font-bold ">NO Data Found</p>
-                  </div>
-                )}
-                 {(isLoading||isRefetching||isPending)&& (
-                  <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
+            {pageData.length == 0 && !isLoading && !isRefetching && (
+              <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
+                <img
+                  src={notfoundimagesvg}
+                  className="  text-green-400 w-[100px] h-[100px]"
+                />
+                <p className="  font-bold ">NO Data Found</p>
+              </div>
+            )}
+            {(isLoading || isRefetching || isPending) && (
+              <div className=" z-60  absolute   h-full backdrop-blur-[1px]    flex-col top-0 items-center justify-center w-screen    ">
                 <BallTriangle
-  height={100}
-  width={100}
-  radius={2}
-  color="#4fa94d"
-  className="bg-black"
-  ariaLabel="ball-triangle-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-  />
-  
-                  </div>
-                )}
+                  height={100}
+                  width={100}
+                  radius={2}
+                  color="#4fa94d"
+                  className="bg-black"
+                  ariaLabel="ball-triangle-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                />
+              </div>
+            )}
 
             <div className=" z-0  w-full absolute bottom-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
               <div
@@ -906,7 +943,7 @@ const handleEnterKeyPress = (event) => {
         </div>
       )}
       {importpopup && (
-        <div   className="absolute w-full h-full flex items-center justify-center z-20 bg-zinc-900 backdrop-blur-sm bg-opacity-15">
+        <div className="absolute w-full h-full flex items-center justify-center z-20 bg-zinc-900 backdrop-blur-sm bg-opacity-15">
           <div
             className="absolute w-full h-full z-20  bg-opacity-50 backdrop-blur-sm"
             ref={externalComponentRef}
@@ -917,7 +954,7 @@ const handleEnterKeyPress = (event) => {
               Loading
             </div>
           ) : (
-            <div  className="z-30 w-[400px] rounded-md justify-between h-[200px] bg-white flex flex-col">
+            <div className="z-30 w-[400px] rounded-md justify-between h-[200px] bg-white flex flex-col">
               <div className="w-full h-[40px] items-center flex justify-center">
                 <p className="text-black font-bold text-[20px] text-center">
                   Import Csv File
