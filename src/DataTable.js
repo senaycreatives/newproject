@@ -113,6 +113,10 @@ export function DataTable() {
     console.log(data);
     return data;
   };
+  const headers = Array.from(
+    new Set(data?.data.flatMap(item => Object.keys(item)))
+  );
+  console.log("headers",headers)
 
   useEffect(() => {
     if (data && data?.data) {
@@ -671,7 +675,7 @@ const handleEnterKeyPress = (event) => {
               <tbody className="  relative">
                 {pageData?.map((row) => (
                   <tr className="even:bg-zinc-100" key={row._id}>
-                    {datasets.map(({ header, type }) => (
+                    {headers.map(({ header}) => (
                       <td
                         key={header}
                         className=" w-fit p-4    border-b border-blue-gray-50 text-center"

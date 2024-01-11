@@ -61,7 +61,7 @@ export default function UseFetchData({
         params: params,
       }
     );
-
+console.log(res)
     return res;
   };
 
