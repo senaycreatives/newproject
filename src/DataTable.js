@@ -39,6 +39,10 @@ export function DataTable() {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const [zetacode, setZetacode] = useState(null);
+  
+  const [selectedType, setSelectedType] = useState("");
+  const [defaultData, setDefaultData] = useState("");
+  const [columnname, setcolumnname] = useState("");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -58,31 +62,9 @@ export function DataTable() {
     zetacode: search,
   });
 
-  const initialDatasets = [
-    { header: "Location", type: "string", required: true },
-    { header: "Zetacode", type: "number", required: true, unique: true },
-    { header: "Room", type: "string", required: true },
-    { header: "HelpDeskReference", type: "string", required: true },
-    { header: "IPS", type: "boolean", required: true },
-    { header: "Fault", type: "string" },
-    { header: "Date", type: "date", required: true },
 
-    { header: "HotTemperature", type: "number" },
-    { header: "HotFlow", type: "number" },
-    { header: "HotReturn", type: "number" },
-    { header: "ColdTemperature", type: "number" },
-    { header: "ColdFlow", type: "number" },
-    { header: "ColdReturn", type: "number" },
-    { header: "HotFlushTemperature", type: "number" },
-    { header: "TapNotSet", type: "boolean" },
-    { header: "ColdFlushTemperature", type: "number" },
-    { header: "TMVFail", type: "boolean" },
-    { header: "PreflushSampleTaken", type: "boolean" },
-    { header: "PostflushSampleTaken", type: "boolean" },
-    { header: "ThermalFlush", type: "string" },
-  ];
   const [selectedFile, setSelectedFile] = useState(null);
-  const [datasets, setDatasets] = useState(initialDatasets);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -90,10 +72,9 @@ export function DataTable() {
 
   const uploadFile = async () => {
     if (!selectedFile) {
-      // Handle the case where no file is selected
+     
       return;
     }
-    console.log("enrrrr");
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -116,39 +97,7 @@ export function DataTable() {
   );
   console.log("headers",headers)
 
-  useEffect(() => {
-    if (data && data?.data) {
-      console.log("entered");
-      const fetchedKeys = data?.data[0] ? Object.keys(data?.data[0]) : [];
-      const missingKeys = fetchedKeys.filter(
-        (key) => !datasets.some((dataset) => dataset.header === key)
-      );
-
-      if (missingKeys.length > 0) {
-        // Add missing keys to datasets with their types
-        const newDatasets = [
-          ...datasets,
-          ...missingKeys.map((key) => {
-            const valueType = typeof data?.data[0][key];
-            return {
-              header: key,
-              type:
-                valueType === "boolean"
-                  ? "boolean"
-                  : valueType === "number"
-                  ? "number"
-                  : valueType === "object" && data?.data[0][key] instanceof Date
-                  ? "date"
-                  : "string",
-              required: false,
-            };
-          }),
-        ];
-        console.log(newDatasets);
-        setDatasets(newDatasets);
-      }
-    }
-  }, [data]);
+  
   const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
 
@@ -192,7 +141,7 @@ export function DataTable() {
     }
 
     return () => {
-      // Remove the event listener when the component is unmounted
+      
       if (externalComponent) {
         externalComponent.removeEventListener("click", handleClick);
       }
@@ -352,25 +301,16 @@ export function DataTable() {
   const handleSearch = () => {
     setZetaCode(search);
 
-    // Trigger a refetch with the updated parameters
-    refetch(); // Assuming you want to use the updated 'search' value here
+    
+    refetch(); 
 
-    setError(null); // Clear previous errors
+    setError(null);
   };
   const handleFilter = (event) => {
     event.preventDefault();
     refetch();
   };
-  const [dataset, setdataset] = useState([]);
-  useEffect(() => {
-    // Dynamically set dataset when pageData changes
-    if (pageData.length > 0) {
-      setdataset(Object.keys(pageData[0]));
-    }
-  }, [page, data, pageData]);
-  const [selectedType, setSelectedType] = useState("");
-  const [defaultData, setDefaultData] = useState("");
-  const [columnname, setcolumnname] = useState("");
+
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
   };
@@ -498,7 +438,7 @@ export function DataTable() {
   const auth = useAuthUser();
 
   return (
-    <div className="flex relative flex-col rounded-md  h-[88%] mb-100 overflow-hidden  w-[100%]">
+    <div className="flex relative flex-col rounded-md  h-[88%] mb-100   w-[100%]">
       {error && (
         <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
           <Errorpopup message={errorMessage?.response?.data.message} />
@@ -663,7 +603,7 @@ export function DataTable() {
             <table className=" text-left text-sm font-light">
               <thead className="border-b font-medium dark:border-neutral-500">
                 <tr>
-                  {datasets.map(({ header, type }) => (
+                  {headers.map((header,index) => (
                     <th
                       key={header}
                       className="p-1 border-b border-blue-gray-100 bg-blue-gray-50 text-center"
@@ -710,7 +650,7 @@ export function DataTable() {
               <tbody className="  relative">
                 {pageData?.map((row) => (
                   <tr className="even:bg-zinc-100" key={row._id}>
-                    {headers.map(({ header}) => (
+                    {headers.map(( header) => (
                       <td
                         key={header}
                         className=" w-fit p-4    border-b border-blue-gray-50 text-center"
