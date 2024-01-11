@@ -336,7 +336,7 @@ export function DataTable() {
     setInfo(null);
   };
   const handleAddColumn = () => {
-    // Perform validation checks before proceeding
+  
     if (!selectedType || !defaultData) {
       console.log({
         newFielddata: {
@@ -361,7 +361,7 @@ export function DataTable() {
   const handelExport = async (type) => {
     try {
       let params = {
-        zetacode: zetacode,
+        zetacode: zetaCode,
       };
 
       switch (selectedOption) {
@@ -412,6 +412,7 @@ export function DataTable() {
           responseType: "blob", // Set the response type to blob for file download
         }
       );
+      console.log(await res)
 
       // Create a blob from the response data
       const blob = new Blob([res.data], { type: res.headers["content-type"] });
