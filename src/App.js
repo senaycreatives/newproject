@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, useLocation, Navigate } from "react-router-
 import Login from './Login';
 import { DataTable } from './DataTable';
 import { AddData } from './AddData';
-import YourComponent from './hopePage';
+
 import {  useIsAuthenticated } from 'react-auth-kit';
 import Header from "./Header";
 import  {EditData} from "./EditData";
@@ -44,9 +44,7 @@ function App() {
       <Routes>
       
         <Route exact path="/login" element={<Login />} />
-        <Route path="/AdminHome" element={<PrivateRoute loginPath='/login'>
-          <YourComponent />
-        </PrivateRoute>} />
+        
         <Route exact path="/" element={<PrivateRoute loginPath={'/login'}>
           <DataTable />
         </PrivateRoute>} />

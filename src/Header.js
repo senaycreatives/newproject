@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./YourComponent.css"; // Import your CSS file
-import logoutIcon from "./Image/Icon/Type=Logout.svg";
-import passCIcon from "./Image/Icon/Type=PassC.svg";
-import addIcon from "./Image/Icon/Type=Add.svg";
-import eyeIcon from "./Image/Icon/Type=Eye.svg";
-import deleteIcon from "./Image/Icon/Type=Delete.svg";
-import editIcon from "./Image/Icon/Type=Edit.svg";
+
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import Resetpage from "./resetPasswordPage";
+
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import DropDownProfile from "./DropDownProfile";
 

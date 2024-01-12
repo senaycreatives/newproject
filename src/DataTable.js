@@ -3,8 +3,7 @@ import UseFetchData from "./hooks/UseFetchData";
 import axios from "axios";
 import Errorpopup from "./Errorpopup";
 import SucessPopup from "./SucessPopup";
-import addicon from "./Image/Icon/column.png";
-import deleteicon from "./Image/Icon/delete-column.png";
+
 
 import importicon from "./Image/Icon/import.png";
 import Exporticon from "./Image/Icon/export.png";
