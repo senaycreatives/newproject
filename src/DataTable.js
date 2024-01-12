@@ -302,6 +302,8 @@ export function DataTable() {
   };
   const handleSearch = () => {
     setZetaCode(search);
+    setPage(1)
+   
 
     
     refetch(); 
@@ -310,6 +312,7 @@ export function DataTable() {
   };
   const handleFilter = (event) => {
     event.preventDefault();
+    setPage(1)
     refetch();
   };
 
