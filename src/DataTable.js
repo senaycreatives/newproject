@@ -796,7 +796,7 @@ export function DataTable() {
           )}
         </div>
       )}
-       {isLoading && (
+       {(isLoading || isRefetching || isPending) && (
               <div className="  sticky z-50 top-[200px]  left-[45%]   flex-col items-center justify-center    ">
                 <BallTriangle
                   height={100}
@@ -839,7 +839,7 @@ export function DataTable() {
             {(auth()?.permission == "admin" ||
                       auth()?.permission == "editor") && (
                       <div className=" flex-row border-b-2 z-0 p-6 ">
-                        <td className="   flex items-center justify-center  text-blue-400 ">
+                        <td className=" mx-2   flex items-center justify-center  text-blue-400 ">
                           <Link
                             to={`/detail/${row._id}`}
                             className="w-[70px] h-[40px] flex items-center justify-center bg-orange-500 rounded-md"
