@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthHeader, createRefresh, useSignOut } from "react-auth-kit";
 
 const refreshApi = createRefresh({
-  interval: 1200, // Refreshs the token in every 10 minutes
+  interval: 0.3, // Refreshs the token in every 10 minutes
   refreshApiCallback: async ({
     // arguments
     authToken,
@@ -16,10 +16,10 @@ const refreshApi = createRefresh({
         "https://frightened-clam-pantyhose.cyclic.app/auth/refresh",
         { refreshToken: refreshToken },
         {
-          headers: { Authorization: `Jwt${authToken}` },
+          headers: { Authorization: `Jwt ${authToken}` },
         }
       );
-      console.log("now refreshing");
+      console.log("now refreshing",response.data.accessToken);
       return {
         isSuccess: true,
         newAuthToken: response.data.accessToken,
@@ -27,6 +27,7 @@ const refreshApi = createRefresh({
       };
     } catch (error) {
       console.error(error);
+      
 
       return {
         isSuccess: false,
