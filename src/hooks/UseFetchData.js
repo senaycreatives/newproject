@@ -4,7 +4,7 @@ import { useAuthHeader } from "react-auth-kit";
 
 export default function UseFetchData({ min, max, selectedoption, zetacode }) {
   const authHeader = useAuthHeader();
-
+console.log(min,max,selectedoption,"datas")
   const fetchData = async () => {
     let params = {
       zetacode: zetacode,

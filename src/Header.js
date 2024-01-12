@@ -19,7 +19,7 @@ const Header = ({ children }) => {
   const [openProfile, setOpenProfile] = useState(false);
 
   return (
-    <nav className="flex h-[70px] justify-between bg-gradient-to-r from-fuchsia-50 to-sky-50 text-white w-screen">
+    <nav className="flex h-[70px] justify-between z-100 bg-gradient-to-r from-fuchsia-50 to-sky-50 text-white w-screen">
       <div className="px-5 xl:px-12 py-6 flex w-full items-center">
         <Link to="#" className="text-3xl font-bold font-heading">
           ADMIN PANEL
