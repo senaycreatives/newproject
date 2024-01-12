@@ -95,8 +95,9 @@ export function DataTable() {
     return data;
   };
   const headers = Array.from(
-    new Set(data?.data.flatMap(item => Object.keys(item)))
+    new Set(data?.data.flatMap(item => Object.keys(item).filter(key => key !== '_id')))
   );
+  
   console.log("headers",headers)
 
   
