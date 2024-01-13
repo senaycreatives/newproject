@@ -820,11 +820,11 @@ export function DataTable() {
                   <td
                     key={colIndex}
                     style={{ left: colIndex < 2 ? colIndex * 100 : 0 }}
-                    className={`  even:bg-zinc-100 bg-white text-center   w-auto     border-b-2  px-4 py-4 ${
+                    className={`  even:bg-zinc-100 bg-white text-center   w-auto     border-b-2  px-1 py-4 ${
                       colIndex === 0 || colIndex === 1 ? "sticky left-0" : ""
                     } ${colIndex > 0 ? "pl-10" : ""} `}
                   >
-                    <p className=" whitespace-nowrap ">
+                    <p className="    whitespace-nowrap ">
                     {typeof row[header] === "boolean"
                       ? row[header].toString()
                       : row[header]}
