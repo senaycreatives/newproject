@@ -629,22 +629,22 @@ setLoading(false)
           </thead>
           <tbody>
             {error && (
-              <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+              <div className="top-0 fixed left-0  w-[500px] h-[200px]  z-50">
                 <Errorpopup message={errorMessage?.response?.data.message} />
               </div>
             )}
             {searchError && (
-              <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+              <div className="top-0 fixed left-0  w-[500px] h-[200px]  z-50">
                 <Errorpopup message={errorMessage?.response?.data.message} />
               </div>
             )}
             {sucess && (
-              <div className="top-0 left-0  w-[500px] h-[200px] absolute z-10">
+              <div className="top-0 fixed left-0  w-[500px] h-[200px]  z-50">
                 <SucessPopup message={sucess} />
               </div>
             )}
             {Info && (
-              <div className="top-0 left-0  w-[500px] h-[300px] absolute z-40">
+              <div className="top-0 fixed left-0  w-[500px] h-[200px]  z-50">
                 <InfoPopup data={Info} exit={exitpopupclicked} />
               </div>
             )}
@@ -807,7 +807,7 @@ setLoading(false)
                 )}
               </div>
             )}
-            {(isLoading || isRefetching || isPending) && (
+            {(isLoading || isRefetching ) && (
               <div className="  sticky z-50 top-[200px]  left-[45%]   flex-col items-center justify-center    ">
                 <BallTriangle
                   height={100}
