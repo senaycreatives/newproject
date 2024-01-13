@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthHeader, createRefresh, useSignOut } from "react-auth-kit";
 
 const refreshApi = createRefresh({
-  interval: 0.3, // Refreshs the token in every 10 minutes
+  interval: 1000, // Refreshs the token in every 10 minutes
   refreshApiCallback: async ({
     // arguments
     authToken,

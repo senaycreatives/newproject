@@ -54,7 +54,7 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.data.users.map((user, index) => (
+            {data?.data?.users?.map((user, index) => (
               <tr key={user._id}>
                 <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{user.username}</td>
@@ -87,8 +87,9 @@ const UserList = () => {
             Add New User
           </Link>
         </div>
-        <SucessPopup message={success} />
-        <Errorpopup message={error} />
+        {success&& <SucessPopup message={success} />}
+       {error&&  <Errorpopup message={error} />}
+      
       </div>
     );
   } else {
