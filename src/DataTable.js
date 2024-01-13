@@ -313,7 +313,7 @@ setLoading(false)
   };
   const handleSearch = () => {
     setZetaCode(search);
-    setPage(1);
+    setfloorindex(0)
 
     refetch();
 
