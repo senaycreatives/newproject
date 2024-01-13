@@ -588,14 +588,14 @@ export function DataTable() {
         </div>
       </div>
       <div className=" w-full h-[100%] mb-12  ">
-        <table className="table-fixed w-screen ">
+        <table className="w-full">
           <thead className=" sticky top-[100px] z-20">
             <tr className="text-left">
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  style={{ left: index < 2 ? index * 220 : 0 }}
-                  className={`w-[290px] bg-gray-50 border-b border-blue-gray-100 py-3 bg-blue-gray-50 text-center  px-5 overflow-hidden   ${
+                  style={{ left: index < 2 ? index * 100 : 0 }}
+                  className={`px-6 py-3 bg-gray-50 border-b border-blue-gray-100  bg-blue-gray-50 text-center   overflow-hidden   ${
                     index < 2 ? "sticky left-0 top-0" : ""
                   }  text-black`}
                 >
@@ -819,14 +819,17 @@ export function DataTable() {
                 {headers.map((header, colIndex) => (
                   <td
                     key={colIndex}
-                    style={{ left: colIndex < 2 ? colIndex * 200 : 0 }}
-                    className={`  even:bg-zinc-100 bg-white text-center  border-b-2  p-2 ${
+                    style={{ left: colIndex < 2 ? colIndex * 100 : 0 }}
+                    className={`  even:bg-zinc-100 bg-white text-center   w-auto     border-b-2  px-4 py-4 ${
                       colIndex === 0 || colIndex === 1 ? "sticky left-0" : ""
                     } ${colIndex > 0 ? "pl-10" : ""} `}
                   >
+                    <p className=" whitespace-nowrap ">
                     {typeof row[header] === "boolean"
                       ? row[header].toString()
                       : row[header]}
+                    </p>
+                 
                   </td>
                 ))}
                 {(auth()?.permission == "admin" ||
