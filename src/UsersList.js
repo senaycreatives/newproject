@@ -16,6 +16,7 @@ const UserList = () => {
 
   const handleDelete = async (usernameToDelete) => {
     try {
+      console.log('handling delete for ', usernameToDelete);
       const res = await axios.delete(
         "https://kind-blue-chinchilla-cap.cyclic.app/deleteUser",
         {

@@ -603,7 +603,7 @@ setLoading(true)
         </div>
       </div>
       <div className=" w-full h-[100%] mb-12  ">
-        <table className="w-full">
+        <table className="w-full min-h-[420px]">
           <thead className=" sticky top-[100px] z-20">
             <tr className="text-left">
               {headers.map((header, index) => (
@@ -879,7 +879,7 @@ setLoading(true)
             ))}   </Suspense>
           </tbody>
         </table>
-        <div className=" z-0  w-full  bottom-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
+        <div className=" z-0 fixed bottom-[20px]  w-full  left-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
           
           <div className="flex    w-full  flex-col px-10 pt-3 items-center justify-between">
             <span className="text-sm text-gray-400">
