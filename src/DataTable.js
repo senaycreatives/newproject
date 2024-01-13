@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState ,lazy,Suspense} from "react";
 import UseFetchData from "./hooks/UseFetchData";
 import axios from "axios";
 import Errorpopup from "./Errorpopup";
@@ -13,7 +13,7 @@ import notfoundimagesvg from "./Image/Icon/data-notfound.svg";
 import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
 import reseticon from "./Image/Icon/reset.png";
-
+import { List } from "react-virtualized";
 export function DataTable() {
   const [search, setSearch] = useState(null);
   const [addcolomonPOPup, setAddColomunPopup] = useState(false);
@@ -25,7 +25,7 @@ export function DataTable() {
   const [Info, setInfo] = useState(null);
   const [page, setPage] = useState(1);
   const [pageData, setPagedata] = useState([]);
-  const [start, setStart] = useState(1);
+  const [Loading, setLoading] = useState(false);
   const [end, setEnd] = useState(1);
 
   const [sucess, setSucess] = useState(null);
@@ -223,10 +223,12 @@ const setfloorindexs=()=>{
   setFloorno(sortedfloor)
 }
   const changepagedata = () => {
+setLoading(true)
   
  
   const filterbyfloor = data?.data.filter((entry) => entry.Floor === Floorno[floorindex]);
   setPagedata(filterbyfloor);
+  setLoading(false)
   };
 
   const handlePageChange = (direction) => {
@@ -817,7 +819,7 @@ const setfloorindexs=()=>{
                 />
               </div>
             )}
-            {pageData?.length == 0 && !isLoading && !isRefetching && (
+            {pageData?.length == 0 && !isLoading && Loading&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img
                   src={notfoundimagesvg}
@@ -826,8 +828,10 @@ const setfloorindexs=()=>{
                 <p className="  font-bold ">NO Data Found</p>
               </div>
             )}
-
+         
+         <Suspense fallback={<div>Loading...</div>}>
             {pageData?.map((row, index) => (
+             
               <tr key={index} className="text-left">
                 {headers.map((header, colIndex) => (
                   <td
@@ -871,7 +875,8 @@ const setfloorindexs=()=>{
                   </div>
                 )}
               </tr>
-            ))}
+           
+            ))}   </Suspense>
           </tbody>
         </table>
         <div className=" z-0  w-full  bottom-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
