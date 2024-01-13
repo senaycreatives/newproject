@@ -880,7 +880,7 @@ const setfloorindexs=()=>{
             <span className="text-sm text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
-                Floor {Floorno[floorindex]?Floorno[floorindex]:"no"}
+                Floor {Floorno[floorindex]?Floorno[floorindex]:"null"}
               </span>{" "}
               data
               
