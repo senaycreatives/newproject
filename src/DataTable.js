@@ -776,7 +776,7 @@ setLoading(false)
                   ref={externalComponentRef}
                 ></div>
 
-                {mutation.isPending ? (
+                {isPending ? (
                   <div className="z-30 w-[400px] h-[400px] bg-white flex flex-col">
                     Loading
                   </div>
