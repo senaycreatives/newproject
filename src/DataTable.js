@@ -245,6 +245,7 @@ setLoading(true)
   };
 
   const handleDelete = async (id) => {
+    setLoading(true)
     try {
       const res = await axios.delete(
         "https://kind-blue-chinchilla-cap.cyclic.app/deletedata",
@@ -255,6 +256,7 @@ setLoading(true)
       );
       console.log(res);
 
+setLoading(false)
       refetch();
       setSucess("SucessFully Fully Deleted");
       setTimeout(() => {
@@ -263,6 +265,7 @@ setLoading(true)
       setError(null); // Clear previous errors
       return res;
     } catch (error) {
+      setLoading(false)
       setError("Something went wrong. Please try again.");
       setTimeout(() => {
         setError(null); // Clear error after 5 seconds
