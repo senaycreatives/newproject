@@ -222,12 +222,12 @@ const setfloorindexs=()=>{
   const sortedfloor=Array.from(floors).sort()
   setFloorno(sortedfloor)
 }
-  const changepagedata = () => {
+  const changepagedata = async() => {
 setLoading(true)
   
  
   const filterbyfloor = data?.data.filter((entry) => entry.Floor === Floorno[floorindex]);
-  setPagedata(filterbyfloor);
+  await setPagedata(filterbyfloor);
   setLoading(false)
   };
 
