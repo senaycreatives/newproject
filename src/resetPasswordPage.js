@@ -35,7 +35,7 @@ export default function Resetpage() {
       try {
         // Make an HTTP request to your server
         const response = await axios.post(
-          "https://frightened-clam-pantyhose.cyclic.app/auth/changepassword",
+          "https://kind-blue-chinchilla-cap.cyclic.app/auth/changepassword",
           {
             currentPassword: currentpassword,
             newPassword: password,

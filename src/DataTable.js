@@ -39,6 +39,8 @@ export function DataTable() {
   const [selectedType, setSelectedType] = useState("");
   const [defaultData, setDefaultData] = useState("");
   const [columnname, setcolumnname] = useState("");
+  const [floorindex, setfloorindex] = useState(0);
+  const [Floorno,setFloorno]=useState({})
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -55,6 +57,9 @@ export function DataTable() {
     min: min,
     max: max,
     selectedoption: selectedOption,
+    Floor:Floorno,
+
+  
 
     zetacode: search,
   });
@@ -75,7 +80,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "https://frightened-clam-pantyhose.cyclic.app/importcsv",
+      "https://kind-blue-chinchilla-cap.cyclic.app/importcsv",
       formData,
       {
         headers: {
@@ -146,11 +151,11 @@ export function DataTable() {
   const authHeader = useAuthHeader();
   useEffect(() => {
     changepagedata();
-  }, [page, data]);
+  }, [floorindex, data,Floorno]);
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://frightened-clam-pantyhose.cyclic.app/updatedataTable",
+        "https://kind-blue-chinchilla-cap.cyclic.app/updatedataTable",
         data,
         {
           dataset: { Authorization: authHeader() },
@@ -180,23 +185,23 @@ export function DataTable() {
   }, [searchError]);
   const tableRef = useRef(null);
 
-  const handleScrollToEnd = () => {
-    if (tableRef.current) {
-      tableRef.current.scrollTo({
-        left: tableRef.current.scrollWidth,
-        behavior: "smooth",
-      });
-    }
-  };
+  // const handleScrollToEnd = () => {
+  //   if (tableRef.current) {
+  //     tableRef.current.scrollTo({
+  //       left: tableRef.current.scrollWidth,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
 
-  const handleScrollToStart = () => {
-    if (tableRef.current) {
-      tableRef.current.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-    }
-  };
+  // const handleScrollToStart = () => {
+  //   if (tableRef.current) {
+  //     tableRef.current.scrollTo({
+  //       left: 0,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
 
   const Popuperror = () => {
     if (zetaCode) {
@@ -207,24 +212,32 @@ export function DataTable() {
     }
   };
 
+  
+ 
+  useEffect(() => {
+    setfloorindexs()
+  },[data])
+const setfloorindexs=()=>{
+  const floors = new Set(data?.data.map(entry => entry.Floor));
+  const sortedfloor=Array.from(floors).sort()
+  setFloorno(sortedfloor)
+}
   const changepagedata = () => {
-    if (data && data.data) {
-      const startIdx = (page - 1) * pageSize;
-      const endIdx = startIdx + pageSize;
-      const pageData = data.data.slice(startIdx, endIdx);
-      setStart(startIdx + 1);
-      setEnd(Math.min(endIdx, data.data.length));
-      setPagedata(pageData);
-    }
+  
+ 
+  const filterbyfloor = data?.data.filter((entry) => entry.Floor === Floorno[floorindex]);
+  setPagedata(filterbyfloor);
   };
 
   const handlePageChange = (direction) => {
-    if (data && data.data) {
-      const totalPages = Math.ceil(data.data.length / pageSize);
-      if (direction === "prev" && page > 1) {
-        setPage(page - 1);
-      } else if (direction === "next" && page < totalPages) {
-        setPage(page + 1);
+    if (data && data?.data) {
+      console.log(floorindex)
+      console.log(Floorno)
+      
+      if (direction === "prev" && floorindex > 0) {
+        setfloorindex(floorindex - 1);
+      } else if (direction === "next" &&floorindex < (Floorno?.length - 1)) {
+        setfloorindex(floorindex + 1);
       }
     }
   };
@@ -232,7 +245,7 @@ export function DataTable() {
   const handleDelete = async (id) => {
     try {
       const res = await axios.delete(
-        "https://frightened-clam-pantyhose.cyclic.app/deletedata",
+        "https://kind-blue-chinchilla-cap.cyclic.app/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -270,7 +283,7 @@ export function DataTable() {
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `https://frightened-clam-pantyhose.cyclic.app/deleteColumn/${columname}`,
+        `https://kind-blue-chinchilla-cap.cyclic.app/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -397,7 +410,7 @@ export function DataTable() {
       }
 
       const res = await axios.get(
-        `https://frightened-clam-pantyhose.cyclic.app/${
+        `https://kind-blue-chinchilla-cap.cyclic.app/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {
@@ -804,7 +817,7 @@ export function DataTable() {
                 />
               </div>
             )}
-            {pageData.length == 0 && !isLoading && !isRefetching && (
+            {pageData?.length == 0 && !isLoading && !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img
                   src={notfoundimagesvg}
@@ -862,27 +875,15 @@ export function DataTable() {
           </tbody>
         </table>
         <div className=" z-0  w-full  bottom-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
-          {/* <div
-                onClick={handleScrollToStart}
-                className="w-[50px] h-[50px] flex items-center justify-center bg-gray-300 shadow-sm shadow-black rounded-md"
-              >
-                {"<"}
-              </div> */}
+          
           <div className="flex    w-full  flex-col px-10 pt-3 items-center justify-between">
             <span className="text-sm text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
-                {start}
+                Room {Floorno[floorindex]}
               </span>{" "}
-              to{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {end}
-              </span>{" "}
-              of{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {data?.data?.length}
-              </span>{" "}
-              Entries
+              data
+              
             </span>
 
             <div className="inline-flex mt-2 xs:mt-0">

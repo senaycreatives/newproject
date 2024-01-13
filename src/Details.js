@@ -42,7 +42,7 @@ export function Details() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://frightened-clam-pantyhose.cyclic.app/updatedata",
+        "https://kind-blue-chinchilla-cap.cyclic.app/updatedata",
         data
       );
     },

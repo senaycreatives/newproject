@@ -30,7 +30,7 @@ const CreateUserPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "https://frightened-clam-pantyhose.cyclic.app/createUser",
+        "https://kind-blue-chinchilla-cap.cyclic.app/createUser",
         {
           username: username,
           password: password,

@@ -10,7 +10,7 @@ export default function UseFetchindividualData(id) {
   const fetchData = async (id) => {
     console.log(id);
     const res = await axios.get(
-      `https://frightened-clam-pantyhose.cyclic.app/getsingledata/${id}`,
+      `https://kind-blue-chinchilla-cap.cyclic.app/getsingledata/${id}`,
       {
         headers: { Authorization: authHeader() },
       }

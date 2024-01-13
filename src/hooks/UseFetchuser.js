@@ -9,7 +9,7 @@ export default function UseFetchuser() {
 
   const fetchuser = async () => {
     const res = await axios.get(
-      "https://frightened-clam-pantyhose.cyclic.app/fetchUsers",
+      "https://kind-blue-chinchilla-cap.cyclic.app/fetchUsers",
       {
         headers: { Authorization: authHeader() },
       }

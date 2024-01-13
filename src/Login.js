@@ -19,7 +19,7 @@ const Login = () => {
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post(
-        "https://frightened-clam-pantyhose.cyclic.app/auth/signin",
+        "https://kind-blue-chinchilla-cap.cyclic.app/auth/signin",
         data
       );
     },

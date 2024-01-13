@@ -18,6 +18,7 @@ const initialDatasets = [
   { header: "Fault", type: "string" },
   { header: "Date", type: "date", required: true },
   { header: "HotTemperature", type: "number" },
+  { header: "Floor", type: "number" },
   { header: "HotFlow", type: "number" },
   { header: "HotReturn", type: "number" },
   { header: "ColdTemperature", type: "number" },
@@ -89,7 +90,7 @@ export function AddData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.post(
-        "https://frightened-clam-pantyhose.cyclic.app/adddata",
+        "https://kind-blue-chinchilla-cap.cyclic.app/adddata",
         data,
         {
           headers: { Authorization: authHeader() },

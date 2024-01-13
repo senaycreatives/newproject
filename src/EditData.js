@@ -95,7 +95,7 @@ export function EditData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://frightened-clam-pantyhose.cyclic.app/updatedata",
+        "https://kind-blue-chinchilla-cap.cyclic.app/updatedata",
         data,
         {
           headers: { Authorization: authHeader() },
@@ -122,7 +122,7 @@ export function EditData() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://frightened-clam-pantyhose.cyclic.app/getsingledata/${zetacode}`,
+          `https://kind-blue-chinchilla-cap.cyclic.app/getsingledata/${zetacode}`,
           {
             headers: { Authorization: authHeader() },
           }

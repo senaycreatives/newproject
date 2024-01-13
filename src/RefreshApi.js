@@ -13,7 +13,7 @@ const refreshApi = createRefresh({
   }) => {
     try {
       const response = await axios.post(
-        "https://frightened-clam-pantyhose.cyclic.app/auth/refresh",
+        "https://kind-blue-chinchilla-cap.cyclic.app/auth/refresh",
         { refreshToken: refreshToken },
         {
           headers: { Authorization: `Jwt ${authToken}` },
