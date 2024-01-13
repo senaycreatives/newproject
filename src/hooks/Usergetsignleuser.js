@@ -10,7 +10,7 @@ export default function Usergetsignleuser(id) {
   const fetchData = async (id) => {
     console.log(id);
     const res = await axios.get(
-      `https://kind-blue-chinchilla-cap.cyclic.app/getuser/${id}`,
+      `https://app-senay.cyclic.app/getuser/${id}`,
       {
         headers: { Authorization: authHeader() },
       }

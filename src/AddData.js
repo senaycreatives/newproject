@@ -90,7 +90,7 @@ export function AddData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.post(
-        "https://kind-blue-chinchilla-cap.cyclic.app/adddata",
+        "https://app-senay.cyclic.app/adddata",
         data,
         {
           headers: { Authorization: authHeader() },

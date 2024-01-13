@@ -42,7 +42,7 @@ export function Details() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://kind-blue-chinchilla-cap.cyclic.app/updatedata",
+        "https://app-senay.cyclic.app/updatedata",
         data
       );
     },

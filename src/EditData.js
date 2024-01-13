@@ -95,7 +95,7 @@ export function EditData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://kind-blue-chinchilla-cap.cyclic.app/updatedata",
+        "https://app-senay.cyclic.app/updatedata",
         data,
         {
           headers: { Authorization: authHeader() },
@@ -122,7 +122,7 @@ export function EditData() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://kind-blue-chinchilla-cap.cyclic.app/getsingledata/${zetacode}`,
+          `https://app-senay.cyclic.app/getsingledata/${zetacode}`,
           {
             headers: { Authorization: authHeader() },
           }

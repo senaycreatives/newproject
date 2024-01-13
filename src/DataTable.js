@@ -80,7 +80,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "https://kind-blue-chinchilla-cap.cyclic.app/importcsv",
+      "https://app-senay.cyclic.app/importcsv",
       formData,
       {
         headers: {
@@ -155,7 +155,7 @@ export function DataTable() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://kind-blue-chinchilla-cap.cyclic.app/updatedataTable",
+        "https://app-senay.cyclic.app/updatedataTable",
         data,
         {
           dataset: { Authorization: authHeader() },
@@ -248,7 +248,7 @@ setLoading(true)
     setLoading(true)
     try {
       const res = await axios.delete(
-        "https://kind-blue-chinchilla-cap.cyclic.app/deletedata",
+        "https://app-senay.cyclic.app/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -288,7 +288,7 @@ setLoading(false)
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `https://kind-blue-chinchilla-cap.cyclic.app/deleteColumn/${columname}`,
+        `https://app-senay.cyclic.app/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -415,7 +415,7 @@ setLoading(false)
       }
 
       const res = await axios.get(
-        `https://kind-blue-chinchilla-cap.cyclic.app/${
+        `https://app-senay.cyclic.app/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {

@@ -49,7 +49,7 @@ console.log(min,max,selectedoption,"datas")
     }
 
     const res = await axios.get(
-      "https://kind-blue-chinchilla-cap.cyclic.app/getdata",
+      "https://app-senay.cyclic.app/getdata",
       {
         headers: { Authorization: authHeader() },
         params: params,
