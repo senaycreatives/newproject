@@ -13,20 +13,20 @@ import notfoundimagesvg from "./Image/Icon/data-notfound.svg";
 import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
 import reseticon from "./Image/Icon/reset.png";
-import { List } from "react-virtualized";
+
 export function DataTable() {
   const [search, setSearch] = useState(null);
   const [addcolomonPOPup, setAddColomunPopup] = useState(false);
   const [deletecolomunPOPup, setdeletecolomonPopup] = useState(false);
   const [deletecolumonname, setdeletecolomunname] = useState("");
   const [zetaCode, setZetaCode] = useState("");
-  const [pageSize] = useState(50);
+
   const [error, setError] = useState(null);
   const [Info, setInfo] = useState(null);
   const [page, setPage] = useState(1);
   const [pageData, setPagedata] = useState([]);
   const [Loading, setLoading] = useState(false);
-  const [end, setEnd] = useState(1);
+
 
   const [sucess, setSucess] = useState(null);
   const [exporttype, setexporttype] = useState("csv");
