@@ -2,13 +2,10 @@ import axios from "axios";
 import { useAuthHeader, createRefresh, useSignOut } from "react-auth-kit";
 
 const refreshApi = createRefresh({
-  interval: 1000, // Refreshs the token in every 10 minutes
+  interval: 1000, // Refreshs the token every 10 minutes
   refreshApiCallback: async ({
-    // arguments
     authToken,
-    authTokenExpireAt,
     refreshToken,
-    refreshTokenExpiresAt,
     authUserState,
   }) => {
     try {
@@ -19,7 +16,9 @@ const refreshApi = createRefresh({
           headers: { Authorization: `Jwt ${authToken}` },
         }
       );
-      console.log("now refreshing",response.data.accessToken);
+
+      console.log("now refreshing", response.data.accessToken);
+
       return {
         isSuccess: true,
         newAuthToken: response.data.accessToken,
@@ -27,7 +26,15 @@ const refreshApi = createRefresh({
       };
     } catch (error) {
       console.error(error);
-      
+
+      // Check if the error status is 401 (Unauthorized)
+      if (error.response && error.response.status === 401) {
+        // Clear local storage or remove specific keys based on your requirements
+        localStorage.clear();
+
+        // Perform any additional logout logic (e.g., redirect to login page)
+         // Uncomment this line if you are using react-auth-kit's useSignOut hook
+      }
 
       return {
         isSuccess: false,
