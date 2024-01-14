@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState ,lazy,Suspense} from "react";
+import React, { useEffect, useRef, useState,Suspense} from "react";
 import UseFetchData from "./hooks/UseFetchData";
 import axios from "axios";
 import Errorpopup from "./Errorpopup";
@@ -23,7 +23,7 @@ export function DataTable() {
 
   const [error, setError] = useState(null);
   const [Info, setInfo] = useState(null);
-  const [page, setPage] = useState(1);
+
   const [pageData, setPagedata] = useState([]);
   const [Loading, setLoading] = useState(false);
 
@@ -51,7 +51,7 @@ export function DataTable() {
     isError: searchError,
     error: errorMessage,
     isRefetching,
-    isFetching,
+ 
     isLoading,
   } = UseFetchData({
     min: min,
@@ -183,7 +183,7 @@ export function DataTable() {
   useEffect(() => {
     Popuperror();
   }, [searchError]);
-  const tableRef = useRef(null);
+  // const tableRef = useRef(null);
 
   // const handleScrollToEnd = () => {
   //   if (tableRef.current) {
@@ -321,7 +321,7 @@ setLoading(false)
   };
   const handleFilter = (event) => {
     event.preventDefault();
-    setPage(1);
+    
     refetch();
   };
 
@@ -336,7 +336,7 @@ setLoading(false)
   };
 
   const handleDefaultDataChange = (event) => {
-    if (selectedType != "checkbox") {
+    if (selectedType !== "checkbox") {
       console.log(event.target.value);
       return setDefaultData(event.target.value);
     }
@@ -456,14 +456,14 @@ setLoading(false)
       <div className="w-screen z-50  sticky   flex  flex-col left-0 top-0 h-[100px] bg-zinc-50">
         <div className="w-full  flex flex-row   h-[60px] items-center   justify-between ">
           <div className="w-[500px] flex flex-row items-center h-full flex-wrap flex-auto   mx-2">
-            {(auth()?.permission == "admin" ||
-              auth()?.permission == "editor") && (
+            {(auth()?.permission === "admin" ||
+              auth()?.permission === "editor") && (
               <button
                 type="button"
                 onClick={() => setimportpopup(true)}
                 class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-zinc-700 rounded-lg hover:bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               >
-                <img src={importicon} className=" w-4 h-4 mx-1" />
+                <img alt="logo" src={importicon} className=" w-4 h-4 mx-1" />
                 Import
               </button>
             )}
@@ -472,7 +472,7 @@ setLoading(false)
               onClick={() => handelExport(exporttype)}
               class="px-3 mx-2 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-zinc-700 rounded-lg hover:bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800"
             >
-              <img src={Exporticon} className=" w-4 h-4 mx-1" />
+              <img alt="logo" src={Exporticon} className=" w-4 h-4 mx-1" />
               Export
             </button>
             <select
@@ -494,7 +494,7 @@ setLoading(false)
                 <input
                   name="start"
                   value={min}
-                  type={selectedOption == "Date" ? "date" : "number"}
+                  type={selectedOption === "Date" ? "date" : "number"}
                   onChange={(e) => setMin(e.target.value)}
                   class="bg-gray-50 w-[50px]  py-2.5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
                   placeholder="Min"
@@ -527,7 +527,7 @@ setLoading(false)
                   name="end"
                   value={max}
                   onChange={(e) => setMax(e.target.value)}
-                  type={selectedOption == "Date" ? "date" : "number"}
+                  type={selectedOption === "Date" ? "date" : "number"}
                   class="bg-gray-50 border w-[50px] border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block  py-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
                   placeholder="Max"
                 />
@@ -551,7 +551,7 @@ setLoading(false)
                   class=" border mx-5 w-[50px] rounded-md border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 flex  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-0 text-center bg-blue-300 items-center justify-center"
                   placeholder="Max"
                 >
-                  <img src={reseticon} className=" w-[40px] h-[40px]" />
+                  <img alt="logo" src={reseticon} className=" w-[40px] h-[40px]" />
                 </button>
               </div>
             </div>
@@ -588,7 +588,10 @@ setLoading(false)
             </div>
           </div>
         </div>
-        <div className=" flex flex-row">
+        {
+          (auth()?.permission === "admin" ||
+          auth()?.permission === "editor")&&
+          <div className=" flex flex-row">
           <button
             type="button"
             onClick={() => setAddColomunPopup(true)}
@@ -604,6 +607,9 @@ setLoading(false)
             delete Column
           </button>
         </div>
+        }
+        
+       
       </div>
       <div className=" w-full h-[100%] mb-12  ">
         <table className="w-full min-h-[420px]">
@@ -648,6 +654,7 @@ setLoading(false)
                 <InfoPopup data={Info} exit={exitpopupclicked} />
               </div>
             )}
+            
             {addcolomonPOPup && (
               <div className=" sticky top-0  w-screen h-screen left-0 flex items-center justify-center z-[200] bg-zinc-900  backdrop-blur-sm bg-opacity-15">
                 <div
@@ -799,7 +806,7 @@ setLoading(false)
                         onClick={handleSubmit}
                         class="px-3 mt-[20px] mx-2 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800"
                       >
-                        <img src={importicon} className=" w-4 h-4 mx-1" />
+                        <img alt="logo" src={importicon} className=" w-4 h-4 mx-1" />
                         Import
                       </button>
                     </div>
@@ -822,9 +829,9 @@ setLoading(false)
                 />
               </div>
             )}
-            {pageData?.length == 0 && !isLoading && Loading&& !isRefetching && (
+            {pageData?.length === 0 && !isLoading && Loading&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
-                <img
+                <img alt="logo"
                   src={notfoundimagesvg}
                   className="  text-green-400 w-[100px] h-[100px]"
                 />
@@ -852,8 +859,8 @@ setLoading(false)
                  
                   </td>
                 ))}
-                {(auth()?.permission == "admin" ||
-                  auth()?.permission == "editor") && (
+                {(auth()?.permission === "admin" ||
+                  auth()?.permission === "editor") && (
                   <div className=" flex-row border-b-2 z-0 p-6 ">
                     <td className=" mx-2   flex items-center justify-center  text-blue-400 ">
                       <Link

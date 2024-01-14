@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { useAuthUser, useSignOut } from "react-auth-kit";
+import { useAuthUser } from "react-auth-kit";
 import DropDownProfile from "./DropDownProfile";
 
 const Header = ({ children }) => {
-  const signOut = useSignOut()
+
   const auth = useAuthUser()
   console.log(auth())
-  const navigate = useNavigate();
+
   const [openProfile, setOpenProfile] = useState(false);
 
   return (

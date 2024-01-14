@@ -1,7 +1,7 @@
 import "./css/main.css";
 import "./css/util.css";
 import Layout from "./Layout";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 import { useMutation } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [error, seterror] = useState(null);
   const signIn = useSignIn();
-  const [Eroor, setError] = useState(null);
+ 
 
   const [password, setPassword] = useState("");
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Layout from "./Layout";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Errorpopup from "./Errorpopup";
@@ -90,7 +89,7 @@ export function EditData() {
         setDatasets(newDatasets);
       }
     }
-  }, [fetchedData]);
+  }, [fetchedData,]);
 
   const mutation = useMutation({
     mutationFn: (data) => {
@@ -146,7 +145,7 @@ export function EditData() {
     });
   };
   const auth = useAuthUser();
-  if (auth()?.permission == "admin" || auth()?.permission == "editor") {
+  if (auth()?.permission === "admin" || auth()?.permission === "editor") {
     if (formData) {
       return (
         <div className="w-full relative h-screen flex items-center justify-center overflow-hidden">
@@ -176,10 +175,11 @@ export function EditData() {
             )}
             <div className="  sm:w-[50%] w-[60%] h-[40px] mt-2  p-4 flex items-center  justify-between">
               <div
+              
                 onClick={() => navigate(-1)}
                 className="w-[40px]  bg-slate-100 rounded-md flex items-center justify-center h-[40px] p-3"
               >
-                <img src={backicon} className="h-[20px] w-[20px]  " />
+                <img alt="Flat Icon" src={backicon} className="h-[20px] w-[20px]  " />
               </div>
               <p className=" font-bold  text-lg">Edit Data</p>
             </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Layout from "./Layout";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Errorpopup from "./Errorpopup";
@@ -121,7 +120,7 @@ export function AddData() {
 
   const navigate = useNavigate();
 
-  if (auth()?.permission == "admin" || auth()?.permission == "editor") {
+  if (auth()?.permission === "admin" || auth()?.permission === "editor") {
     return (
       <div className="w-full overflow-hidden relative h-[90%] flex items-center justify-center">
         <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
@@ -130,7 +129,7 @@ export function AddData() {
               onClick={() => navigate(-1)}
               className="w-[40px]  bg-slate-100 rounded-md flex items-center justify-center h-[40px] p-3"
             >
-              <img src={backicon} className="h-[20px] w-[20px]  " />
+              <img alt="back" src={backicon} className="h-[20px] w-[20px]  " />
             </div>
             <p className=" font-bold  text-lg">Add Data</p>
           </div>

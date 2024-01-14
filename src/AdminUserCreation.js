@@ -60,7 +60,7 @@ const CreateUserPage = () => {
     }
   };
 
-  if (auth()?.permission == "admin") {
+  if (auth()?.permission === "admin") {
     return (
       <div className="flex items-center justify-center h-screen">
         <section className="w-full max-w-sm">

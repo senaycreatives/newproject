@@ -15,7 +15,6 @@ export default function Resetpage() {
   const [error, setError] = useState("");
   const [sucess, setsucess] = useState();
 
-  const [showPassword, setShowPassword] = useState(false);
   const authHeader = useAuthHeader();
 
   const handlePasswordChange = (e) => {
@@ -31,7 +30,7 @@ export default function Resetpage() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (password == confirmpassword) {
+    if (password === confirmpassword) {
       try {
         // Make an HTTP request to your server
         const response = await axios.post(
@@ -78,7 +77,7 @@ export default function Resetpage() {
       <section class=" dark:bg-gray-900 flex items-center justify-center  ">
         <div class="flex flex-col items-center h-[50%] justify-center px-6 py-8 mx-auto  lg:py-0 ">
           <a
-            href="#"
+            href=""
             class="flex items-center bg-violet-500 rounded-full p-2 mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <LockOutlinedIcon className=" text-white   text-lg " />

@@ -5,7 +5,7 @@ import { useAuthUser, useAuthHeader } from "react-auth-kit";
 import axios from "axios";
 import Errorpopup from "./Errorpopup";
 import SucessPopup from "./SucessPopup";
-import UseFetchData from "./hooks/UseFetchData";
+
 
 const UserList = () => {
   const { data, refetch } = UseFetchuser();

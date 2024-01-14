@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useNavigate, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Login from './Login';
 import { DataTable } from './DataTable';
 import { AddData } from './AddData';
@@ -13,7 +13,7 @@ import UserList from "./UsersList";
 import UpdateRolePage from "./UpdateRole";
 
 function App() {
-  const navigate = useNavigate();
+ 
 
   // Check if the current route is the login page
   const isLoginPage = window.location.pathname === "/login";
