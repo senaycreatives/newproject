@@ -604,7 +604,7 @@ setLoading(false)
             onClick={() => setdeletecolomonPopup(true)}
             class="text-white w-[200px] bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
-            delete Column
+            Delete Column
           </button>
         </div>
         }
@@ -629,7 +629,7 @@ setLoading(false)
               <th
                 className={`w-[290px] bg-gray-50 border-b border-blue-gray-100 py-3 bg-blue-gray-50 text-center  px-5 overflow-hidden     text-black`}
               >
-                update And Delete
+                Update And Delete
               </th>
             </tr>
           </thead>
@@ -906,7 +906,7 @@ setLoading(false)
                 onClick={() => handlePageChange("prev")}
                 className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
-                Prevvv
+                Prev
               </button>
               <button
                 onClick={() => handlePageChange("next")}
