@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import Loading from "./Loading";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -56,7 +57,11 @@ const Login = () => {
 
   return (
     <Layout>
+      {mutation.isPending&&   <Loading name={'Loging in'}/>}
+   
+  
       <div className="limiter">
+
         <div
           className="container-login100"
           style={{ backgroundImage: "url('./background-image.jpg')" }}

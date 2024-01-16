@@ -26,7 +26,7 @@ const Header = ({ children }) => {
           <li><Link to="/ResetPassword" className="hover:text-gray-200">Change password</Link></li>
           <li><Link to="/createUser" className="hover:text-gray-200">New User</Link></li>
         </ul>
-        {/* top right icon and drop down menu */}
+
 
             <div className="hidden xl:flex  space-x-2 items-center">
             <li><Link to="/createUser" className="hover:text-gray-200">{auth()?.username}</Link></li>

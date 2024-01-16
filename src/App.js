@@ -13,12 +13,13 @@ import UserList from "./UsersList";
 import UpdateRolePage from "./UpdateRole";
 
 function App() {
- 
+  const location = useLocation();
+
 
   // Check if the current route is the login page
-  const isLoginPage = window.location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login";
 
-  // Render the header only if it's not the login page
+ 
   const renderHeader = !isLoginPage &&   <Header/>;
   const PrivateRoute = ({ children, loginPath }) => {
     const isAuthenticated = useIsAuthenticated();

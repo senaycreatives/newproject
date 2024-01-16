@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import notfoundimagesvg from "./Image/Icon/data-notfound.svg";
 import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
+import Loading from "./Loading";
 import reseticon from "./Image/Icon/reset.png";
 
 export function DataTable() {
@@ -25,7 +26,7 @@ export function DataTable() {
   const [Info, setInfo] = useState(null);
 
   const [pageData, setPagedata] = useState([]);
-  const [Loading, setLoading] = useState(false);
+  const [Loadings, setLoading] = useState(false);
 
 
   const [sucess, setSucess] = useState(null);
@@ -172,7 +173,7 @@ export function DataTable() {
       }, 5000); // Hide success message after 5 seconds
     },
     onError: (error) => {
-      setError("Error Occurr while adding");
+      setError(error);
       setAddColomunPopup(false);
       setTimeout(() => {
         setError(null);
@@ -246,6 +247,7 @@ setLoading(true)
 
   const handleDelete = async (id) => {
     setLoading(true)
+
     try {
       const res = await axios.delete(
         "https://app-senay.cyclic.app/deletedata",
@@ -254,7 +256,7 @@ setLoading(true)
           headers: { Authorization: authHeader() },
         }
       );
-      console.log(res);
+    
 
 setLoading(false)
       refetch();
@@ -265,8 +267,10 @@ setLoading(false)
       setError(null); // Clear previous errors
       return res;
     } catch (error) {
+      console.log("response",error);
+      
       setLoading(false)
-      setError("Something went wrong. Please try again.");
+      setError(error);
       setTimeout(() => {
         setError(null); // Clear error after 5 seconds
       }, 1000);
@@ -636,7 +640,7 @@ setLoading(false)
           <tbody>
             {error && (
               <div className="top-0 fixed left-0  w-[500px] h-[200px]  z-50">
-                <Errorpopup message={errorMessage?.response?.data.message} />
+                <Errorpopup message={error?.response?.data.message||error} />
               </div>
             )}
             {searchError && (
@@ -814,22 +818,14 @@ setLoading(false)
                 )}
               </div>
             )}
-            {(isLoading || isRefetching ) && (
-              <div className="  sticky z-50 top-[200px]  left-[45%]   flex-col items-center justify-center    ">
-                <BallTriangle
-                  height={100}
-                  width={100}
-                  radius={2}
-                  color="#4fa94d"
-                  className="bg-black"
-                  ariaLabel="ball-triangle-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                  visible={true}
-                />
+            {(isLoading || isRefetching||Loadings ) && (
+              <div className=" w-full h-full fixed bottom-[0px] ">
+                <Loading name={'Loading ..'}/>
               </div>
+
+             
             )}
-            {pageData?.length === 0 && !isLoading && Loading&& !isRefetching && (
+            {pageData?.length === 0 && !isLoading && Loadings&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img alt="logo"
                   src={notfoundimagesvg}
