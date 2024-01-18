@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
 
 export default function UseFetchData({ min, max,Floorno, selectedoption, zetacode }) {
   const authHeader = useAuthHeader();
-console.log(min,max,selectedoption,"datas")
+  const navigate = useNavigate();
+  
   const fetchData = async () => {
     let params = {
       zetacode: zetacode,
@@ -64,6 +66,7 @@ console.log(min,max,selectedoption,"datas")
       if (error.response && error.response.status === 401) {
       console.log('clear')
         localStorage.clear();
+        navigate("/login");
       }
       throw error; // Re-throw the error after handling the invalid token
     }
