@@ -48,15 +48,25 @@ console.log(min,max,selectedoption,"datas")
         break;
     }
 
-    const res = await axios.get(
-      "https://app-senay.cyclic.app/getdata",
-      {
-        headers: { Authorization: authHeader() },
-        params: params,
+    try {
+      const res = await axios.get(
+        "https://app-senay.cyclic.app/getdata",
+        {
+          headers: { Authorization: authHeader() },
+          params: params,
+        }
+      );
+
+      console.log(res);
+      return res;
+    } catch (error) {
+      // Check if the error is due to an invalid token
+      if (error.response && error.response.status === 401) {
+      console.log('clear')
+        localStorage.clear();
       }
-    );
-console.log(res)
-    return res;
+      throw error; // Re-throw the error after handling the invalid token
+    }
   };
 
   return useQuery({
