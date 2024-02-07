@@ -208,7 +208,7 @@ const changepagedata = () => {
   if (data && data?.data) {
     const startIdx = (page - 1) * pageSize;
     const endIdx = startIdx + pageSize;
-    const pageData = data.data.slice(startIdx, endIdx);
+    const pageData = data?.data.slice(startIdx, endIdx);
     setStart(startIdx + 1);
     setEnd(Math.min(endIdx, data?.data.length));
     setPagedata(pageData);
@@ -809,7 +809,7 @@ setLoading(false)
 
              
             )}
-            {data.data?.length === 0 && !isLoading && !Loadings&& !isRefetching && (
+            {data?.data?.length === 0 && !isLoading && !Loadings&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img alt="logo"
                   src={notfoundimagesvg}
