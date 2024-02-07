@@ -42,7 +42,7 @@ export function Details() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://app-senay.cyclic.app/updatedata",
+        "https://app.ethiopiantheaterassociation.com/updatedata",
         data
       );
     },

@@ -30,7 +30,7 @@ const CreateUserPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "https://app-senay.cyclic.app/createUser",
+        "https://app.ethiopiantheaterassociation.com/createUser",
         {
           username: username,
           password: password,

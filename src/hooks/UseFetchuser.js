@@ -9,7 +9,7 @@ export default function UseFetchuser() {
 
   const fetchuser = async () => {
     const res = await axios.get(
-      "https://app-senay.cyclic.app/fetchUsers",
+      "https://app.ethiopiantheaterassociation.com/fetchUsers",
       {
         headers: { Authorization: authHeader() },
       }

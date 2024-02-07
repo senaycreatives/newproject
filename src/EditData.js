@@ -94,7 +94,7 @@ export function EditData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://app-senay.cyclic.app/updatedata",
+        "https://app.ethiopiantheaterassociation.com/updatedata",
         data,
         {
           headers: { Authorization: authHeader() },
@@ -121,7 +121,7 @@ export function EditData() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://app-senay.cyclic.app/getsingledata/${zetacode}`,
+          `https://app.ethiopiantheaterassociation.com/getsingledata/${zetacode}`,
           {
             headers: { Authorization: authHeader() },
           }

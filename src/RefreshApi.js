@@ -10,7 +10,7 @@ const refreshApi = createRefresh({
   }) => {
     try {
       const response = await axios.post(
-        "https://app-senay.cyclic.app/auth/refresh",
+        "https://app.ethiopiantheaterassociation.com/auth/refresh",
         { refreshToken: refreshToken },
         {
           headers: { Authorization: `Jwt ${authToken}` },

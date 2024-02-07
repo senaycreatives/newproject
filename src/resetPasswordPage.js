@@ -34,7 +34,7 @@ export default function Resetpage() {
       try {
         // Make an HTTP request to your server
         const response = await axios.post(
-          "https://app-senay.cyclic.app/auth/changepassword",
+          "https://app.ethiopiantheaterassociation.com/auth/changepassword",
           {
             currentPassword: currentpassword,
             newPassword: password,

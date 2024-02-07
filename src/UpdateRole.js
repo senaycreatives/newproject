@@ -19,7 +19,7 @@ const UpdateRolePage = () => {
     try {
       console.log(updatedRole);
       const response = await axios.put(
-        `https://app-senay.cyclic.app/updateUserPermissions/${id}`,
+        `https://app.ethiopiantheaterassociation.com/updateUserPermissions/${id}`,
         {
           permissions: updatedRole,
         },

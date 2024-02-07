@@ -18,7 +18,7 @@ const UserList = () => {
     try {
       console.log('handling delete for ', usernameToDelete);
       const res = await axios.delete(
-        "https://app-senay.cyclic.app/deleteUser",
+        "https://app.ethiopiantheaterassociation.com/deleteUser",
         {
           data: { usernameToDelete },
           headers: { Authorization: authHeader() },

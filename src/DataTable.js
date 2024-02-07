@@ -14,9 +14,13 @@ import { BallTriangle } from "react-loader-spinner";
 import InfoPopup from "./InfoPopup";
 import Loading from "./Loading";
 import reseticon from "./Image/Icon/reset.png";
+import Table from "./Table";
 
 export function DataTable() {
   const [search, setSearch] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [start, setStart] = useState(1);
+  const [page, setPage] = useState(1);
   const [addcolomonPOPup, setAddColomunPopup] = useState(false);
   const [deletecolomunPOPup, setdeletecolomonPopup] = useState(false);
   const [deletecolumonname, setdeletecolomunname] = useState("");
@@ -41,7 +45,9 @@ export function DataTable() {
   const [defaultData, setDefaultData] = useState("");
   const [columnname, setcolumnname] = useState("");
   const [floorindex, setfloorindex] = useState(0);
+  const [pageSize] = useState(50);
   const [Floorno,setFloorno]=useState({})
+  const [end, setEnd] = useState(1);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -81,7 +87,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "https://app-senay.cyclic.app/importcsv",
+      "https://app.ethiopiantheaterassociation.com/importcsv",
       formData,
       {
         headers: {
@@ -95,11 +101,12 @@ export function DataTable() {
   };
   const headers = Array.from(
     new Set(
-      data?.data.flatMap((item) =>
+      data?.data?.flatMap((item) =>
         Object.keys(item).filter((key) => key !== "_id")
       )
     )
   );
+  console.log(headers)
 
   const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
@@ -152,14 +159,14 @@ export function DataTable() {
   const authHeader = useAuthHeader();
   useEffect(() => {
     changepagedata();
-  }, [floorindex, data,Floorno]);
+  }, [page, data]);
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://app-senay.cyclic.app/updatedataTable",
+        "https://app.ethiopiantheaterassociation.com/updatedataTable",
         data,
         {
-          dataset: { Authorization: authHeader() },
+         headers: { Authorization: authHeader() },
         }
       );
     },
@@ -184,26 +191,7 @@ export function DataTable() {
   useEffect(() => {
     Popuperror();
   }, [searchError]);
-  // const tableRef = useRef(null);
-
-  // const handleScrollToEnd = () => {
-  //   if (tableRef.current) {
-  //     tableRef.current.scrollTo({
-  //       left: tableRef.current.scrollWidth,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // };
-
-  // const handleScrollToStart = () => {
-  //   if (tableRef.current) {
-  //     tableRef.current.scrollTo({
-  //       left: 0,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // };
-
+ 
   const Popuperror = () => {
     if (zetaCode) {
       setError("Something went wrong. Please try again.");
@@ -215,42 +203,38 @@ export function DataTable() {
 
   
  
-  useEffect(() => {
-    setfloorindexs()
-  },[data])
-const setfloorindexs=()=>{
-  const floors = new Set(data?.data.map(entry => entry.Floor));
-  const sortedfloor=Array.from(floors).sort()
-  setFloorno(sortedfloor)
-}
-  const changepagedata = async() => {
-setLoading(true)
   
- 
-  const filterbyfloor = data?.data.filter((entry) => entry.Floor === Floorno[floorindex]);
-  await setPagedata(filterbyfloor);
-  setLoading(false)
-  };
+const changepagedata = () => {
+  if (data && data?.data) {
+    const startIdx = (page - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageData = data.data.slice(startIdx, endIdx);
+    setStart(startIdx + 1);
+    setEnd(Math.min(endIdx, data?.data.length));
+    setPagedata(pageData);
+  }
+};
 
-  const handlePageChange = (direction) => {
-    if (data && data?.data) {
-      console.log(floorindex)
-      console.log(Floorno)
-      
-      if (direction === "prev" && floorindex > 0) {
-        setfloorindex(floorindex - 1);
-      } else if (direction === "next" &&floorindex < (Floorno?.length - 1)) {
-        setfloorindex(floorindex + 1);
-      }
+
+
+const handlePageChange = (direction) => {
+  if (data && data?.data) {
+  const totalPages =data?.data?.length
+  console.log(totalPages)
+    if (direction === "prev" && page > 1) {
+      setPage(page - 1);
+    } else if (direction === "next" && page < totalPages) {
+      setPage(page + 1);
     }
-  };
+  }
+};
 
   const handleDelete = async (id) => {
     setLoading(true)
 
     try {
       const res = await axios.delete(
-        "https://app-senay.cyclic.app/deletedata",
+        "https://app.ethiopiantheaterassociation.com/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -292,7 +276,7 @@ setLoading(false)
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `https://app-senay.cyclic.app/deleteColumn/${columname}`,
+        `https://app.ethiopiantheaterassociation.com/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -419,7 +403,7 @@ setLoading(false)
       }
 
       const res = await axios.get(
-        `https://app-senay.cyclic.app/${
+        `https://app.ethiopiantheaterassociation.com/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {
@@ -825,7 +809,7 @@ setLoading(false)
 
              
             )}
-            {pageData?.length === 0 && !isLoading && Loadings&& !isRefetching && (
+            {data.data?.length === 0 && !isLoading && !Loadings&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img alt="logo"
                   src={notfoundimagesvg}
@@ -885,13 +869,14 @@ setLoading(false)
             ))}   </Suspense>
           </tbody>
         </table>
+      
         <div className=" z-0 fixed bottom-[20px]  w-full  left-0 h-[80px] items-center justify-center px-10 flex flex-row  ">
           
           <div className="flex    w-full  flex-col px-10 pt-3 items-center justify-between">
             <span className="text-sm text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
-                Floor {Floorno[floorindex]?Floorno[floorindex]:"null"}
+                page {page} of {data?.data?.length} 
               </span>{" "}
               data
               

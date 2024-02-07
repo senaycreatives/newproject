@@ -10,7 +10,7 @@ export default function UseFetchindividualData(id) {
   const fetchData = async (id) => {
     console.log(id);
     const res = await axios.get(
-      `https://app-senay.cyclic.app/getsingledata/${id}`,
+      `https://app.ethiopiantheaterassociation.com/getsingledata/${id}`,
       {
         headers: { Authorization: authHeader() },
       }

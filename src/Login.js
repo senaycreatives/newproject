@@ -20,7 +20,7 @@ const Login = () => {
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post(
-        "https://app-senay.cyclic.app/auth/signin",
+        "https://app.ethiopiantheaterassociation.com/auth/signin",
         data
       );
     },

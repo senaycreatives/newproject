@@ -52,7 +52,7 @@ export default function UseFetchData({ min, max,Floorno, selectedoption, zetacod
 
     try {
       const res = await axios.get(
-        "https://app-senay.cyclic.app/getdata",
+        "https://app.ethiopiantheaterassociation.com/getdata",
         {
           headers: { Authorization: authHeader() },
           params: params,

@@ -89,7 +89,7 @@ export function AddData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.post(
-        "https://app-senay.cyclic.app/adddata",
+        "https://app.ethiopiantheaterassociation.com/adddata",
         data,
         {
           headers: { Authorization: authHeader() },
