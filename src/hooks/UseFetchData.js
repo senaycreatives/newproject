@@ -52,7 +52,7 @@ export default function UseFetchData({ min, max,Floorno, selectedoption, zetacod
 
     try {
       const res = await axios.get(
-        "https://app.ethiopiantheaterassociation.com/getdata",
+        "http://server.industrialclearance.co.uk//getdata",
         {
           headers: { Authorization: authHeader() },
           params: params,

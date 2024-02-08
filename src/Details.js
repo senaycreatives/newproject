@@ -42,7 +42,7 @@ export function Details() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "https://app.ethiopiantheaterassociation.com/updatedata",
+        "http://server.industrialclearance.co.uk//updatedata",
         data
       );
     },

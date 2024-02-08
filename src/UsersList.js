@@ -18,7 +18,7 @@ const UserList = () => {
     try {
       console.log('handling delete for ', usernameToDelete);
       const res = await axios.delete(
-        "https://app.ethiopiantheaterassociation.com/deleteUser",
+        "http://server.industrialclearance.co.uk//deleteUser",
         {
           data: { usernameToDelete },
           headers: { Authorization: authHeader() },
