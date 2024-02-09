@@ -106,8 +106,14 @@ export function DataTable() {
       )
     )
   );
-  console.log(headers)
+useEffect(() => {
 
+changecurrentpage()
+},[data])
+
+const changecurrentpage=()=>{
+  setPage(1)
+}
   const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
     mutationKey: "importData",
@@ -219,7 +225,7 @@ const changepagedata = () => {
 
 const handlePageChange = (direction) => {
   if (data && data?.data) {
-  const totalPages =data?.data?.length
+  const totalPages =Math.ceil(data?.data?.length / pageSize)
   console.log(totalPages)
     if (direction === "prev" && page > 1) {
       setPage(page - 1);
@@ -876,7 +882,7 @@ setLoading(false)
             <span className="text-sm text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
-                page {page} of {data?.data?.length} 
+                page {page} of {Math.ceil(data?.data?.length / pageSize)} 
               </span>{" "}
               data
               
