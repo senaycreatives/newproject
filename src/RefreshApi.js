@@ -10,7 +10,7 @@ const refreshApi = createRefresh({
   }) => {
     try {
       const response = await axios.post(
-        "http://server.industrialclearance.co.uk//auth/refresh",
+        "http://server.industrialclearance.co.uk/auth/refresh",
         { refreshToken: refreshToken },
         {
           headers: { Authorization: `Jwt ${authToken}` },

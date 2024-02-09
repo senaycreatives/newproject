@@ -10,7 +10,7 @@ export default function Usergetsignleuser(id) {
   const fetchData = async (id) => {
     console.log(id);
     const res = await axios.get(
-      `http://server.industrialclearance.co.uk//getuser/${id}`,
+      `http://server.industrialclearance.co.uk/getuser/${id}`,
       {
         headers: { Authorization: authHeader() },
       }

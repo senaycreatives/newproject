@@ -87,7 +87,7 @@ export function DataTable() {
     formData.append("file", selectedFile);
 
     const data = await axios.post(
-      "http://server.industrialclearance.co.uk//importcsv",
+      "http://server.industrialclearance.co.uk/importcsv",
       formData,
       {
         headers: {
@@ -163,7 +163,7 @@ export function DataTable() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "http://server.industrialclearance.co.uk//updatedataTable",
+        "http://server.industrialclearance.co.uk/updatedataTable",
         data,
         {
          headers: { Authorization: authHeader() },
@@ -234,7 +234,7 @@ const handlePageChange = (direction) => {
 
     try {
       const res = await axios.delete(
-        "http://server.industrialclearance.co.uk//deletedata",
+        "http://server.industrialclearance.co.uk/deletedata",
         {
           data: { id },
           headers: { Authorization: authHeader() },
@@ -276,7 +276,7 @@ setLoading(false)
   const handleDeletecolomun = async (columname) => {
     try {
       const res = await axios.delete(
-        `http://server.industrialclearance.co.uk//deleteColumn/${columname}`,
+        `http://server.industrialclearance.co.uk/deleteColumn/${columname}`,
         {
           data: { columname },
         }
@@ -403,7 +403,7 @@ setLoading(false)
       }
 
       const res = await axios.get(
-        `http://server.industrialclearance.co.uk//${
+        `http://server.industrialclearance.co.uk/${
           type === "excel" ? "generateExcel" : "generateCSV"
         }`,
         {

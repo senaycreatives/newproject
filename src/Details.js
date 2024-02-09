@@ -42,7 +42,7 @@ export function Details() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "http://server.industrialclearance.co.uk//updatedata",
+        "http://server.industrialclearance.co.uk/updatedata",
         data
       );
     },

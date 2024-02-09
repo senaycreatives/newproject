@@ -34,7 +34,7 @@ export default function Resetpage() {
       try {
         // Make an HTTP request to your server
         const response = await axios.post(
-          "http://server.industrialclearance.co.uk//auth/changepassword",
+          "http://server.industrialclearance.co.uk/auth/changepassword",
           {
             currentPassword: currentpassword,
             newPassword: password,
