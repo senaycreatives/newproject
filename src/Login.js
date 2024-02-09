@@ -16,11 +16,12 @@ const Login = () => {
  
 
   const [password, setPassword] = useState("");
+  console.log(username, password);
 
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post(
-        "http://server.industrialclearance.co.uk/auth/signin",
+        "https://server.industrialclearance.co.uk/auth/signin",
         data
       );
     },

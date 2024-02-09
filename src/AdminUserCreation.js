@@ -30,7 +30,7 @@ const CreateUserPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://server.industrialclearance.co.uk/createUser",
+        "https://server.industrialclearance.co.uk/createUser",
         {
           username: username,
           password: password,

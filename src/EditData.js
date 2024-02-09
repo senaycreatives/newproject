@@ -94,7 +94,7 @@ export function EditData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
-        "http://server.industrialclearance.co.uk/updatedata",
+        "https://server.industrialclearance.co.uk/updatedata",
         data,
         {
           headers: { Authorization: authHeader() },
@@ -121,7 +121,7 @@ export function EditData() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://server.industrialclearance.co.uk/getsingledata/${zetacode}`,
+          `https://server.industrialclearance.co.uk/getsingledata/${zetacode}`,
           {
             headers: { Authorization: authHeader() },
           }

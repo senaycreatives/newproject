@@ -19,7 +19,7 @@ const UpdateRolePage = () => {
     try {
       console.log(updatedRole);
       const response = await axios.put(
-        `http://server.industrialclearance.co.uk/updateUserPermissions/${id}`,
+        `https://server.industrialclearance.co.uk/updateUserPermissions/${id}`,
         {
           permissions: updatedRole,
         },

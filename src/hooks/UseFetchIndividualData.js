@@ -10,7 +10,7 @@ export default function UseFetchindividualData(id) {
   const fetchData = async (id) => {
     console.log(id);
     const res = await axios.get(
-      `http://server.industrialclearance.co.uk/getsingledata/${id}`,
+      `https://server.industrialclearance.co.uk/getsingledata/${id}`,
       {
         headers: { Authorization: authHeader() },
       }

@@ -89,7 +89,7 @@ export function AddData() {
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.post(
-        "http://server.industrialclearance.co.uk/adddata",
+        "https://server.industrialclearance.co.uk/adddata",
         data,
         {
           headers: { Authorization: authHeader() },
