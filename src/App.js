@@ -11,13 +11,16 @@ import Resetpage from "./resetPasswordPage";
 import CreateUserPage from "./AdminUserCreation";
 import UserList from "./UsersList";
 import UpdateRolePage from "./UpdateRole";
+import NotFoundPage from "./NotFoundPage";
 
 function App() {
   const location = useLocation();
 
 
   // Check if the current route is the login page
-  const isLoginPage = location.pathname === "/login";
+  const isAuthenticated = useIsAuthenticated();
+  const isLoginPage = location.pathname === "/login" || !isAuthenticated();
+
 
  
   const renderHeader = !isLoginPage &&   <Header/>;
@@ -66,7 +69,10 @@ function App() {
           </PrivateRoute>} />
           <Route path="/update-role/:id" element={<PrivateRoute loginPath={'/login'}>
           <UpdateRolePage />
+       
+          
           </PrivateRoute>} />
+          <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
