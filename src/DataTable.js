@@ -15,7 +15,8 @@ import InfoPopup from "./InfoPopup";
 import Loading from "./Loading";
 import reseticon from "./Image/Icon/reset.png";
 import Table from "./Table";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorOutlineTwoToneIcon from '@mui/icons-material/ErrorOutlineTwoTone';
 export function DataTable() {
   const [search, setSearch] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,9 +46,10 @@ export function DataTable() {
   const [defaultData, setDefaultData] = useState("");
   const [columnname, setcolumnname] = useState("");
   const [floorindex, setfloorindex] = useState(0);
-  const [pageSize] = useState(50);
+  const [pageSize] = useState(150);
   const [Floorno,setFloorno]=useState({})
   const [end, setEnd] = useState(1);
+  const [percentage, setPercentage] = useState(0);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -82,17 +84,30 @@ export function DataTable() {
     if (!selectedFile) {
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("file", selectedFile);
-
+  
+    // Create a state variable to store the percentage
+ 
+  
     const data = await axios.post(
       "https://server.industrialclearance.co.uk/importcsv",
       formData,
+  
       {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: authHeader(),
+        },
+        // Add the onUploadProgress option
+        onUploadProgress: (progressEvent) => {
+          // Calculate the percentage
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          // Update the state
+          setPercentage(percent);
         },
       }
     );
@@ -120,6 +135,7 @@ const changecurrentpage=()=>{
     onSuccess: (data) => {
       console.log(data);
       setInfo(data);
+      setPercentage(0);
       setimportpopup(false);
       setTimeout(() => {
         setInfo(null);
@@ -129,6 +145,7 @@ const changecurrentpage=()=>{
       setError("Error Occurr while adding");
       console.log(error);
       setimportpopup(false);
+      setPercentage(0);
       setTimeout(() => {
         setError(null);
       }, 5000);
@@ -285,12 +302,14 @@ setLoading(false)
         `https://server.industrialclearance.co.uk/deleteColumn/${columname}`,
         {
           data: { columname },
+          
+          headers: { Authorization: authHeader() },
         }
       );
       console.log(res);
 
       refetch();
-      setSucess("SucessFully Fully Deleted");
+      setSucess("SucessFully  Deleted the column");
       setdeletecolomonPopup(false);
       setTimeout(() => {
         setSucess(null);
@@ -298,7 +317,7 @@ setLoading(false)
       setError(null); // Clear previous errors
       return res;
     } catch (error) {
-      setError("Something went wrong. Please try again.");
+      setError(error);
       setdeletecolomonPopup(false);
       setTimeout(() => {
         setError(null); // Clear error after 5 seconds
@@ -657,9 +676,14 @@ setLoading(false)
                 ></div>
 
                 {mutation.isPending ? (
-                  <div className="z-30 w-[400px] h-[400px] bg-white flex flex-col">
-                    Loading
-                  </div>
+                  <div className="z-30 w-[400px] h-[400px] rounded-md bg-white flex flex-col items-center justify-center">
+                  <svg aria-hidden="true" class=" w-[70px] h-[70px] text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+           <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+       </svg>
+      Adding Colomun...
+   
+                     </div>
                 ) : (
                   <div className=" z-30 w-[400px] h-[400px] bg-white flex flex-col">
                     <div className=" w-full h-[40px] items-center flex justify-center py-10">
@@ -729,34 +753,39 @@ setLoading(false)
             {deletecolomunPOPup && (
               <div className=" sticky top-0  w-screen h-screen left-0 flex items-center justify-center z-20 bg-zinc-900 backdrop-blur-sm bg-opacity-15">
                 <div
-                  className="absolute w-full h-full z-20 bg-zinc-900 bg-opacity-50 backdrop-blur-sm"
+                  className="absolute w-full h-full z-20 bg-zinc-300 bg-opacity-50 backdrop-blur-sm"
                   ref={externalComponentRef}
                 ></div>
 
                 {mutation.isPending ? (
-                  <div className="z-30 w-[400px] h-[400px] bg-white flex flex-col">
-                    Loading
-                  </div>
+                 <div className="z-30 w-[400px] h-[400px] rounded-md bg-white flex flex-col items-center justify-center">
+                 <svg aria-hidden="true" class=" w-[70px] h-[70px] text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+          <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+      </svg>
+     deleting Colomun...
+  
+                    </div>
                 ) : (
                   <div className="z-30 w-[400px] h-[400px] bg-white flex flex-col">
-                    <div className="w-full h-[40px] items-center flex justify-center">
-                      <p className="text-black font-bold text-[20px] text-center">
-                        Delete Column
-                      </p>
-                    </div>
+                    
                     <div className="w-full h-full flex flex-col items-center justify-center">
-                      <div className="w-[90%] h-[90%]">
+                      <div className="w-[90%] h-[50%] flex  items-center justify-center flex-col">
                         <div class="w-72 my-5">
                           <div class="relative h-10 w-full min-w-[200px]">
                             <input
                               onChange={(e) => handleSetColumnToDelete(e)}
                               type="text"
                               placeholder="Column name to delete"
-                              class="peer h-full w-full rounded-[7px] !border !border-gray-300 border-t-transparent bg-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 shadow-lg shadow-gray-900/5 outline outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:!border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 focus:ring-gray-900/10 disabled:border-0 disabled:bg-blue-gray-50"
+                              class="peer h-full  w-full rounded-[7px]  border-gray-700    bg-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 shadow-lg shadow-gray-900/5 outline outline-1 outline-gray-400 ring-4 ring-transparent transition-all placeholder:text-gray-500 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:!border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 focus:ring-gray-900/10 disabled:border-0 disabled:bg-blue-gray-50"
                             />
                             <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 hidden h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"></label>
                           </div>
                         </div>
+                        <div className=" flex flex-row  my-3"> <ErrorOutlineTwoToneIcon className=" text-gray-500"/> <p className="text-red-500   italic">You Are In Danger zone </p></div>
+                                       <p className="   italic ">Write The Colomun name to delete </p>
+                                       <p className="   text-gray-400 italic mb-3">or click out side window to cancle </p>
+                       
                         <button
                           type="button"
                           onClick={() => handleDeletecolomun(deletecolumonname)}
@@ -777,15 +806,31 @@ setLoading(false)
                   ref={externalComponentRef}
                 ></div>
 
-                {isPending ? (
-                  <div className="z-30 w-[400px] h-[400px] bg-white flex flex-col">
-                    Loading
+                {percentage>0 ? (
+                  <div className="z-30 w-[400px] h-[200px] bg-white rounded-md flex items-center justify-center flex-col">
+                   <div className="w-[350px] h-[40px] flex  items-center justify-center">
+                   <div class="w-[90%] bg-gray-300 rounded-full overflow-hidden ">
+    <div class=" bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full overflow-hidden"  style={{width:`${percentage}%`}}> {percentage}%</div>
+  </div>
+  </div> 
+  
+ { percentage==100 &&<div
+            
+            className="flex items-center animate-bounce    h-[60px] w-[200px] flex-col  rounded-full    font-semibold text-gray-900 dark:text-white"
+          >
+            <CheckCircleIcon style={{color:"rgb(37 ,99,235,1)",width:"50px",height:"50px"}} className=" text-white  h-[50px]  text-[50px]   w-full" />
+          <p>SucessFully uploaded</p>
+          </div>}
+
+ 
+
+                    
                   </div>
                 ) : (
                   <div className="z-30 w-[400px] rounded-md justify-between h-[200px] bg-white flex flex-col">
                     <div className="w-full h-[40px] items-center flex justify-center">
                       <p className="text-black font-bold text-[20px] text-center">
-                        Import Csv File
+                        Import Csv File {percentage}
                       </p>
                     </div>
                     <div className="w-full h-[70%] flex flex-col items-center justify-center">
@@ -884,7 +929,7 @@ setLoading(false)
               <span className="font-semibold text-gray-900 dark:text-white">
                 page {page} of {Math.ceil(data?.data?.length / pageSize)} 
               </span>{" "}
-              data
+              Pages
               
             </span>
 

@@ -123,7 +123,7 @@ export function AddData() {
   if (auth()?.permission === "admin" || auth()?.permission === "editor") {
     return (
       <div className="w-full overflow-hidden relative h-[90%] flex items-center justify-center">
-        <div className="flex sm:relative sm:overflow-y-hidden flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-hidden w-[90%]">
+        <div className="flex sm:relative sm:overflow-y-auto flex-col rounded-md bg-white sm:h-[90%] h-full mb-100 overflow-x-auto w-[90%]">
           <div className="  sm:w-[50%] w-[60%] h-[40px] mt-2  p-4 flex items-center  justify-between">
             <div
               onClick={() => navigate(-1)}

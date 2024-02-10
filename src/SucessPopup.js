@@ -3,7 +3,7 @@ import React from 'react'
 export default function SucessPopup({message}) {
   return (
     <div
-    class="mb-3 mt-2 mr-3 inline-flex z-40 w-full items-center rounded-lg bg-green-100 px-6 py-5 text-base text-danger-700"
+    class="mb-3 mt-2 mr-3 inline-flex  z-50 w-full items-center rounded-lg bg-green-100 px-6 py-5 text-base text-danger-700"
     role="alert">
     <span class="mr-2">
       <svg

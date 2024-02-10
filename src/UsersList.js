@@ -44,9 +44,17 @@ const UserList = () => {
 
   if (auth()?.permission === "admin") {
     return (
-      <div className="px-20 py-10">
-        <h1 className="text-2xl font-bold my-4 text-center">Users List</h1>
-        <table className="w-full">
+      <div className=" relative  w-screen h-screen  overflow-hidden  ">
+        <div className=" relative flex flex-row h-[10%] w-full items-center justify-center">
+        {success&& <div className=" absolute top-0  left-5"><SucessPopup message={success} /></div>}
+        {error&&  <div className=" absolute top-0  left-5"> <Errorpopup message={error} /></div>}
+        <h1 className="text-2xl  font-bold h-[10%] text-center  flex-1">Users List</h1>
+      
+        </div>
+        
+        <div className="w-full relative  h-[60%] overflow-y-scroll ">
+      
+        <table className="w-[90%]   overscroll-y-scroll mx-auto ">
           <thead>
             <tr>
               <th className="py-2">ID</th>
@@ -56,6 +64,7 @@ const UserList = () => {
           </thead>
           <tbody>
             {data?.data?.users?.map((user, index) => (
+
               <tr key={user._id}>
                 <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{user.username}</td>
@@ -80,7 +89,9 @@ const UserList = () => {
             ))}
           </tbody>
         </table>
-        <div className="text-center mt-4">
+        </div>
+        
+        <div className="text-center flex items-center justify-center h-[20%]">
           <Link
             to="/createUser"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -88,8 +99,8 @@ const UserList = () => {
             Add New User
           </Link>
         </div>
-        {success&& <SucessPopup message={success} />}
-       {error&&  <Errorpopup message={error} />}
+     
+      
       
       </div>
     );

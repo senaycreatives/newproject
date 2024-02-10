@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import axios from "axios";
 import SucessPopup from "./SucessPopup";
 import Errorpopup from "./Errorpopup";
@@ -62,10 +62,20 @@ const CreateUserPage = () => {
 
   if (auth()?.permission === "admin") {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex  justify-center h-screen">
         <section className="w-full max-w-sm">
+          <div class="w-full flex items-center justify-center">
+          <a
+            href=""
+            class="flex items-center bg-violet-500 rounded-full p-2 mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <AccountCircleTwoToneIcon className=" text-white   text-lg " />
+          </a>
+          </div>
+       
           <div className="flex flex-col items-center bg-white shadow-md rounded px-8 py-6">
-            <LockOutlinedIcon className="text-primary-600 text-4xl mb-4" />
+        
+           
             {sucess && (
               <div>
                 {" "}
