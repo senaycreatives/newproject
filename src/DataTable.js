@@ -639,11 +639,14 @@ setLoading(false)
                   {header}
                 </th>
               ))}
-              <th
+              {data?.data && data?.data.length > 0 && (
+                <th
                 className={`w-[290px] bg-gray-50 border-b border-blue-gray-100 py-3 bg-blue-gray-50 text-center  px-5 overflow-hidden     text-black`}
               >
                 Update And Delete
-              </th>
+              </th> 
+              )}
+             
             </tr>
           </thead>
           <tbody>
