@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 
-export default function UseFetchData({ min, max,Floorno, selectedoption, zetacode }) {
+export default function UseFetchData({ min, max,Floorno, selectedoption, zetacode ,page}) {
   const authHeader = useAuthHeader();
   const navigate = useNavigate();
   
@@ -11,6 +11,7 @@ export default function UseFetchData({ min, max,Floorno, selectedoption, zetacod
     let params = {
       zetacode: zetacode,
       floorNumber: Floorno,
+      page:page
     };
 
     switch (selectedoption) {
@@ -52,7 +53,7 @@ export default function UseFetchData({ min, max,Floorno, selectedoption, zetacod
 
     try {
       const res = await axios.get(
-        "https://server.industrialclearance.co.uk/getdata",
+        "http://localhost:9050/getdata",
         {
           headers: { Authorization: authHeader() },
           params: params,

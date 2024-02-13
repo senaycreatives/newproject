@@ -46,7 +46,7 @@ export function DataTable() {
   const [defaultData, setDefaultData] = useState("");
   const [columnname, setcolumnname] = useState("");
   const [floorindex, setfloorindex] = useState(0);
-  const [pageSize] = useState(150);
+  const [pageSize] = useState(100);
   const [Floorno,setFloorno]=useState({})
   const [end, setEnd] = useState(1);
   const [percentage, setPercentage] = useState(0);
@@ -67,6 +67,7 @@ export function DataTable() {
     max: max,
     selectedoption: selectedOption,
     Floor:Floorno,
+    page: page,
 
   
 
@@ -116,19 +117,12 @@ export function DataTable() {
   };
   const headers = Array.from(
     new Set(
-      data?.data?.flatMap((item) =>
+      data?.data?.results?.flatMap((item) =>
         Object.keys(item).filter((key) => key !== "_id")
       )
     )
   );
-useEffect(() => {
 
-changecurrentpage()
-},[data])
-
-const changecurrentpage=()=>{
-  setPage(1)
-}
   const { mutate: uploadfile, isPending } = useMutation({
     mutationFn: uploadFile,
     mutationKey: "importData",
@@ -180,9 +174,7 @@ const changecurrentpage=()=>{
   }, [externalComponentRef, addcolomonPOPup, deletecolomunPOPup, importpopup]);
 
   const authHeader = useAuthHeader();
-  useEffect(() => {
-    changepagedata();
-  }, [page, data]);
+  
   const mutation = useMutation({
     mutationFn: (data) => {
       return axios.put(
@@ -227,22 +219,13 @@ const changecurrentpage=()=>{
   
  
   
-const changepagedata = () => {
-  if (data && data?.data) {
-    const startIdx = (page - 1) * pageSize;
-    const endIdx = startIdx + pageSize;
-    const pageData = data?.data.slice(startIdx, endIdx);
-    setStart(startIdx + 1);
-    setEnd(Math.min(endIdx, data?.data.length));
-    setPagedata(pageData);
-  }
-};
+
 
 
 
 const handlePageChange = (direction) => {
   if (data && data?.data) {
-  const totalPages =Math.ceil(data?.data?.length / pageSize)
+  const totalPages =Math.ceil(data?.data?.count / pageSize)
   console.log(totalPages)
     if (direction === "prev" && page > 1) {
       setPage(page - 1);
@@ -327,6 +310,7 @@ setLoading(false)
   const handleSearch = () => {
     setZetaCode(search);
     setfloorindex(0)
+    setPage(1)
 
     refetch();
 
@@ -334,9 +318,16 @@ setLoading(false)
   };
   const handleFilter = (event) => {
     event.preventDefault();
+    setPage(1)
     
     refetch();
   };
+  useEffect(() => {
+    handlepagedata()
+  }, [page]);
+  const handlepagedata=()=>{
+    refetch();
+  }
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -639,7 +630,7 @@ setLoading(false)
                   {header}
                 </th>
               ))}
-              {data?.data && data?.data.length > 0 && (
+              {data?.data && data?.data?.results?.length > 0 && (
                 <th
                 className={`w-[290px] bg-gray-50 border-b border-blue-gray-100 py-3 bg-blue-gray-50 text-center  px-5 overflow-hidden     text-black`}
               >
@@ -863,7 +854,7 @@ setLoading(false)
 
              
             )}
-            {data?.data?.length === 0 && !isLoading && !Loadings&& !isRefetching && (
+            {data?.data?.results?.length === 0 && !isLoading && !Loadings&& !isRefetching && (
               <div className=" z-60   h-[380px]   flex-col top-0 items-center justify-center w-screen    ">
                 <img alt="logo"
                   src={notfoundimagesvg}
@@ -874,7 +865,7 @@ setLoading(false)
             )}
          
          <Suspense fallback={<div>Loading...</div>}>
-            {pageData?.map((row, index) => (
+            {data?.data?.results?.map((row, index) => (
              
               <tr key={index} className="text-left">
                 {headers.map((header, colIndex) => (
@@ -930,7 +921,7 @@ setLoading(false)
             <span className="text-sm text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
-                page {page} of {Math.ceil(data?.data?.length / pageSize)} 
+                page {page} of {Math.ceil(data?.data?.count/ pageSize)} 
               </span>{" "}
               Pages
               
